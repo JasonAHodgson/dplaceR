@@ -6,7 +6,11 @@
 #' @export
 
 
-variables_url <- "https://github.com/D-PLACE/dplace-data/blob/master/datasets/Binford/variables.csv"
-codes_url <- "https://github.com/D-PLACE/dplace-data/blob/master/datasets/Binford/codes.csv"
-societies_url <- "https://github.com/D-PLACE/dplace-data/blob/master/datasets/Binford/societies.csv"
-data_url <- "https://github.com/D-PLACE/dplace-data/blob/master/datasets/Binford/data.csv"
+variables_url <- "https://raw.githubusercontent.com/D-PLACE/dplace-data/master/datasets/Binford/variables.csv"
+codes_url <- "https://raw.githubusercontent.com/D-PLACE/dplace-data/master/datasets/Binford/codes.csv"
+societies_url <- "https://raw.githubusercontent.com/D-PLACE/dplace-data/master/datasets/Binford/societies.csv"
+data_url <- "https://raw.githubusercontent.com/D-PLACE/dplace-data/master/datasets/Binford/data.csv"
+
+download_Binford <- function(){
+  data <- read.csv(data_url, header=TRUE)
+}

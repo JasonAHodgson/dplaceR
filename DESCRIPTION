@@ -1,0 +1,11 @@
+Package: dplaceR
+Title: Tools to facilitate working with D-PLACE
+Version: 0.0.0.9000
+Authors@R: 
+    person("Jason", "Hodgson", , "jason.hodgson@aru.ac.uk", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-3849-2245"))
+Description: This package provides tools to facilitate working with D-PLACE, and also to integrate population genetic variation data.
+License: `use_gpl3_license()` 
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.0

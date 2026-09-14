@@ -1,0 +1,80 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-"
+)
+```
+
+# dplaceR
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+dplaceR provides an R interface to [D-PLACE](https://d-place.org) (Database
+of Places, Language, Culture and Environment), a cross-cultural database
+linking ethnographic, linguistic, environmental, and geographic information
+for societies around the world.
+
+A snapshot of the D-PLACE [CLDF](https://cldf.clld.org/) dataset is bundled
+with the package, so no internet connection is needed after installation,
+and results are reproducible across dplaceR versions. See `dp_citation()`
+for exactly which release is bundled.
+
+## Installation
+
+You can install the development version of dplaceR from
+[GitHub](https://github.com/) with:
+
+```r
+# install.packages("remotes")
+remotes::install_github("jasonahodgson/dplaceR")
+```
+
+## Example
+
+Browse societies and variables, look up the coded values for a variable,
+and join them to society information in one step:
+
+```{r example}
+library(dplaceR)
+
+# Societies in a region
+dp_societies(region = "Southern Africa")
+
+# Find variables about a topic
+dp_search_variables("descent")
+
+# Codes for a categorical variable
+dp_codes("B035")
+
+# Analysis-ready table: values + society info + code labels
+dp_variable_data("B035")
+```
+
+Language phylogenies are available too:
+
+```{r trees}
+dp_trees()
+
+dp_tree("abkh1242")
+```
+
+## Citing D-PLACE
+
+If you use dplaceR in published work, please cite D-PLACE itself and the
+specific source dataset(s) your variables come from:
+
+```{r citation}
+dp_citation()
+```
+
+```{r contributions}
+dp_contributions(contribution_id = "dplace-dataset-binford")
+```

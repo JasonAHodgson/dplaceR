@@ -1,11 +1,37 @@
 Package: dplaceR
 Type: Package
-Title: What the Package Does (Title Case)
+Title: An R Interface to the D-PLACE Cross-Cultural Database
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Authors@R: person(
+    given = "Jason",
+    family = "Hodgson",
+    email = "jason.a.hodgson@gmail.com",
+    role = c("aut", "cre"))
+Description: Provides convenient access to data from D-PLACE
+    (Database of Places, Language, Culture and Environment,
+    <https://d-place.org>), a cross-cultural database linking ethnographic,
+    linguistic, environmental, and geographic information for societies
+    around the world. A snapshot of the D-PLACE CLDF ('Cross-Linguistic
+    Data Format') dataset is bundled with the package, and functions are
+    provided to browse and filter societies, cultural variables and their
+    coded values, dataset contributions, and language phylogenies, and to
+    assemble analysis-ready tables joining societies, values, and variable
+    metadata. See Kirby et al. (2016) <doi:10.1371/journal.pone.0158391>
+    for a description of the D-PLACE project.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+LazyDataCompression: xz
+Depends:
+    R (>= 3.5)
+Imports:
+    tibble
+Suggests:
+    ape,
+    dplyr,
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
+Config/testthat/edition: 3
+RoxygenNote: 7.3.1
+VignetteBuilder: knitr

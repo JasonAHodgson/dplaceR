@@ -25,3 +25,6 @@
   culture -- a D-PLACE society, a custom profile, or a computed modal
   (most common) profile across a group of societies -- to a list of
   societies, using the same method as `get_pairwise_cult_distance()`.
+* `get_society_meta()` appends society metadata (name, region, coordinates,
+  etc.) to a tibble by society ID, auto-detecting `soc_id`/`soc_id_1`/
+  `soc_id_2` columns as produced by this package's other functions.

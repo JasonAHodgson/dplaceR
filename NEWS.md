@@ -33,3 +33,11 @@
 * `get_society_country()` reverse-geocodes a society's coordinates to a
   country name (via 'maps'), since D-PLACE itself only records a broad,
   multi-country world region -- not country.
+* `get_society()` searches for societies matching metadata criteria:
+  exact-match filters on `soc_id`, `glottocode`, `iso_code`, `region`,
+  `type`, `contribution_id`, and `language_level_glottocodes`; a
+  case-insensitive partial match on `name`; single-value-or-range matching
+  on `latitude`, `longitude`, and `main_focal_year`; and a `country` filter
+  (via `get_society_country()` and the 'maps' package) applied last, after
+  every other criterion has narrowed the search. All supplied criteria
+  combine with AND.

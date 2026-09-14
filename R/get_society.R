@@ -1,0 +1,138 @@
+#' Search for societies matching metadata criteria
+#'
+#' A more powerful search than [dp_societies()]: filters on every column of
+#' [dplace_societies], plus `country`, which D-PLACE itself doesn't record
+#' (see [get_society_country()]). All supplied criteria must match (they
+#' combine with AND); omit (leave `NULL`) any you don't want to filter on.
+#'
+#' @details
+#' # Matching rules
+#' \describe{
+#'   \item{`soc_id`, `glottocode`, `iso_code`, `region`, `type`,
+#'     `contribution_id`, `language_level_glottocodes`}{Exact match against
+#'     one or more values (a society matches if its value is in the
+#'     vector you supply).}
+#'   \item{`name`}{Case-insensitive partial match (e.g. `name = "kung"`
+#'     matches "!Kung"). Not vectorized -- a single search string.}
+#'   \item{`latitude`, `longitude`, `main_focal_year`}{A single value for
+#'     an exact match, or `c(min, max)` for an inclusive range -- exact
+#'     matches are rarely useful for `latitude`/`longitude`, so a range is
+#'     almost always what you want there.}
+#'   \item{`country`}{One or more country names, matched case-insensitively
+#'     against [get_society_country()]'s reverse-geocoded result (which
+#'     uses the 'maps' package's own country names, e.g. `"UK"` and `"USA"`
+#'     rather than the full official names, and can return `NA` for a
+#'     society whose coordinates don't resolve to any mapped country --
+#'     see that function's documentation). Applied last, and only to
+#'     societies that already matched every other criterion, since it's
+#'     the most expensive filter.}
+#' }
+#'
+#' @param soc_id,glottocode,iso_code,region,contribution_id,language_level_glottocodes
+#'   Optional character vector(s) for an exact match -- see Matching rules.
+#' @param type Character; which row type(s) to include. Defaults to
+#'   `"society"` (societies with coded cultural data, excluding the
+#'   language-only "languoid" rows referenced only by a phylogeny); use
+#'   `NULL` to include both.
+#' @param name Optional case-insensitive partial match on society name --
+#'   see Matching rules.
+#' @param latitude,longitude,main_focal_year Optional single value (exact)
+#'   or `c(min, max)` (inclusive range) -- see Matching rules.
+#' @param country Optional character vector of country name(s) -- see
+#'   Matching rules. Requires the 'maps' package.
+#'
+#' @return A tibble of matching societies (see [dplace_societies] for
+#'   column definitions), plus a `country` column if `country` was
+#'   supplied.
+#'
+#' @examples
+#' \dontrun{
+#' get_society(region = "Southern Africa")
+#' get_society(name = "kung")
+#' get_society(latitude = c(3, 15), longitude = c(33, 48)) # rough Ethiopia box
+#' get_society(country = "Ethiopia")
+#' }
+#'
+#' @export
+get_society <- function(soc_id = NULL, name = NULL, glottocode = NULL,
+                         iso_code = NULL, region = NULL, type = "society",
+                         country = NULL, latitude = NULL, longitude = NULL,
+                         main_focal_year = NULL, language_level_glottocodes = NULL,
+                         contribution_id = NULL) {
+  out <- dplace_societies
+
+  if (!is.null(type)) {
+    out <- out[out$type %in% type, , drop = FALSE]
+  }
+  if (!is.null(soc_id)) {
+    out <- out[out$soc_id %in% soc_id, , drop = FALSE]
+  }
+  if (!is.null(glottocode)) {
+    out <- out[!is.na(out$glottocode) & out$glottocode %in% glottocode, , drop = FALSE]
+  }
+  if (!is.null(iso_code)) {
+    out <- out[!is.na(out$iso_code) & out$iso_code %in% iso_code, , drop = FALSE]
+  }
+  if (!is.null(region)) {
+    out <- out[!is.na(out$region) & out$region %in% region, , drop = FALSE]
+  }
+  if (!is.null(contribution_id)) {
+    out <- out[!is.na(out$contribution_id) & out$contribution_id %in% contribution_id, , drop = FALSE]
+  }
+  if (!is.null(language_level_glottocodes)) {
+    out <- out[
+      !is.na(out$language_level_glottocodes) &
+        out$language_level_glottocodes %in% language_level_glottocodes,
+      , drop = FALSE
+    ]
+  }
+  if (!is.null(name)) {
+    out <- out[!is.na(out$name) & grepl(name, out$name, ignore.case = TRUE), , drop = FALSE]
+  }
+  if (!is.null(latitude)) {
+    out <- out[.gs_numeric_match(out$latitude, latitude, "latitude"), , drop = FALSE]
+  }
+  if (!is.null(longitude)) {
+    out <- out[.gs_numeric_match(out$longitude, longitude, "longitude"), , drop = FALSE]
+  }
+  if (!is.null(main_focal_year)) {
+    out <- out[.gs_numeric_match(out$main_focal_year, main_focal_year, "main_focal_year"), , drop = FALSE]
+  }
+
+  if (!is.null(country)) {
+    if (!requireNamespace("maps", quietly = TRUE)) {
+      stop(
+        "Filtering by `country` requires the 'maps' package. Install it ",
+        "with install.packages(\"maps\").", call. = FALSE
+      )
+    }
+    if (nrow(out) == 0) {
+      out$country <- character(0)
+    } else {
+      resolved <- get_society_country(out$soc_id)
+      out$country <- resolved$country[match(out$soc_id, resolved$soc_id)]
+      keep <- !is.na(out$country) & tolower(out$country) %in% tolower(country)
+      out <- out[keep, , drop = FALSE]
+    }
+  }
+
+  tibble::as_tibble(out)
+}
+
+# --- internal helper (not exported) -----------------------------------------
+
+# `spec` of length 1: exact match. Length 2: inclusive c(min, max) range.
+# Always NA-safe (an NA in `x` never matches).
+.gs_numeric_match <- function(x, spec, arg_name) {
+  if (!is.numeric(spec) || !length(spec) %in% c(1, 2)) {
+    stop(
+      "`", arg_name, "` must be a single numeric value or a numeric ",
+      "c(min, max) range.", call. = FALSE
+    )
+  }
+  if (length(spec) == 1) {
+    !is.na(x) & x == spec
+  } else {
+    !is.na(x) & x >= min(spec) & x <= max(spec)
+  }
+}

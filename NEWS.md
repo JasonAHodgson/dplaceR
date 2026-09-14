@@ -13,3 +13,8 @@
   geographic distances between societies using the 'geoGraph' package
   (Andrea Manica's group; not on CRAN, installed separately -- see the
   function's documentation).
+* `get_pairwise_cult_distance()` computes pairwise cultural (dis)similarity
+  between societies from one or more coded D-PLACE variables, with
+  configurable handling of missing data (`missing`), the returned metric
+  (`metric`), and optional type-aware scoring of ordinal/continuous
+  variables (`type_aware`).

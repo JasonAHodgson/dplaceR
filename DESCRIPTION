@@ -27,6 +27,7 @@ Depends:
     R (>= 3.5)
 Imports:
     methods,
+    stats,
     tibble
 Suggests:
     ape,

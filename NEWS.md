@@ -28,3 +28,8 @@
 * `get_society_meta()` appends society metadata (name, region, coordinates,
   etc.) to a tibble by society ID, auto-detecting `soc_id`/`soc_id_1`/
   `soc_id_2` columns as produced by this package's other functions.
+* `dp_map_societies()` plots societies on a world map (via 'ggplot2' and
+  'maps'), optionally coloured by another column and labelled by society ID.
+* `get_society_country()` reverse-geocodes a society's coordinates to a
+  country name (via 'maps'), since D-PLACE itself only records a broad,
+  multi-country world region -- not country.

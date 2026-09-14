@@ -33,6 +33,8 @@ Suggests:
     ape,
     dplyr,
     geoGraph,
+    ggplot2,
+    maps,
     testthat (>= 3.0.0),
     knitr,
     rmarkdown

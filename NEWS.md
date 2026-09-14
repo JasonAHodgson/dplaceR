@@ -18,3 +18,10 @@
   configurable handling of missing data (`missing`), the returned metric
   (`metric`), and optional type-aware scoring of ordinal/continuous
   variables (`type_aware`).
+* `get_geo_distance()` computes the geographic (land-route) distance from a
+  single point -- a D-PLACE society or an arbitrary coordinate -- to a list
+  of societies, using the same method as `get_pairwise_geo_distance()`.
+* `get_cult_distance()` computes cultural distance from a single reference
+  culture -- a D-PLACE society, a custom profile, or a computed modal
+  (most common) profile across a group of societies -- to a list of
+  societies, using the same method as `get_pairwise_cult_distance()`.

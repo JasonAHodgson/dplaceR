@@ -9,3 +9,7 @@
   `dp_tree()`).
 * `dp_citation()` prints citation and licence information for the bundled
   data.
+* `get_pairwise_geo_distance()` computes pairwise least-cost, land-route
+  geographic distances between societies using the 'geoGraph' package
+  (Andrea Manica's group; not on CRAN, installed separately -- see the
+  function's documentation).

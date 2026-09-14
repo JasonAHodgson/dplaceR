@@ -26,13 +26,20 @@ LazyDataCompression: xz
 Depends:
     R (>= 3.5)
 Imports:
+    methods,
     tibble
 Suggests:
     ape,
     dplyr,
+    geoGraph,
     testthat (>= 3.0.0),
     knitr,
     rmarkdown
 Config/testthat/edition: 3
 RoxygenNote: 7.3.1
 VignetteBuilder: knitr
+Note: geoGraph (used by get_pairwise_geo_distance()) is not on CRAN or
+    Bioconductor; install it from GitHub with
+    pak::pak("EvolEcolGroup/geograph") -- see get_pairwise_geo_distance()'s
+    documentation for full install instructions including its Bioconductor
+    dependencies ('graph', 'RBGL').

@@ -40,7 +40,7 @@ for full citation guidance.
 }
 
 \author{
-\strong{Maintainer}: Jason Hodgson \email{jason.a.hodgson@gmail.com}
+\strong{Maintainer}: Jason Hodgson \email{jason.hodgson@aru.ac.uk} (\href{https://orcid.org/0000-0002-3849-2245}{ORCID})
 
 }
 \keyword{internal}

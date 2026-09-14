@@ -5,8 +5,9 @@ Version: 0.1.0
 Authors@R: person(
     given = "Jason",
     family = "Hodgson",
-    email = "jason.a.hodgson@gmail.com",
-    role = c("aut", "cre"))
+    email = "jason.hodgson@aru.ac.uk",
+    role = c("aut", "cre"),
+    comment = c(ORCID = "0000-0002-3849-2245"))
 Description: Provides convenient access to data from D-PLACE
     (Database of Places, Language, Culture and Environment,
     <https://d-place.org>), a cross-cultural database linking ethnographic,

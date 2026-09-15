@@ -1,5 +1,5 @@
-# --- internal helpers shared by dp_societies(), get_society(), and
-# dp_variables() ------------------------------------------------------------
+# --- internal helpers shared by dp_societies(), get_society(),
+# dp_variables(), and dp_topics() --------------------------------------------
 
 # Matches column `x` against `spec`: a plain character vector for an exact
 # match (`x %in% spec`, NA-safe), or a contains() object (see ?contains) for

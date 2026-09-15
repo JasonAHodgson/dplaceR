@@ -108,6 +108,25 @@
   variable set rather than the raw `var_id` argument, so it also fires when
   other variable(s) were requested but dropped as unmatched, leaving only
   one.
+* `dp_topics()` splits every variable's (often compound) `category` string
+  into its individual topics and returns one row per variable/topic pair
+  (`var_id`, `var_name`, `topic`), for browsing, counting, or filtering on a
+  single clean topic -- e.g. `sort(table(dp_topics()$topic), decreasing = TRUE)`
+  for topic counts, or `dp_topics(topic = "Subsistence")`. Topics are split
+  and trimmed but not otherwise normalized: D-PLACE's own category text has
+  a handful of near-duplicate topics (`"Labor"`/`"Labour"`,
+  `"Settlement"`/`"Settlements"`, `"Dwelling"`/`"Dwellings"`,
+  `"Wealth Transactions"`/`"Wealth transactions"`, `"War"`/`"Warfare"`), and
+  both spellings appear as distinct topics rather than being silently
+  merged -- `topic` supports `contains()` (case-insensitive by default) to
+  combine them yourself, e.g. `topic = contains("Wealth")`.
+* `dp_topic_list()` returns a sorted character vector of every distinct
+  topic -- a quick `sort(unique(dp_topics()$topic))` to see what's
+  available before filtering by it.
+* `dp_topic_table()` returns a two-column tibble (`topic`, `n_variables`),
+  one row per topic in the same order as `dp_topic_list()`, counting how
+  many variables carry each -- a quick way to see which topics are broad
+  and which are narrow before filtering by one.
 * Bug fix: `get_geo_distance()` and `get_pairwise_geo_distance()` no longer
   fail their whole call ("Not all nodes are connected by the graph.") when
   some requested societies have no land route to each other (e.g. they're on

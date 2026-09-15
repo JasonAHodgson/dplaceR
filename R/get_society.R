@@ -9,8 +9,8 @@
 #' # Matching rules
 #' \describe{
 #'   \item{`soc_id`, `glottocode`, `iso_code`, `region`, `type`,
-#'     `contribution_id`, `language_level_glottocodes`}{Exact match against
-#'     one or more values (a society matches if its value is in the
+#'     `contribution_id`, `language_level_glottocodes`, `xd_id`}{Exact match
+#'     against one or more values (a society matches if its value is in the
 #'     vector you supply) -- or, for every one of these EXCEPT `type`, wrap
 #'     the value(s) in [contains()] for a partial/regex match instead (see
 #'     below).}
@@ -39,14 +39,18 @@
 #' `get_society(region = contains("Africa"))` matches every region whose
 #' name contains "Africa", rather than matching nothing the way
 #' `region = "Africa"` would. This works for `soc_id`, `glottocode`,
-#' `iso_code`, `region`, `contribution_id`, and
-#' `language_level_glottocodes`; it isn't supported for `type` (a fixed
-#' two-value vocabulary), `name` (already a partial match by default),
-#' `country` (already case-insensitive), or the numeric arguments.
+#' `iso_code`, `region`, `contribution_id`, `language_level_glottocodes`,
+#' and `xd_id`; it isn't supported for `type` (a fixed two-value
+#' vocabulary), `name` (already a partial match by default), `country`
+#' (already case-insensitive), or the numeric arguments.
 #'
-#' @param soc_id,glottocode,iso_code,region,contribution_id,language_level_glottocodes
+#' @param soc_id,glottocode,iso_code,region,contribution_id,language_level_glottocodes,xd_id
 #'   Optional character vector(s) for an exact match, or [contains()] for a
-#'   partial/regex match -- see Matching rules.
+#'   partial/regex match -- see Matching rules. `xd_id` is D-PLACE's
+#'   cross-dataset identifier, shared by societies from different datasets
+#'   that code the same real-world group -- see
+#'   [get_related_societies()] for finding one in the first place. Most
+#'   societies have no `xd_id` (`NA`) and so never match.
 #' @param type Character; which row type(s) to include. Defaults to
 #'   `"society"` (societies with coded cultural data, excluding the
 #'   language-only "languoid" rows referenced only by a phylogeny); use
@@ -71,6 +75,7 @@
 #' get_society(name = "kung")
 #' get_society(latitude = c(3, 15), longitude = c(33, 48)) # rough Ethiopia box
 #' get_society(country = "Ethiopia")
+#' get_society(xd_id = "xd1") # !Kung, coded independently by 3 datasets
 #' }
 #'
 #' @export
@@ -78,7 +83,7 @@ get_society <- function(soc_id = NULL, name = NULL, glottocode = NULL,
                          iso_code = NULL, region = NULL, type = "society",
                          country = NULL, latitude = NULL, longitude = NULL,
                          main_focal_year = NULL, language_level_glottocodes = NULL,
-                         contribution_id = NULL) {
+                         contribution_id = NULL, xd_id = NULL) {
   .gs_reject_contains(type, "type", "it only accepts \"society\"/\"languoid\"")
   .gs_reject_contains(name, "name", "it's already a partial, case-insensitive match by default")
   .gs_reject_contains(country, "country", "it's already matched case-insensitively; pass plain country name(s) instead")
@@ -108,6 +113,9 @@ get_society <- function(soc_id = NULL, name = NULL, glottocode = NULL,
       .gs_match_column(out$language_level_glottocodes, language_level_glottocodes, "language_level_glottocodes"),
       , drop = FALSE
     ]
+  }
+  if (!is.null(xd_id)) {
+    out <- out[.gs_match_column(out$xd_id, xd_id, "xd_id"), , drop = FALSE]
   }
   if (!is.null(name)) {
     out <- out[!is.na(out$name) & grepl(name, out$name, ignore.case = TRUE), , drop = FALSE]

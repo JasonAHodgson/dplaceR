@@ -196,3 +196,22 @@
   without overriding that function's default of *miles*, not km -- another
   silent-unit trap this package now avoids entirely by computing great-circle
   distance itself.
+* `dplace_societies` gains an `xd_id` column: D-PLACE's cross-dataset
+  identifier, linking societies from different contributed datasets that
+  independently code the same real-world group -- e.g. the !Kung are coded
+  separately by Binford's dataset, the Ethnographic Atlas, and the Standard
+  Cross-Cultural Sample, and all three share `xd_id = "xd1"`. This column
+  was present in D-PLACE's own CLDF data all along but was previously
+  dropped when building this package's bundled data. Most societies
+  (roughly 70% of the bundled snapshot) have no `xd_id` at all (`NA`) --
+  they haven't been cross-referenced to another dataset. `xd_id` is now
+  also a filter argument on both `dp_societies()` and `get_society()`, with
+  full `contains()` support, e.g. `get_society(xd_id = "xd1")`.
+* `get_related_societies()` finds every other society sharing a given
+  society's `xd_id` -- e.g. `get_related_societies("B72")` returns the !Kung
+  codings from the Ethnographic Atlas and the SCCS alongside Binford's own.
+  Accepts multiple society IDs at once (one row per queried/related pair in
+  the result, so each input's matches stay traceable); warns (but doesn't
+  error) for an unknown society ID, a society with no `xd_id`, or an
+  `xd_id` that currently has no other society sharing it -- as long as at
+  least one requested society has an `xd_id` at all.

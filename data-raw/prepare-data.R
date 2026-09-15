@@ -48,7 +48,8 @@ dplace_societies <- download_csv("societies.csv") %>%
     type = type,
     main_focal_year = suppressWarnings(as.integer(main_focal_year)),
     language_level_glottocodes = Language_Level_Glottocodes,
-    contribution_id = Contribution_ID
+    contribution_id = Contribution_ID,
+    xd_id = xd_id
   )
 
 ## ---- Variables ---------------------------------------------------------

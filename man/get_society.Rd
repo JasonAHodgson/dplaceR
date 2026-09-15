@@ -16,12 +16,17 @@ get_society(
   longitude = NULL,
   main_focal_year = NULL,
   language_level_glottocodes = NULL,
-  contribution_id = NULL
+  contribution_id = NULL,
+  xd_id = NULL
 )
 }
 \arguments{
-\item{soc_id, glottocode, iso_code, region, contribution_id, language_level_glottocodes}{Optional character vector(s) for an exact match, or [contains()] for a
-partial/regex match -- see Matching rules.}
+\item{soc_id, glottocode, iso_code, region, contribution_id, language_level_glottocodes, xd_id}{Optional character vector(s) for an exact match, or [contains()] for a
+partial/regex match -- see Matching rules. `xd_id` is D-PLACE's
+cross-dataset identifier, shared by societies from different datasets
+that code the same real-world group -- see
+[get_related_societies()] for finding one in the first place. Most
+societies have no `xd_id` (`NA`) and so never match.}
 
 \item{name}{Optional case-insensitive partial match on society name --
 see Matching rules. Does not support [contains()] (it's already a
@@ -54,8 +59,8 @@ combine with AND); omit (leave `NULL`) any you don't want to filter on.
 # Matching rules
 \describe{
   \item{`soc_id`, `glottocode`, `iso_code`, `region`, `type`,
-    `contribution_id`, `language_level_glottocodes`}{Exact match against
-    one or more values (a society matches if its value is in the
+    `contribution_id`, `language_level_glottocodes`, `xd_id`}{Exact match
+    against one or more values (a society matches if its value is in the
     vector you supply) -- or, for every one of these EXCEPT `type`, wrap
     the value(s) in [contains()] for a partial/regex match instead (see
     below).}
@@ -84,10 +89,10 @@ switches that argument from an exact match to a substring/regex match, so
 `get_society(region = contains("Africa"))` matches every region whose
 name contains "Africa", rather than matching nothing the way
 `region = "Africa"` would. This works for `soc_id`, `glottocode`,
-`iso_code`, `region`, `contribution_id`, and
-`language_level_glottocodes`; it isn't supported for `type` (a fixed
-two-value vocabulary), `name` (already a partial match by default),
-`country` (already case-insensitive), or the numeric arguments.
+`iso_code`, `region`, `contribution_id`, `language_level_glottocodes`,
+and `xd_id`; it isn't supported for `type` (a fixed two-value
+vocabulary), `name` (already a partial match by default), `country`
+(already case-insensitive), or the numeric arguments.
 }
 \examples{
 \dontrun{
@@ -96,6 +101,7 @@ get_society(region = contains("Africa"))
 get_society(name = "kung")
 get_society(latitude = c(3, 15), longitude = c(33, 48)) # rough Ethiopia box
 get_society(country = "Ethiopia")
+get_society(xd_id = "xd1") # !Kung, coded independently by 3 datasets
 }
 
 }

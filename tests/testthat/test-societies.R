@@ -51,3 +51,14 @@ test_that("dp_societies supports contains() on region/soc_id/glottocode", {
 test_that("dp_societies rejects contains() on type", {
   expect_error(dp_societies(type = contains("society")), "doesn't support contains")
 })
+
+test_that("dp_societies filters by xd_id (with contains() support)", {
+  # !Kung: B72, Aa1, SCCS2 all share xd1 across three datasets.
+  out <- dp_societies(xd_id = "xd1")
+  expect_setequal(out$soc_id, c("B72", "Aa1", "SCCS2"))
+
+  out2 <- dp_societies(xd_id = contains("^xd1$"))
+  expect_setequal(out2$soc_id, c("B72", "Aa1", "SCCS2"))
+
+  expect_equal(nrow(dp_societies(xd_id = "not-a-real-xd-id")), 0)
+})

@@ -4,7 +4,13 @@
 \alias{dp_societies}
 \title{Browse or filter D-PLACE societies}
 \usage{
-dp_societies(glottocode = NULL, region = NULL, soc_id = NULL, type = "society")
+dp_societies(
+  glottocode = NULL,
+  region = NULL,
+  soc_id = NULL,
+  xd_id = NULL,
+  type = "society"
+)
 }
 \arguments{
 \item{glottocode}{Optional character vector of Glottocodes to filter to,
@@ -19,6 +25,11 @@ value.}
 
 \item{soc_id}{Optional character vector of society IDs to filter to, or
 [contains()] for a partial/regex match.}
+
+\item{xd_id}{Optional character vector of cross-dataset ID(s) to filter
+to, or [contains()] for a partial/regex match -- see
+[get_related_societies()] for finding a society's `xd_id` in the first
+place. Most societies have no `xd_id` (`NA`) and so never match.}
 
 \item{type}{Character; which row types to include. Defaults to
 `"society"` (societies with coded cultural data). Use `NULL` to also
@@ -37,5 +48,6 @@ Browse or filter D-PLACE societies
 dp_societies(region = "Southern Africa")
 dp_societies(region = contains("Africa"))
 dp_societies(glottocode = "juho1239")
+dp_societies(xd_id = "xd1") # !Kung, coded independently by 3 datasets
 
 }

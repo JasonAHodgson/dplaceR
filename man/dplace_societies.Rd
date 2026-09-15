@@ -23,6 +23,11 @@ A tibble with one row per society and the following columns:
     language level associated with this society.}
   \item{contribution_id}{Character. Identifies the source dataset; joins
     to [dplace_contributions].}
+  \item{xd_id}{Character. Cross-dataset identifier, `NA` for most
+    societies. Societies from different datasets that independently code
+    the same real-world group share an `xd_id` -- e.g. the !Kung are
+    coded separately by Binford, the Ethnographic Atlas, and the SCCS,
+    and all three share `xd_id = "xd1"`. See [get_related_societies()].}
 }
 }
 \source{
@@ -38,6 +43,6 @@ a language variety referenced only by a phylogeny, with no coded
 cultural data of its own).
 }
 \seealso{
-[dp_societies()]
+[dp_societies()], [get_related_societies()]
 }
 \keyword{datasets}

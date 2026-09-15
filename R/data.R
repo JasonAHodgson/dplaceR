@@ -22,10 +22,15 @@
 #'     language level associated with this society.}
 #'   \item{contribution_id}{Character. Identifies the source dataset; joins
 #'     to [dplace_contributions].}
+#'   \item{xd_id}{Character. Cross-dataset identifier, `NA` for most
+#'     societies. Societies from different datasets that independently code
+#'     the same real-world group share an `xd_id` -- e.g. the !Kung are
+#'     coded separately by Binford, the Ethnographic Atlas, and the SCCS,
+#'     and all three share `xd_id = "xd1"`. See [get_related_societies()].}
 #' }
 #' @source D-PLACE CLDF dataset, \url{https://github.com/D-PLACE/dplace-cldf}.
 #'   See [dplace_meta] for the exact release bundled with this package.
-#' @seealso [dp_societies()]
+#' @seealso [dp_societies()], [get_related_societies()]
 "dplace_societies"
 
 #' Cultural and environmental variables in D-PLACE

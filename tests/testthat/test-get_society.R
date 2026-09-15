@@ -24,6 +24,21 @@ test_that("exact-match filters work and combine with AND", {
   expect_equal(nrow(out), 0)
 })
 
+test_that("xd_id filters by cross-dataset ID (with contains() support)", {
+  # !Kung: B72, Aa1, SCCS2 all share xd1 across three datasets.
+  out <- get_society(xd_id = "xd1")
+  expect_setequal(out$soc_id, c("B72", "Aa1", "SCCS2"))
+
+  out2 <- get_society(xd_id = contains("^xd1$"))
+  expect_setequal(out2$soc_id, c("B72", "Aa1", "SCCS2"))
+
+  expect_equal(nrow(get_society(xd_id = "not-a-real-xd-id")), 0)
+
+  # combines with AND like the other exact-match filters
+  out3 <- get_society(xd_id = "xd1", soc_id = "B72")
+  expect_equal(out3$soc_id, "B72")
+})
+
 test_that("name does a case-insensitive partial match", {
   out <- get_society(name = "kung")
   expect_true("B72" %in% out$soc_id)

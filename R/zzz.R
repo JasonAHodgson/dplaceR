@@ -7,6 +7,6 @@
     " -- bundled D-PLACE CLDF snapshot ", meta$cldf_version,
     " (prepared ", meta$prepared_on, ")\n",
     "Data licence: ", meta$data_license, "\n",
-    "Please cite D-PLACE if you use this data -- see dp_citation() or ?dplace_meta."
+    "Please cite dplaceR and D-PLACE if you use this data -- see dp_citation() or ?dplace_meta."
   )
 }

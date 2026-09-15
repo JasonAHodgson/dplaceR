@@ -1,0 +1,14 @@
+citHeader(
+  "If you use dplaceR in published work, please cite the package itself,",
+  "in addition to D-PLACE and the specific source dataset(s) your variables",
+  "come from (see dp_citation() and dp_contributions() for those):"
+)
+
+bibentry(
+  bibtype = "Manual",
+  title   = "dplaceR: An R Interface to the D-PLACE Cross-Cultural Database",
+  author  = person(given = c("Jason", "A."), family = "Hodgson"),
+  year    = "2026",
+  note    = "R package version 0.1.0",
+  url     = "https://jasonahodgson.github.io/dplaceR/"
+)

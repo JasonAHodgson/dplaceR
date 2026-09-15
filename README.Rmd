@@ -66,10 +66,15 @@ dp_trees()
 dp_tree("abkh1242")
 ```
 
-## Citing D-PLACE
+## Citing dplaceR and D-PLACE
 
-If you use dplaceR in published work, please cite D-PLACE itself and the
-specific source dataset(s) your variables come from:
+If you use dplaceR in published work, please cite the dplaceR package
+itself, in addition to D-PLACE and the specific source dataset(s) your
+variables come from:
+
+```{r package-citation}
+citation("dplaceR")
+```
 
 ```{r citation}
 dp_citation()

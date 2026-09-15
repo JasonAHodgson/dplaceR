@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "dplaceR: An R Interface to the D-PLACE Cross-Cultural Database"
+version: 0.1.0
+date-released: "2026-09-14"
+authors:
+  - given-names: Jason
+    name-particle: A.
+    family-names: Hodgson
+    orcid: "https://orcid.org/0000-0002-3849-2245"
+url: "https://jasonahodgson.github.io/dplaceR/"
+repository-code: "https://github.com/JasonAHodgson/dplaceR"
+license: GPL-3.0-or-later

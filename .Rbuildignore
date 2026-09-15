@@ -1,4 +1,5 @@
 ^LICENSE\.md$
+^CITATION\.cff$
 ^data-raw$
 ^README\.Rmd$
 ^\.github$

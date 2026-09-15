@@ -21,9 +21,10 @@
 #' * [dp_trees()] / [dp_tree()] to browse and load language phylogenies
 #' * [dp_contributions()] for the source datasets and how to cite them
 #'
-#' @section Citing D-PLACE:
-#' If you use dplaceR in published work, please cite both D-PLACE itself and
-#' the specific source dataset(s) your variables come from (see
+#' @section Citing dplaceR and D-PLACE:
+#' If you use dplaceR in published work, please cite the dplaceR package
+#' itself (see `citation("dplaceR")`), in addition to D-PLACE and the
+#' specific source dataset(s) your variables come from (see
 #' [dp_contributions()] and `dplace_meta$citation`). D-PLACE data is
 #' distributed under a CC-BY-NC-4.0 licence; see \url{https://d-place.org}
 #' for full citation guidance.

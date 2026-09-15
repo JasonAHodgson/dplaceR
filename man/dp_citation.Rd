@@ -2,7 +2,7 @@
 % Please edit documentation in R/dp_citation.R
 \name{dp_citation}
 \alias{dp_citation}
-\title{How to cite D-PLACE and the bundled data snapshot}
+\title{How to cite dplaceR, D-PLACE, and the bundled data snapshot}
 \usage{
 dp_citation()
 }
@@ -10,9 +10,9 @@ dp_citation()
 Invisibly, the one-row [dplace_meta] tibble.
 }
 \description{
-Prints (and invisibly returns) the citation for D-PLACE itself, along
-with the version and licence of the CLDF snapshot bundled with this
-package. Cite the individual source dataset(s) too -- see
+Prints (and invisibly returns) how to cite dplaceR itself, alongside the
+citation for D-PLACE and the version/licence of the CLDF snapshot bundled
+with this package. Cite the individual source dataset(s) too -- see
 [dp_contributions()] for their citations.
 }
 \examples{

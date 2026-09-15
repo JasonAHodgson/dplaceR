@@ -243,3 +243,13 @@
   `dp_lang_family_list()`, counting how many coded societies belong to each
   -- a quick way to see which families are well represented before
   filtering by one.
+* Licence change: dplaceR is now licensed under GPL (>= 3) (was MIT), to
+  match the 'tidypopgen' package.
+* dplaceR now asks to be cited in its own right, alongside D-PLACE: an
+  `inst/CITATION` file (so `citation("dplaceR")` returns a proper reference,
+  crediting Jason A. Hodgson as package author), a `CITATION.cff` file at
+  the repository root (for GitHub's native "Cite this repository" widget),
+  and updated wording in `dp_citation()`, the package startup message, the
+  package-level help page (`?dplaceR`), and the README all now ask users to
+  cite the dplaceR package itself in addition to D-PLACE and the source
+  dataset(s).

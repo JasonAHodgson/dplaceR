@@ -35,11 +35,11 @@ and join them to society information in one step:
 library(dplaceR)
 #> dplaceR 0.1.0 -- bundled D-PLACE CLDF snapshot v3.3.0 (prepared 2026-09-14)
 #> Data licence: CC-BY-NC-4.0 (D-PLACE data; see https://d-place.org)
-#> Please cite D-PLACE if you use this data -- see dp_citation() or ?dplace_meta.
+#> Please cite dplaceR and D-PLACE if you use this data -- see dp_citation() or ?dplace_meta.
 
 # Societies in a region
 dp_societies(region = "Southern Africa")
-#> # A tibble: 47 x 11
+#> # A tibble: 47 x 14
 #>    soc_id        name        latitude longitude glottocode iso_code region type 
 #>    <chr>         <chr>          <dbl>     <dbl> <chr>      <chr>    <chr>  <chr>
 #>  1 B72           !Kung          -20        21.2 juho1239   <NA>     South~ soci~
@@ -53,8 +53,8 @@ dp_societies(region = "Southern Africa")
 #>  9 B78           //Xegwi        -26.3      30.2 xegw1238   <NA>     South~ soci~
 #> 10 CARNEIRO4_016 Venda          -23        30   vend1245   <NA>     South~ soci~
 #> # i 37 more rows
-#> # i 3 more variables: main_focal_year <int>, language_level_glottocodes <chr>,
-#> #   contribution_id <chr>
+#> # i 6 more variables: main_focal_year <int>, language_level_glottocodes <chr>,
+#> #   contribution_id <chr>, xd_id <chr>, lang_family_id <chr>, lang_family <chr>
 
 # Find variables about a topic
 dp_search_variables("descent")
@@ -136,18 +136,46 @@ dp_tree("abkh1242")
 #> Rooted; includes branch lengths.
 ```
 
-## Citing D-PLACE
+## Citing dplaceR and D-PLACE
 
-If you use dplaceR in published work, please cite D-PLACE itself and the
-specific source dataset(s) your variables come from:
+If you use dplaceR in published work, please cite the dplaceR package
+itself, in addition to D-PLACE and the specific source dataset(s) your
+variables come from:
+
+``` r
+citation("dplaceR")
+#> If you use dplaceR in published work, please cite the package itself,
+#> in addition to D-PLACE and the specific source dataset(s) your
+#> variables come from (see dp_citation() and dp_contributions() for
+#> those):
+#> 
+#>   Hodgson JA (2026). _dplaceR: An R Interface to the D-PLACE
+#>   Cross-Cultural Database_. R package version 0.1.0,
+#>   <https://jasonahodgson.github.io/dplaceR/>.
+#> 
+#> A BibTeX entry for LaTeX users is
+#> 
+#>   @Manual{,
+#>     title = {dplaceR: An R Interface to the D-PLACE Cross-Cultural Database},
+#>     author = {Jason A. Hodgson},
+#>     year = {2026},
+#>     note = {R package version 0.1.0},
+#>     url = {https://jasonahodgson.github.io/dplaceR/},
+#>   }
+```
 
 ``` r
 dp_citation()
+#> dplaceR:
+#>   Please cite the package itself alongside D-PLACE -- see
+#>   citation("dplaceR") (Jason A. Hodgson, package author).
+#> 
 #> D-PLACE:
 #>   Kirby, K.R., Gray, R.D., Greenhill, S.J., Jordan, F.M., Gomes-Ng, S., Bibiko, H-J., Blasi, D.E., Botero, C.A., Bowern, C., Ember, C.R., Leehr, D., Low, B.S., McCarter, J., Divale, W., Gavin, M.C. (2016). D-PLACE: A Global Database of Cultural, Linguistic and Environmental Diversity. PLoS ONE 11(7): e0158391.
 #> 
 #> Bundled snapshot: D-PLACE CLDF v3.3.0 (D-PLACE/dplace-cldf), prepared 2026-09-14
 #> Data licence: CC-BY-NC-4.0 (D-PLACE data; see https://d-place.org)
+#> Language family classification: Glottolog CLDF v5.3 (glottolog/glottolog-cldf) -- see dplace_societies's `lang_family`/`lang_family_id` columns.
 #> 
 #> Please also cite the specific source dataset(s) your variables come from -- see dp_contributions() for per-dataset citations.
 ```

@@ -30,22 +30,27 @@ see the same underlying data.
 * [dp_contributions()] for the source datasets and how to cite them
 }
 
-\section{Citing D-PLACE}{
+\section{Citing dplaceR and D-PLACE}{
 
-If you use dplaceR in published work, please cite both D-PLACE itself and
-the specific source dataset(s) your variables come from (see
+If you use dplaceR in published work, please cite the dplaceR package
+itself (see `citation("dplaceR")`), in addition to D-PLACE and the
+specific source dataset(s) your variables come from (see
 [dp_contributions()] and `dplace_meta$citation`). D-PLACE data is
 distributed under a CC-BY-NC-4.0 licence; see \url{https://d-place.org}
 for full citation guidance.
 }
 
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://jasonahodgson.github.io/dplaceR/}
+  \item \url{https://github.com/JasonAHodgson/dplaceR}
+  \item Report bugs at \url{https://github.com/JasonAHodgson/dplaceR/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Jason Hodgson \email{jason.hodgson@aru.ac.uk} (\href{https://orcid.org/0000-0002-3849-2245}{ORCID})
-
-Authors:
-\itemize{
-  \item Jason Hodgson \email{jason.hodgson@aru.ac.uk} (\href{https://orcid.org/0000-0002-3849-2245}{ORCID})
-}
 
 }
 \keyword{internal}

@@ -5,6 +5,25 @@ test_that("get_pairwise_cult_distance validates its inputs", {
                "at least one variable")
   expect_error(get_pairwise_cult_distance(c("B72", "B73"), var_id = c("B004", "B004")),
                "duplicate")
+  expect_error(
+    get_pairwise_cult_distance(c("B72", "B73")),
+    "Supply at least one of `var_id`, `category`, `type`, or `search`"
+  )
+})
+
+test_that("get_pairwise_cult_distance selects variables via category/type/search", {
+  # category = contains("Property") & type = "Continuous" -> B001/B002/B003
+  # (see dp_variables(category = contains("Property"), type = "Continuous")).
+  via_search <- get_pairwise_cult_distance(
+    c("B72", "B73", "B79"), category = contains("Property"), type = "Continuous", metric = "both"
+  )
+  via_var_id <- get_pairwise_cult_distance(
+    c("B72", "B73", "B79"),
+    var_id = dp_variables(category = contains("Property"), type = "Continuous")$var_id,
+    metric = "both"
+  )
+  expect_identical(via_search, via_var_id)
+  expect_true(all(via_search$n_compared == 3))
 })
 
 test_that("unknown society/variable IDs are dropped with a warning", {
@@ -14,10 +33,16 @@ test_that("unknown society/variable IDs are dropped with a warning", {
   )
   expect_equal(nrow(out), 1)
 
-  expect_warning(
+  # Dropping "not-a-real-var" leaves a single variable, which also warns
+  # (see "a single variable warns that distance is only 0/1" below) --
+  # collect every warning rather than just the first.
+  ws <- character(0)
+  withCallingHandlers(
     get_pairwise_cult_distance(c("B72", "B73"), var_id = c("B004", "not-a-real-var")),
-    "Variable ID"
+    warning = function(w) { ws <<- c(ws, conditionMessage(w)); invokeRestart("muffleWarning") }
   )
+  expect_true(any(grepl("Variable ID", ws)))
+  expect_true(any(grepl("one variable", ws)))
 })
 
 test_that("a single variable warns that distance is only 0/1", {

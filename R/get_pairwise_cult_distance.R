@@ -67,8 +67,13 @@
 #'
 #' @param soc_id Character vector of two or more D-PLACE society IDs (see
 #'   [dp_societies()]). Unknown IDs are dropped with a warning.
-#' @param var_id Character vector of one or more D-PLACE variable IDs to
-#'   include (see [dp_variables()]). Unknown IDs are dropped with a warning.
+#' @param var_id,category,type,search Optional variable-selection criteria:
+#'   `var_id` names variable ID(s) explicitly, while `category`, `type`,
+#'   and `search` select a subset by searching -- all four are passed
+#'   straight to [dp_variables()] and combined with AND, like there
+#'   (including [contains()] support for `category`). At least one must be
+#'   supplied. `var_id` values not found (or not matched by the other
+#'   criteria) are dropped with a warning.
 #' @param missing One of `"pairwise"` (default), `"complete"`, or `"match"`
 #'   -- see Details.
 #' @param metric One of `"proportion"` (default), `"both"`, or `"sum"` --
@@ -86,10 +91,12 @@
 #' @examples
 #' \dontrun{
 #' get_pairwise_cult_distance(c("B72", "B73", "B79"), var_id = c("B004", "B005"))
+#' get_pairwise_cult_distance(c("B72", "B73", "B79"), category = contains("Subsistence"))
 #' }
 #'
 #' @export
-get_pairwise_cult_distance <- function(soc_id, var_id,
+get_pairwise_cult_distance <- function(soc_id, var_id = NULL, category = NULL,
+                                        type = NULL, search = NULL,
                                         missing = c("pairwise", "complete", "match"),
                                         metric = c("proportion", "both", "sum"),
                                         type_aware = FALSE) {
@@ -102,17 +109,21 @@ get_pairwise_cult_distance <- function(soc_id, var_id,
   if (anyDuplicated(soc_id)) {
     stop("`soc_id` contains duplicate values.", call. = FALSE)
   }
-  if (length(var_id) < 1) {
-    stop("`var_id` must contain at least one variable ID.", call. = FALSE)
-  }
-  if (anyDuplicated(var_id)) {
-    stop("`var_id` contains duplicate values.", call. = FALSE)
-  }
-  if (length(var_id) == 1) {
-    warning(
-      "Only one variable requested; `cult_distance` will only take the values 0 and 1.",
-      call. = FALSE
+  if (!is.null(var_id) && length(var_id) < 1) {
+    stop(
+      "`var_id` must contain at least one variable ID (or be omitted to ",
+      "select via `category`/`type`/`search` instead).", call. = FALSE
     )
+  }
+  if (is.null(var_id) && is.null(category) && is.null(type) && is.null(search)) {
+    stop(
+      "Supply at least one of `var_id`, `category`, `type`, or `search` to ",
+      "select which variables to include -- see dp_variables() or ",
+      "dp_search_variables() to browse what's available first.", call. = FALSE
+    )
+  }
+  if (!is.null(var_id) && anyDuplicated(var_id)) {
+    stop("`var_id` contains duplicate values.", call. = FALSE)
   }
 
   soc <- dp_societies(soc_id = soc_id, type = NULL)
@@ -128,17 +139,25 @@ get_pairwise_cult_distance <- function(soc_id, var_id,
     stop("Fewer than two valid society IDs were found.", call. = FALSE)
   }
 
-  vars <- dp_variables(var_id = var_id)
-  missing_var <- setdiff(var_id, vars$var_id)
-  if (length(missing_var) > 0) {
-    warning(
-      "Variable ID(s) not found, dropped: ", paste(missing_var, collapse = ", "),
-      call. = FALSE
-    )
+  vars <- dp_variables(var_id = var_id, category = category, type = type, search = search)
+  if (!is.null(var_id)) {
+    missing_var <- setdiff(var_id, vars$var_id)
+    if (length(missing_var) > 0) {
+      warning(
+        "Variable ID(s) not found, dropped: ", paste(missing_var, collapse = ", "),
+        call. = FALSE
+      )
+    }
   }
   var_id <- vars$var_id
   if (length(var_id) < 1) {
-    stop("None of the requested variable IDs were found.", call. = FALSE)
+    stop("No variables matched the given criteria.", call. = FALSE)
+  }
+  if (length(var_id) == 1) {
+    warning(
+      "Only one variable requested; `cult_distance` will only take the values 0 and 1.",
+      call. = FALSE
+    )
   }
   var_type <- stats::setNames(vars$type, vars$var_id)
 

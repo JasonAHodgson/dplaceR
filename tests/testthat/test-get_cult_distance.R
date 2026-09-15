@@ -8,6 +8,33 @@ test_that("get_cult_distance validates its inputs", {
     get_cult_distance("not-a-real-soc", "B73", var_id = "B004"),
     "not found"
   )
+  expect_error(
+    get_cult_distance("B72", "B73"),
+    "Supply at least one of `var_id`, `category`, `type`, or `search`"
+  )
+})
+
+test_that("get_cult_distance selects variables via category/type/search like get_society_data()", {
+  # category = contains("Property") & type = "Continuous" -> B001/B002/B003
+  # (see dp_variables(category = contains("Property"), type = "Continuous")).
+  via_search <- get_cult_distance(
+    "B72", c("B73", "B79"), category = contains("Property"), type = "Continuous", metric = "both"
+  )
+  via_var_id <- get_cult_distance(
+    "B72", c("B73", "B79"),
+    var_id = dp_variables(category = contains("Property"), type = "Continuous")$var_id,
+    metric = "both"
+  )
+  expect_identical(via_search, via_var_id)
+  expect_equal(via_search$n_compared, c(3, 3))
+
+  # `search` restricts to variable(s) matching the term -- equivalent to
+  # passing that variable's var_id explicitly.
+  via_search2 <- get_cult_distance(
+    "B72", c("B73", "B79"), search = "Subsistence economy: Most important"
+  )
+  via_var_id2 <- get_cult_distance("B72", c("B73", "B79"), var_id = "B004")
+  expect_identical(via_search2, via_var_id2)
 })
 
 test_that("culture = an existing society compares its recorded states", {

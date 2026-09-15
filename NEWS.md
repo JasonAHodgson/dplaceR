@@ -96,6 +96,18 @@
   `category = "Subsistence"` silently misses those --
   `category = contains("Subsistence")` matches any category string that
   mentions the term. Not supported for `type` (a fixed vocabulary).
+* `get_cult_distance()` and `get_pairwise_cult_distance()` gained the same
+  variable-selection criteria as `get_society_data()`: `var_id` is now
+  optional, and `category`, `type`, and/or `search` can be given instead
+  (or alongside it) to select the variable set by searching -- e.g.
+  `get_pairwise_cult_distance(soc_id, category = contains("Subsistence"))`
+  -- combined with AND and passed straight to `dp_variables()`, exactly as
+  in `get_society_data()`. At least one of `var_id`/`category`/`type`/
+  `search` must be supplied. Incidental fix: `get_pairwise_cult_distance()`'s
+  "only one variable requested" warning is now based on the *resolved*
+  variable set rather than the raw `var_id` argument, so it also fires when
+  other variable(s) were requested but dropped as unmatched, leaving only
+  one.
 * Bug fix: `get_geo_distance()` and `get_pairwise_geo_distance()` no longer
   fail their whole call ("Not all nodes are connected by the graph.") when
   some requested societies have no land route to each other (e.g. they're on

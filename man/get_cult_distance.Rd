@@ -7,7 +7,10 @@
 get_cult_distance(
   culture = NULL,
   soc_id,
-  var_id,
+  var_id = NULL,
+  category = NULL,
+  type = NULL,
+  search = NULL,
   modal = FALSE,
   mode_ref_soc_id = NULL,
   missing = c("pairwise", "complete", "match"),
@@ -22,8 +25,13 @@ get_cult_distance(
 \item{soc_id}{Character vector of one or more D-PLACE society IDs to
 compare `culture` against (see [dp_societies()]).}
 
-\item{var_id}{Character vector of one or more D-PLACE variable IDs to
-include (see [dp_variables()]).}
+\item{var_id, category, type, search}{Optional variable-selection criteria:
+`var_id` names variable ID(s) explicitly, while `category`, `type`,
+and `search` select a subset by searching -- all four are passed
+straight to [dp_variables()] and combined with AND, like there
+(including [contains()] support for `category`). At least one must be
+supplied. `var_id` values not found (or not matched by the other
+criteria) are dropped with a warning.}
 
 \item{modal}{Logical; if `TRUE`, compute the reference culture as a
 modal profile instead of using `culture` -- see Details. Default
@@ -109,6 +117,7 @@ the same duplicate-observation handling).
 get_cult_distance("B72", c("B73", "B79"), var_id = c("B004", "B005"))
 get_cult_distance(NULL, c("B72", "B73", "B79"), var_id = c("B004", "B005"),
                    modal = TRUE)
+get_cult_distance("B72", c("B73", "B79"), category = contains("Subsistence"))
 }
 
 }

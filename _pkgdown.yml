@@ -1,0 +1,85 @@
+url: https://jasonahodgson.github.io/dplaceR/
+template:
+  bootstrap: 5
+
+reference:
+- title: Societies
+  desc: >
+    Browse, search, and filter D-PLACE societies, including cross-dataset
+    links, country lookup, and language-family classification.
+  contents:
+  - dp_societies
+  - get_society
+  - matches("^contains$") # `contains()` itself collides with pkgdown's own selector helper of the same name -- this works around it
+  - get_related_societies
+  - get_society_country
+  - get_society_meta
+  - dp_map_societies
+  - dp_lang_family_list
+  - dp_lang_family_table
+
+- title: Cultural and environmental variables
+  desc: >
+    Browse and search the cultural/environmental variables that can be
+    coded for a society, and the topics/categories they belong to.
+  contents:
+  - dp_variables
+  - dp_search_variables
+  - dp_codes
+  - dp_topics
+  - dp_topic_list
+  - dp_topic_table
+
+- title: Coded values and analysis-ready tables
+  desc: >
+    Retrieve the coded values linking societies to variables, and assemble
+    them into long- or wide-format tables ready for analysis.
+  contents:
+  - dp_values
+  - dp_variable_data
+  - get_society_data
+
+- title: Distance measures
+  desc: >
+    Compute geographic, cultural, and linguistic distance between
+    societies, either pairwise or from a single reference point.
+  contents:
+  - get_geo_distance
+  - get_pairwise_geo_distance
+  - get_cult_distance
+  - get_pairwise_cult_distance
+  - get_language_distance
+  - get_pairwise_language_distance
+
+- title: Language phylogenies
+  desc: >
+    Browse and parse the language phylogenies/classification trees bundled
+    with D-PLACE.
+  contents:
+  - dp_trees
+  - dp_tree
+
+- title: Dataset contributions
+  desc: >
+    The source datasets and phylogenies contributed to D-PLACE.
+  contents:
+  - dp_contributions
+
+- title: Bundled data
+  desc: >
+    The tidy tables bundled with dplaceR, snapshotting a specific D-PLACE
+    (and Glottolog) release. Most users will access these through the
+    functions above rather than directly.
+  contents:
+  - dplace_societies
+  - dplace_variables
+  - dplace_codes
+  - dplace_values
+  - dplace_contributions
+  - dplace_trees
+  - dplace_meta
+
+- title: About this package
+  contents:
+  - dplaceR-package
+  - dp_citation

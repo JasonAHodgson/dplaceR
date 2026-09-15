@@ -20,6 +20,8 @@ Description: Provides convenient access to data from D-PLACE
     metadata. See Kirby et al. (2016) <doi:10.1371/journal.pone.0158391>
     for a description of the D-PLACE project.
 License: MIT + file LICENSE
+URL: https://jasonahodgson.github.io/dplaceR/, https://github.com/JasonAHodgson/dplaceR
+BugReports: https://github.com/JasonAHodgson/dplaceR/issues
 Encoding: UTF-8
 LazyData: true
 LazyDataCompression: xz

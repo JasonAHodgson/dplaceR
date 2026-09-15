@@ -35,3 +35,19 @@ test_that("dp_societies returns zero rows for unknown filters", {
   out <- dp_societies(glottocode = "not-a-real-glottocode")
   expect_equal(nrow(out), 0)
 })
+
+test_that("dp_societies supports contains() on region/soc_id/glottocode", {
+  expect_equal(nrow(dp_societies(region = "Africa")), 0) # no exact-match region called "Africa"
+
+  out <- dp_societies(region = contains("Africa"))
+  expect_true(nrow(out) > 0)
+  expect_true(all(grepl("Africa", out$region)))
+
+  out2 <- dp_societies(soc_id = contains("^CARNEIRO4_00"))
+  expect_true(nrow(out2) > 0)
+  expect_true(all(grepl("^CARNEIRO4_00", out2$soc_id)))
+})
+
+test_that("dp_societies rejects contains() on type", {
+  expect_error(dp_societies(type = contains("society")), "doesn't support contains")
+})

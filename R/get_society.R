@@ -11,7 +11,9 @@
 #'   \item{`soc_id`, `glottocode`, `iso_code`, `region`, `type`,
 #'     `contribution_id`, `language_level_glottocodes`}{Exact match against
 #'     one or more values (a society matches if its value is in the
-#'     vector you supply).}
+#'     vector you supply) -- or, for every one of these EXCEPT `type`, wrap
+#'     the value(s) in [contains()] for a partial/regex match instead (see
+#'     below).}
 #'   \item{`name`}{Case-insensitive partial match (e.g. `name = "kung"`
 #'     matches "!Kung"). Not vectorized -- a single search string.}
 #'   \item{`latitude`, `longitude`, `main_focal_year`}{A single value for
@@ -28,18 +30,35 @@
 #'     the most expensive filter.}
 #' }
 #'
+#' # Partial/regex matching ([contains()])
+#' D-PLACE's own categorical columns are often more fine-grained than you'd
+#' expect -- there's no region literally called `"Africa"`, for instance,
+#' only sub-regions like `"Southern Africa"` and `"West Tropical Africa"`
+#' (see `unique(dplace_societies$region)`). Wrapping a value in [contains()]
+#' switches that argument from an exact match to a substring/regex match, so
+#' `get_society(region = contains("Africa"))` matches every region whose
+#' name contains "Africa", rather than matching nothing the way
+#' `region = "Africa"` would. This works for `soc_id`, `glottocode`,
+#' `iso_code`, `region`, `contribution_id`, and
+#' `language_level_glottocodes`; it isn't supported for `type` (a fixed
+#' two-value vocabulary), `name` (already a partial match by default),
+#' `country` (already case-insensitive), or the numeric arguments.
+#'
 #' @param soc_id,glottocode,iso_code,region,contribution_id,language_level_glottocodes
-#'   Optional character vector(s) for an exact match -- see Matching rules.
+#'   Optional character vector(s) for an exact match, or [contains()] for a
+#'   partial/regex match -- see Matching rules.
 #' @param type Character; which row type(s) to include. Defaults to
 #'   `"society"` (societies with coded cultural data, excluding the
 #'   language-only "languoid" rows referenced only by a phylogeny); use
-#'   `NULL` to include both.
+#'   `NULL` to include both. Does not support [contains()].
 #' @param name Optional case-insensitive partial match on society name --
-#'   see Matching rules.
+#'   see Matching rules. Does not support [contains()] (it's already a
+#'   partial match).
 #' @param latitude,longitude,main_focal_year Optional single value (exact)
 #'   or `c(min, max)` (inclusive range) -- see Matching rules.
 #' @param country Optional character vector of country name(s) -- see
-#'   Matching rules. Requires the 'maps' package.
+#'   Matching rules. Requires the 'maps' package. Does not support
+#'   [contains()].
 #'
 #' @return A tibble of matching societies (see [dplace_societies] for
 #'   column definitions), plus a `country` column if `country` was
@@ -48,6 +67,7 @@
 #' @examples
 #' \dontrun{
 #' get_society(region = "Southern Africa")
+#' get_society(region = contains("Africa"))
 #' get_society(name = "kung")
 #' get_society(latitude = c(3, 15), longitude = c(33, 48)) # rough Ethiopia box
 #' get_society(country = "Ethiopia")
@@ -59,30 +79,33 @@ get_society <- function(soc_id = NULL, name = NULL, glottocode = NULL,
                          country = NULL, latitude = NULL, longitude = NULL,
                          main_focal_year = NULL, language_level_glottocodes = NULL,
                          contribution_id = NULL) {
+  .gs_reject_contains(type, "type", "it only accepts \"society\"/\"languoid\"")
+  .gs_reject_contains(name, "name", "it's already a partial, case-insensitive match by default")
+  .gs_reject_contains(country, "country", "it's already matched case-insensitively; pass plain country name(s) instead")
+
   out <- dplace_societies
 
   if (!is.null(type)) {
     out <- out[out$type %in% type, , drop = FALSE]
   }
   if (!is.null(soc_id)) {
-    out <- out[out$soc_id %in% soc_id, , drop = FALSE]
+    out <- out[.gs_match_column(out$soc_id, soc_id, "soc_id"), , drop = FALSE]
   }
   if (!is.null(glottocode)) {
-    out <- out[!is.na(out$glottocode) & out$glottocode %in% glottocode, , drop = FALSE]
+    out <- out[.gs_match_column(out$glottocode, glottocode, "glottocode"), , drop = FALSE]
   }
   if (!is.null(iso_code)) {
-    out <- out[!is.na(out$iso_code) & out$iso_code %in% iso_code, , drop = FALSE]
+    out <- out[.gs_match_column(out$iso_code, iso_code, "iso_code"), , drop = FALSE]
   }
   if (!is.null(region)) {
-    out <- out[!is.na(out$region) & out$region %in% region, , drop = FALSE]
+    out <- out[.gs_match_column(out$region, region, "region"), , drop = FALSE]
   }
   if (!is.null(contribution_id)) {
-    out <- out[!is.na(out$contribution_id) & out$contribution_id %in% contribution_id, , drop = FALSE]
+    out <- out[.gs_match_column(out$contribution_id, contribution_id, "contribution_id"), , drop = FALSE]
   }
   if (!is.null(language_level_glottocodes)) {
     out <- out[
-      !is.na(out$language_level_glottocodes) &
-        out$language_level_glottocodes %in% language_level_glottocodes,
+      .gs_match_column(out$language_level_glottocodes, language_level_glottocodes, "language_level_glottocodes"),
       , drop = FALSE
     ]
   }

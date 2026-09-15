@@ -41,6 +41,16 @@
   (via `get_society_country()` and the 'maps' package) applied last, after
   every other criterion has narrowed the search. All supplied criteria
   combine with AND.
+* `contains()` switches an exact-match argument of `get_society()`/
+  `dp_societies()` (`soc_id`, `glottocode`, `iso_code`, `region`,
+  `contribution_id`, `language_level_glottocodes`) to a partial/regex match
+  via `grepl()` instead -- e.g. `get_society(region = contains("Africa"))`,
+  since D-PLACE splits Africa into several regions ("Southern Africa",
+  "West Tropical Africa", etc.) with no single region literally called
+  `"Africa"`. Supports multiple patterns (matched as OR), `ignore.case`
+  (default `TRUE`), and `fixed` (literal instead of regex). Not supported
+  for `type`, `name` (already a partial match), `country` (already
+  case-insensitive), or the numeric arguments.
 * `get_pairwise_language_distance()` and `get_language_distance()` compute
   linguistic (branch-length/"patristic") distance between societies' languages
   on a bundled D-PLACE language tree (`dp_trees()`/`dp_tree()`), mirroring

@@ -20,18 +20,21 @@ get_society(
 )
 }
 \arguments{
-\item{soc_id, glottocode, iso_code, region, contribution_id, language_level_glottocodes}{Optional character vector(s) for an exact match -- see Matching rules.}
+\item{soc_id, glottocode, iso_code, region, contribution_id, language_level_glottocodes}{Optional character vector(s) for an exact match, or [contains()] for a
+partial/regex match -- see Matching rules.}
 
 \item{name}{Optional case-insensitive partial match on society name --
-see Matching rules.}
+see Matching rules. Does not support [contains()] (it's already a
+partial match).}
 
 \item{type}{Character; which row type(s) to include. Defaults to
 `"society"` (societies with coded cultural data, excluding the
 language-only "languoid" rows referenced only by a phylogeny); use
-`NULL` to include both.}
+`NULL` to include both. Does not support [contains()].}
 
 \item{country}{Optional character vector of country name(s) -- see
-Matching rules. Requires the 'maps' package.}
+Matching rules. Requires the 'maps' package. Does not support
+[contains()].}
 
 \item{latitude, longitude, main_focal_year}{Optional single value (exact)
 or `c(min, max)` (inclusive range) -- see Matching rules.}
@@ -53,7 +56,9 @@ combine with AND); omit (leave `NULL`) any you don't want to filter on.
   \item{`soc_id`, `glottocode`, `iso_code`, `region`, `type`,
     `contribution_id`, `language_level_glottocodes`}{Exact match against
     one or more values (a society matches if its value is in the
-    vector you supply).}
+    vector you supply) -- or, for every one of these EXCEPT `type`, wrap
+    the value(s) in [contains()] for a partial/regex match instead (see
+    below).}
   \item{`name`}{Case-insensitive partial match (e.g. `name = "kung"`
     matches "!Kung"). Not vectorized -- a single search string.}
   \item{`latitude`, `longitude`, `main_focal_year`}{A single value for
@@ -69,10 +74,25 @@ combine with AND); omit (leave `NULL`) any you don't want to filter on.
     societies that already matched every other criterion, since it's
     the most expensive filter.}
 }
+
+# Partial/regex matching ([contains()])
+D-PLACE's own categorical columns are often more fine-grained than you'd
+expect -- there's no region literally called `"Africa"`, for instance,
+only sub-regions like `"Southern Africa"` and `"West Tropical Africa"`
+(see `unique(dplace_societies$region)`). Wrapping a value in [contains()]
+switches that argument from an exact match to a substring/regex match, so
+`get_society(region = contains("Africa"))` matches every region whose
+name contains "Africa", rather than matching nothing the way
+`region = "Africa"` would. This works for `soc_id`, `glottocode`,
+`iso_code`, `region`, `contribution_id`, and
+`language_level_glottocodes`; it isn't supported for `type` (a fixed
+two-value vocabulary), `name` (already a partial match by default),
+`country` (already case-insensitive), or the numeric arguments.
 }
 \examples{
 \dontrun{
 get_society(region = "Southern Africa")
+get_society(region = contains("Africa"))
 get_society(name = "kung")
 get_society(latitude = c(3, 15), longitude = c(33, 48)) # rough Ethiopia box
 get_society(country = "Ethiopia")

@@ -75,3 +75,57 @@ test_that("country errors informatively without 'maps'", {
           "maps is installed; this tests the absent-package path")
   expect_error(get_society(country = "Ethiopia"), "requires the 'maps' package")
 })
+
+test_that("contains() switches region/soc_id/etc. to a partial match", {
+  # D-PLACE has no region literally called "Africa", only sub-regions --
+  # an exact match finds nothing, contains() finds all of them at once.
+  expect_equal(nrow(get_society(region = "Africa")), 0)
+  out <- get_society(region = contains("Africa"))
+  expect_true(nrow(out) > 0)
+  expect_true(all(grepl("Africa", out$region)))
+  # every society matched this way must actually be a sub-region of Africa,
+  # not some unrelated region that happens to contain the substring.
+  expect_true(all(out$region %in% c(
+    "Northern Africa", "Northeast Tropical Africa", "East Tropical Africa",
+    "West Tropical Africa", "West-Central Tropical Africa",
+    "South Tropical Africa", "Southern Africa"
+  )))
+})
+
+test_that("contains() matches against ANY of several patterns (OR)", {
+  out <- get_society(region = contains(c("Africa", "Asia")))
+  expect_true(any(grepl("Africa", out$region)))
+  expect_true(any(grepl("Asia", out$region, ignore.case = TRUE)))
+  # contains() is case-insensitive by default, so this also picks up
+  # "Papuasia" (which contains "asia" as a substring) -- a real, if
+  # slightly surprising, consequence of the default rather than a bug.
+  expect_true(all(grepl("Africa", out$region) | grepl("Asia", out$region, ignore.case = TRUE)))
+})
+
+test_that("contains() supports regex patterns, e.g. on soc_id", {
+  out <- get_society(soc_id = contains("^CARNEIRO4_00"), type = NULL)
+  expect_true(nrow(out) > 0)
+  expect_true(all(grepl("^CARNEIRO4_00", out$soc_id)))
+})
+
+test_that("contains() is case-insensitive by default, and can be made case-sensitive", {
+  out_default <- get_society(region = contains("africa"))
+  out_ci <- get_society(region = contains("africa", ignore.case = TRUE))
+  out_cs <- get_society(region = contains("africa", ignore.case = FALSE))
+
+  expect_equal(nrow(out_default), nrow(out_ci))
+  expect_true(nrow(out_ci) > 0)
+  expect_equal(nrow(out_cs), 0) # D-PLACE's region values are capitalized
+})
+
+test_that("contains() combines with AND across other filters, like exact matches do", {
+  out <- get_society(region = contains("Africa"), glottocode = "juho1239")
+  expect_true(all(grepl("Africa", out$region)))
+  expect_true(all(out$glottocode == "juho1239"))
+})
+
+test_that("contains() is rejected on arguments that don't support it", {
+  expect_error(get_society(type = contains("society")), "doesn't support contains")
+  expect_error(get_society(name = contains("kung")), "doesn't support contains")
+  expect_error(get_society(country = contains("Ethiopia")), "doesn't support contains")
+})

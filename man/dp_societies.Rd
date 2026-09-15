@@ -7,18 +7,24 @@
 dp_societies(glottocode = NULL, region = NULL, soc_id = NULL, type = "society")
 }
 \arguments{
-\item{glottocode}{Optional character vector of Glottocodes to filter to.}
+\item{glottocode}{Optional character vector of Glottocodes to filter to,
+or [contains()] for a partial/regex match.}
 
 \item{region}{Optional character vector of regions to filter to (matched
 exactly against the `region` column; see
-`unique(dplace_societies$region)` for valid values).}
+`unique(dplace_societies$region)` for valid values), or [contains()]
+for a partial/regex match -- e.g. `region = contains("Africa")`, since
+D-PLACE splits Africa into several regions with no single `"Africa"`
+value.}
 
-\item{soc_id}{Optional character vector of society IDs to filter to.}
+\item{soc_id}{Optional character vector of society IDs to filter to, or
+[contains()] for a partial/regex match.}
 
 \item{type}{Character; which row types to include. Defaults to
 `"society"` (societies with coded cultural data). Use `NULL` to also
 include `"languoid"` rows (language varieties that appear only in a
-phylogeny, with no coded data of their own).}
+phylogeny, with no coded data of their own). Does not support
+[contains()].}
 }
 \value{
 A tibble of societies, one row per society (see
@@ -29,6 +35,7 @@ Browse or filter D-PLACE societies
 }
 \examples{
 dp_societies(region = "Southern Africa")
+dp_societies(region = contains("Africa"))
 dp_societies(glottocode = "juho1239")
 
 }

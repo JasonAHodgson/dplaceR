@@ -41,3 +41,68 @@
   (via `get_society_country()` and the 'maps' package) applied last, after
   every other criterion has narrowed the search. All supplied criteria
   combine with AND.
+* Bug fix: `get_geo_distance()` and `get_pairwise_geo_distance()` no longer
+  fail their whole call ("Not all nodes are connected by the graph.") when
+  some requested societies have no land route to each other (e.g. they're on
+  different continents, or either is on an island) -- 'geoGraph''s bundled
+  world graphs have sea-crossing edges removed, so they aren't fully
+  connected. Unreachable societies/pairs are now dropped/recorded as `NA`
+  instead, with a warning, and only societies/pairs with a computable
+  land-route distance are returned. This uses the 'RBGL' package (already a
+  dependency of 'geoGraph' itself), now listed in Suggests.
+* Performance: `get_geo_distance()` now uses geoGraph's single-source
+  `dijkstraFrom()` (one shortest-path tree from `point`) instead of
+  `dijkstraBetween()`'s all-pairs computation, which was also computing (and
+  discarding) every society-to-society distance. This makes it efficient for
+  large `soc_id` lists -- previously its cost grew roughly quadratically
+  with the number of societies requested, the same as
+  `get_pairwise_geo_distance()`'s inherently all-pairs cost, even though
+  `get_geo_distance()` only ever needed point-to-society distances.
+* Bug fix: `get_geo_distance()` and `get_pairwise_geo_distance()` no longer
+  error with "geoGraph's ... distance output did not have the expected
+  structure" on ordinary real-world input. Two distinct issues, both only
+  reproducible against a live 'geoGraph' install (not in a sandbox without
+  it): `dijkstraFrom()`'s result is named `"<origin>:<destination>"`, not
+  just the destination, which `get_geo_distance()` didn't account for; and
+  `gPath2dist()` returns a `dist` object with no `names()` at all -- rather
+  than a named vector -- whenever the requested pairs span more than one
+  distinct origin node (the normal case for 3+ societies), which
+  `get_pairwise_geo_distance()` didn't account for either (this second issue
+  predates the `dijkstraFrom()` work above and had been latent since the
+  function was first written). Both functions now verify structure against
+  the underlying `gPath` object, which is reliably named either way.
+* Breaking change: `get_geo_distance()` and `get_pairwise_geo_distance()`
+  gained a required `method` argument (no default) with three genuinely
+  different measures: `"migration"` (their previous, only behaviour -- a
+  least-cost path across geoGraph's world grid using its bundled
+  habitat-based edge costs, which turns out to be an arbitrary graph-cost
+  measure, *not* a physical distance despite past documentation implying
+  otherwise -- see below); `"great_circle"` (straight-line haversine
+  distance in km, ignoring land/sea entirely -- needs neither 'geoGraph' nor
+  `graph`, and has no connectivity restrictions); and `"land_route_km"`
+  (real physical distance in km along the same land-only route as
+  `"migration"`, weighting each grid edge by its true great-circle length
+  instead of an arbitrary cost, and adding each endpoint's own distance to
+  the graph node it snapped to -- without that addition, routing between
+  two *snapped* nodes could come out shorter than the straight line between
+  the original, un-snapped coordinates, breaking the guarantee that
+  `"land_route_km"` is always >= `"great_circle"` for the same pair). The
+  output column is now called `distance`
+  (was `distance_km`) for both functions, since its units depend on
+  `method`. Existing code must be updated to pass `method` explicitly and to
+  read `distance` instead of `distance_km`.
+* Bug fix: the values previously returned by `get_geo_distance()` and
+  `get_pairwise_geo_distance()` (now `method = "migration"`) were
+  mislabelled as kilometres (`distance_km`) but were never physical
+  distances at all -- geoGraph's bundled `worldgraph.10k`/`worldgraph.40k`
+  objects ship with a habitat-based edge cost (land-land edges cost ~1) with
+  sea-crossing edges already removed, so the least-cost "distance" computed
+  from them is effectively a hop count across the graph's grid, in arbitrary
+  units -- confirmed against geoGraph's own source and its vignette (which
+  labels this exact quantity "arbitrary units"). Real physical distance is
+  now available via the new `method = "great_circle"` or `"land_route_km"`
+  (see above); the latter deliberately doesn't use geoGraph's own
+  `setDistCosts()`, since it computes distance via `fields::rdist.earth()`
+  without overriding that function's default of *miles*, not km -- another
+  silent-unit trap this package now avoids entirely by computing great-circle
+  distance itself.

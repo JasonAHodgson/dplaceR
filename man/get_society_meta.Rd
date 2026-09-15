@@ -65,10 +65,10 @@ overwrite one already in `data` also warns.
 }
 \examples{
 \dontrun{
-geo <- get_geo_distance("B72", c("B73", "B79"))
+geo <- get_geo_distance("B72", c("B73", "B79"), method = "great_circle")
 get_society_meta(geo, name = TRUE, region = TRUE)
 
-pw <- get_pairwise_geo_distance(c("B72", "B73", "B79"))
+pw <- get_pairwise_geo_distance(c("B72", "B73", "B79"), method = "great_circle")
 get_society_meta(pw, name = TRUE)
 }
 

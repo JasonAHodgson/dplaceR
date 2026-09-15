@@ -11,10 +11,16 @@ dp_variables(var_id = NULL, category = NULL, type = NULL, search = NULL)
 
 \item{category}{Optional character vector of categories to filter to
 (matched exactly; see `unique(dplace_variables$category)` for valid
-values).}
+values), or [contains()] for a partial/regex match. Many `category`
+values are several topics joined with `", "` (e.g.
+`"Economy, Property, Subsistence"`), so an exact match like
+`category = "Subsistence"` misses those -- use
+`category = contains("Subsistence")` instead to match any category
+string that mentions the term.}
 
 \item{type}{Optional character vector restricting to variable type(s):
-`"Categorical"`, `"Ordinal"`, and/or `"Continuous"`.}
+`"Categorical"`, `"Ordinal"`, and/or `"Continuous"`. Does not support
+[contains()].}
 
 \item{search}{Optional keyword. If given, only variables whose `name` or
 `description` contains this string (case-insensitive) are returned.}
@@ -28,6 +34,7 @@ Browse or filter D-PLACE cultural variables
 }
 \examples{
 dp_variables(category = "Subsistence")
+dp_variables(category = contains("Subsistence"))
 dp_variables(search = "descent")
 
 }

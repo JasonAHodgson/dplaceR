@@ -76,6 +76,26 @@
   given the units caveat above, so `cross_tree = "join_root"` currently
   errors explaining this; `multiplier` (default `2`) is reserved in the
   signature for when it ships.
+* `get_society_data()` searches and assembles D-PLACE's coded cultural data
+  for a chosen set of societies and a chosen set of variables -- named
+  explicitly (`var_id`), or found by searching (`category`, `type`,
+  `search`, passed straight to `dp_variables()` and combined with AND; at
+  least one of the four must be supplied). `format = "long"` (default)
+  returns one row per society/variable observation, like
+  `dp_variable_data()`, with variable metadata (`var_name`, `var_category`,
+  `var_type`) added; `format = "wide"` returns one row per society and one
+  column per variable (named by `var_id`), ready to use directly for
+  analysis -- `"Continuous"` columns are numeric, `"Categorical"`/
+  `"Ordinal"` columns hold the human-readable code label, and a society
+  with more than one recorded observation for a variable has them collapsed
+  to the most recent (by year), with a warning.
+* `dp_variables()`'s `category` argument now supports `contains()` for a
+  partial/regex match, for the same reason `region` needed it: many
+  `category` values are several topics joined with `", "` (e.g.
+  `"Economy, Property, Subsistence"`), so an exact match like
+  `category = "Subsistence"` silently misses those --
+  `category = contains("Subsistence")` matches any category string that
+  mentions the term. Not supported for `type` (a fixed vocabulary).
 * Bug fix: `get_geo_distance()` and `get_pairwise_geo_distance()` no longer
   fail their whole call ("Not all nodes are connected by the graph.") when
   some requested societies have no land route to each other (e.g. they're on

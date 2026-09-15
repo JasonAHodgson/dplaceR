@@ -1,0 +1,151 @@
+# Cultural distance from a specified culture to a list of societies
+
+Computes the cultural (dis)similarity, using the same variable-matching
+approach as \[get_pairwise_cult_distance()\], between one reference
+"culture" and each society in a list. The reference culture can be an
+existing D-PLACE society, a computed modal (most common) profile across
+a group of societies, or a custom profile you specify directly. For
+distances between all pairs within a set of societies, use
+\[get_pairwise_cult_distance()\] instead.
+
+## Usage
+
+``` r
+get_cult_distance(
+  culture = NULL,
+  soc_id,
+  var_id = NULL,
+  category = NULL,
+  type = NULL,
+  search = NULL,
+  modal = FALSE,
+  mode_ref_soc_id = NULL,
+  missing = c("pairwise", "complete", "match"),
+  metric = c("proportion", "both", "sum"),
+  type_aware = FALSE
+)
+```
+
+## Arguments
+
+- culture:
+
+  The reference culture – see Details. Ignored if \`modal = TRUE\`.
+
+- soc_id:
+
+  Character vector of one or more D-PLACE society IDs to compare
+  \`culture\` against (see \[dp_societies()\]).
+
+- var_id, category, type, search:
+
+  Optional variable-selection criteria: \`var_id\` names variable ID(s)
+  explicitly, while \`category\`, \`type\`, and \`search\` select a
+  subset by searching – all four are passed straight to
+  \[dp_variables()\] and combined with AND, like there (including
+  \[contains()\] support for \`category\`). At least one must be
+  supplied. \`var_id\` values not found (or not matched by the other
+  criteria) are dropped with a warning.
+
+- modal:
+
+  Logical; if \`TRUE\`, compute the reference culture as a modal profile
+  instead of using \`culture\` – see Details. Default \`FALSE\`.
+
+- mode_ref_soc_id:
+
+  Optional character vector of society IDs to compute the modal profile
+  from, when \`modal = TRUE\`, instead of using \`soc_id\`. Ignored
+  unless \`modal = TRUE\`.
+
+- missing:
+
+  One of \`"pairwise"\` (default), \`"complete"\`, or \`"match"\` – see
+  Details.
+
+- metric:
+
+  One of \`"proportion"\` (default), \`"both"\`, or \`"sum"\` – see
+  \[get_pairwise_cult_distance()\].
+
+- type_aware:
+
+  Logical; score ordinal/continuous variables by scaled difference
+  rather than simple match/mismatch. Default \`FALSE\`. See
+  \[get_pairwise_cult_distance()\].
+
+## Value
+
+A tibble with one row per society in \`soc_id\` (after dropping any as
+described above): \`soc_id\`, and columns determined by \`metric\` (see
+\[get_pairwise_cult_distance()\]).
+
+## Details
+
+\# The reference culture (\`culture\`, \`modal\`, \`mode_ref_soc_id\`)
+\`culture\` specifies the reference culture, and is one of:
+
+- A single D-PLACE society ID (character):
+
+  Uses that society's own recorded states.
+
+- A named vector:
+
+  A custom profile: names are variable IDs (a subset of \`var_id\`),
+  values are the state for each – either a code_id (for
+  categorical/ordinal variables, see \[dp_codes()\]) or a numeric value
+  (for continuous variables).
+
+- \`NULL\`:
+
+  Required when \`modal = TRUE\` (see below); an error otherwise.
+
+If \`modal = TRUE\`, \`culture\` is ignored (with a warning if supplied)
+and the reference culture is instead the modal (most common) state for
+each variable across a reference group of societies – \`soc_id\` itself
+by default, or \`mode_ref_soc_id\` if given, e.g. to compute the mode
+from a different/larger group than the one you're comparing distances
+for. Societies missing a variable don't count toward that variable's
+vote; if two or more states are tied for most common, the first
+(alphabetically) is used and a warning lists which variable(s) were
+affected; if none of the reference group has a recorded state for a
+variable, it's \`NA\` for the modal profile (and so behaves as a missing
+value for it, per \`missing\`, below).
+
+\# Missing data (\`missing\`) Adapted from
+\[get_pairwise_cult_distance()\] for a one-vs-many comparison:
+
+- \`"pairwise"\` (default):
+
+  For each society, only variables where BOTH \`culture\` and that
+  society have a recorded state are compared; \`n_compared\` can differ
+  from society to society.
+
+- \`"complete"\`:
+
+  Variables \`culture\` itself has no state for are dropped entirely
+  (there's nothing to compare against for anyone); societies missing any
+  of the remaining variables are then dropped too (with a warning), so
+  every remaining society is compared on the same full variable set.
+
+- \`"match"\`:
+
+  Missingness is treated as its own state: \`culture\` and a society
+  both missing a variable count as matching on it, and one missing it
+  while the other doesn't counts as differing. Every variable therefore
+  contributes to every society's comparison.
+
+\`metric\` and \`type_aware\` behave exactly as in
+\[get_pairwise_cult_distance()\] (see its documentation for details and
+the same duplicate-observation handling).
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+get_cult_distance("B72", c("B73", "B79"), var_id = c("B004", "B005"))
+get_cult_distance(NULL, c("B72", "B73", "B79"), var_id = c("B004", "B005"),
+                   modal = TRUE)
+get_cult_distance("B72", c("B73", "B79"), category = contains("Subsistence"))
+} # }
+```

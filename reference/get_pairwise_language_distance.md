@@ -1,0 +1,105 @@
+# Pairwise language (branch-length) distance between societies
+
+Computes the pairwise linguistic distance between D-PLACE societies as
+the branch-length ("patristic") distance between their languages on a
+bundled D-PLACE language tree (see \[dp_trees()\]/\[dp_tree()\]): the
+sum of branch lengths along the path connecting the two languages' tips.
+See \[get_language_distance()\] for the same measure applied to a single
+reference point vs. a list of societies rather than all pairs within one
+list.
+
+## Usage
+
+``` r
+get_pairwise_language_distance(soc_id, cross_tree, multiplier = 2)
+```
+
+## Arguments
+
+- soc_id:
+
+  Character vector of two or more D-PLACE society IDs (see
+  \[dp_societies()\]). Unknown IDs are dropped with a warning.
+
+- cross_tree:
+
+  One of \`"na"\` or \`"join_root"\` – see Details. There is no default;
+  it must be supplied explicitly. \`"join_root"\` currently errors (not
+  implemented yet).
+
+- multiplier:
+
+  Reserved for the future \`cross_tree = "join_root"\` implementation
+  described in Details; currently unused. Default \`2\`.
+
+## Value
+
+A tibble with one row per unique pair of the input societies:
+\`soc_id_1\`, \`soc_id_2\`, and \`language_distance\` (branch-length
+units of whichever tree the pair was computed on – see the units caveat
+in Details). A pair whose languages are on different trees gets
+\`language_distance = NA\` under \`cross_tree = "na"\`, with a warning
+summarizing how many such pairs were found, rather than failing the
+whole call.
+
+## Details
+
+\# Matching societies to tree tips Each society is matched to a tip by
+its \`glottocode\` (tried first, and always a single value when present
+– see \[dp_societies()\]), falling back to its
+\`language_level_glottocodes\` when that names a single Glottocode. A
+small number of societies (around 2 \`language_level_glottocodes\`) have
+it as a space-separated list covering several dialects/varieties at
+once; those are left unmatched rather than guessing which single tip to
+use. Societies that don't resolve to a tip in any bundled tree at all
+(roughly a third of D-PLACE societies, mostly for lack of a usable
+Glottocode) are dropped with a warning.
+
+\# Branch length units are NOT consistent across trees This is the
+important caveat: D-PLACE's 114 bundled trees come from two very
+different sources, and their branch lengths are not on the same scale.
+85 are Glottolog's own family classification trees, whose branch lengths
+are small arbitrary integers (mostly 1-3) reflecting classification
+depth, not time or any other physical quantity. The remaining ~29 are
+real, independently published, dated phylogenies (e.g. Bayesian-dated
+language trees), whose branch lengths are on the order of hundreds to
+thousands (most plausibly years, though this isn't recorded in the data
+– \`dp_trees()\`'s \`branch_length_unit\` column is \`NA\` for every
+bundled tree). Check \`dp_trees()\`'s \`source\` column (\`
+"glottolog_glottolog"\` vs a \`"dplace-phylogeny-\*"\` value) for which
+kind produced a given result before treating two distances as
+comparable, especially when they come from different trees.
+
+\# Cross-tree pairs (\`cross_tree\`) A pair of societies whose languages
+resolve to tips on two different trees (different language
+families/groups) has no path connecting them at all – \`cross_tree\`
+controls what happens then, and there is deliberately no default, so
+every call has to say which one it means:
+
+- \`"na"\`:
+
+  Records \`NA\` for that pair, with a warning summarizing how many such
+  pairs were found – the honest option, given the units caveat above:
+  there's no way to make up a meaningful cross-family distance without
+  picking some convention for how "far apart" two unrelated language
+  families are, and (per that caveat) even the trees you'd want to
+  compare might not share a scale to begin with.
+
+- \`"join_root"\`:
+
+  \*\*Not implemented yet.\*\* The plan is to treat the two languages'
+  trees as if grafted onto a shared root – distance = (root-to-tip depth
+  of language 1) + (root-to-tip depth of language 2) + \`multiplier\` \*
+  (the larger of the two trees' own maximum root-to-tip depths) – but
+  given the units caveat above, that "biggest root-to-tip depth" can
+  mean wildly different things depending on which two trees are
+  involved, and this needs more thought before it ships. Calling with
+  \`cross_tree = "join_root"\` currently just errors, explaining this.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+get_pairwise_language_distance(c("B72", "B73", "B79"), cross_tree = "na")
+} # }
+```

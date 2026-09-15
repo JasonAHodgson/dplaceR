@@ -1,0 +1,146 @@
+# Search for societies matching metadata criteria
+
+A more powerful search than \[dp_societies()\]: filters on every column
+of \[dplace_societies\], plus \`country\`, which D-PLACE itself doesn't
+record (see \[get_society_country()\]). All supplied criteria must match
+(they combine with AND); omit (leave \`NULL\`) any you don't want to
+filter on.
+
+## Usage
+
+``` r
+get_society(
+  soc_id = NULL,
+  name = NULL,
+  glottocode = NULL,
+  iso_code = NULL,
+  region = NULL,
+  type = "society",
+  country = NULL,
+  latitude = NULL,
+  longitude = NULL,
+  main_focal_year = NULL,
+  language_level_glottocodes = NULL,
+  contribution_id = NULL,
+  xd_id = NULL,
+  lang_family = NULL,
+  lang_family_id = NULL
+)
+```
+
+## Arguments
+
+- soc_id, glottocode, iso_code, region, contribution_id,
+  language_level_glottocodes, xd_id:
+
+  Optional character vector(s) for an exact match, or \[contains()\] for
+  a partial/regex match – see Matching rules. \`xd_id\` is D-PLACE's
+  cross-dataset identifier, shared by societies from different datasets
+  that code the same real-world group – see \[get_related_societies()\]
+  for finding one in the first place. Most societies have no \`xd_id\`
+  (\`NA\`) and so never match.
+
+- name:
+
+  Optional case-insensitive partial match on society name – see Matching
+  rules. Does not support \[contains()\] (it's already a partial match).
+
+- type:
+
+  Character; which row type(s) to include. Defaults to \`"society"\`
+  (societies with coded cultural data, excluding the language-only
+  "languoid" rows referenced only by a phylogeny); use \`NULL\` to
+  include both. Does not support \[contains()\].
+
+- country:
+
+  Optional character vector of country name(s) – see Matching rules.
+  Requires the 'maps' package. Does not support \[contains()\].
+
+- latitude, longitude, main_focal_year:
+
+  Optional single value (exact) or \`c(min, max)\` (inclusive range) –
+  see Matching rules.
+
+- lang_family, lang_family_id:
+
+  Optional character vector(s) for an exact match, or \[contains()\] for
+  a partial/regex match – see Matching rules. \`lang_family\` is the
+  society's top-level Glottolog language family name (e.g.
+  \`"Indo-European"\`); \`lang_family_id\` its Glottocode (e.g.
+  \`"indo1319"\`), more stable across any future family renaming. An
+  isolate (e.g. \`"Zuni"\`) is its own top-level family. Named
+  \`lang_family\*\` (not plain \`family\`) to avoid clashing with
+  D-PLACE's own "family" cultural/kinship variables, which mean
+  something unrelated. See \[dp_lang_family_list()\] for the full list
+  of available families.
+
+## Value
+
+A tibble of matching societies (see \[dplace_societies\] for column
+definitions), plus a \`country\` column if \`country\` was supplied.
+
+## Details
+
+\# Matching rules
+
+- \`soc_id\`, \`glottocode\`, \`iso_code\`, \`region\`, \`type\`,
+  \`contribution_id\`, \`language_level_glottocodes\`, \`xd_id\`,
+  \`lang_family\`, \`lang_family_id\`:
+
+  Exact match against one or more values (a society matches if its value
+  is in the vector you supply) – or, for every one of these EXCEPT
+  \`type\`, wrap the value(s) in \[contains()\] for a partial/regex
+  match instead (see below).
+
+- \`name\`:
+
+  Case-insensitive partial match (e.g. \`name = "kung"\` matches
+  "!Kung"). Not vectorized – a single search string.
+
+- \`latitude\`, \`longitude\`, \`main_focal_year\`:
+
+  A single value for an exact match, or \`c(min, max)\` for an inclusive
+  range – exact matches are rarely useful for
+  \`latitude\`/\`longitude\`, so a range is almost always what you want
+  there.
+
+- \`country\`:
+
+  One or more country names, matched case-insensitively against
+  \[get_society_country()\]'s reverse-geocoded result (which uses the
+  'maps' package's own country names, e.g. \`"UK"\` and \`"USA"\` rather
+  than the full official names, and can return \`NA\` for a society
+  whose coordinates don't resolve to any mapped country – see that
+  function's documentation). Applied last, and only to societies that
+  already matched every other criterion, since it's the most expensive
+  filter.
+
+\# Partial/regex matching (\[contains()\]) D-PLACE's own categorical
+columns are often more fine-grained than you'd expect – there's no
+region literally called \`"Africa"\`, for instance, only sub-regions
+like \`"Southern Africa"\` and \`"West Tropical Africa"\` (see
+\`unique(dplace_societies\$region)\`). Wrapping a value in
+\[contains()\] switches that argument from an exact match to a
+substring/regex match, so \`get_society(region = contains("Africa"))\`
+matches every region whose name contains "Africa", rather than matching
+nothing the way \`region = "Africa"\` would. This works for \`soc_id\`,
+\`glottocode\`, \`iso_code\`, \`region\`, \`contribution_id\`,
+\`language_level_glottocodes\`, \`xd_id\`, \`lang_family\`, and
+\`lang_family_id\`; it isn't supported for \`type\` (a fixed two-value
+vocabulary), \`name\` (already a partial match by default), \`country\`
+(already case-insensitive), or the numeric arguments.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+get_society(region = "Southern Africa")
+get_society(region = contains("Africa"))
+get_society(name = "kung")
+get_society(latitude = c(3, 15), longitude = c(33, 48)) # rough Ethiopia box
+get_society(country = "Ethiopia")
+get_society(xd_id = "xd1") # !Kung, coded independently by 3 datasets
+get_society(lang_family = "Indo-European")
+} # }
+```

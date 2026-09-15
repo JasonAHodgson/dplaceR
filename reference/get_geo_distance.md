@@ -1,0 +1,118 @@
+# Geographic distance from a point or society to a list of societies
+
+Computes the geographic distance from a single reference point – either
+an existing D-PLACE society or an arbitrary coordinate – to each society
+in a list, using one of three distinct measures selected by \`method\`.
+For distances between all pairs within a set of societies, use
+\[get_pairwise_geo_distance()\] instead; it supports the same three
+\`method\`s and shares this function's dependencies for the two that
+need the 'geoGraph' package.
+
+## Usage
+
+``` r
+get_geo_distance(point, soc_id, method, graph = "worldgraph.10k")
+```
+
+## Arguments
+
+- point:
+
+  Either a single D-PLACE society ID (character, see
+  \[dp_societies()\]), or a named numeric vector of length 2,
+  \`c(longitude = ..., latitude = ...)\`, giving an arbitrary
+  coordinate.
+
+- soc_id:
+
+  Character vector of one or more D-PLACE society IDs to compute the
+  distance to (see \[dp_societies()\]). Unknown IDs, and societies with
+  missing coordinates, are dropped with a warning.
+
+- method:
+
+  One of \`"migration"\`, \`"great_circle"\`, or \`"land_route_km"\` –
+  see Details. There is no default; it must be supplied explicitly.
+
+- graph:
+
+  Name of the bundled geoGraph world graph to route paths through. Only
+  used by \`method = "migration"\` or \`"land_route_km"\`; ignored (and
+  'geoGraph' not required at all) for \`"great_circle"\`. Defaults to
+  \`"worldgraph.10k"\`; \`"worldgraph.40k"\` is available in geoGraph
+  for higher resolution at the cost of speed.
+
+## Value
+
+A tibble with one row per society in \`soc_id\` that has a computable
+distance to \`point\`: \`soc_id\` and \`geo_distance\` (units depend on
+\`method\` – see Details; always km for \`"great_circle"\` and
+\`"land_route_km"\`, arbitrary graph-cost units for \`"migration"\`).
+For the two graph-based methods, if \`point\` snaps to the same
+underlying graph node as a society (possible at coarser resolutions when
+they're close together), a warning is issued; for \`"migration"\` that
+distance is exactly \`0\` (no routing needed between identical nodes),
+while for \`"land_route_km"\` it's the sum of both endpoints' snap
+distances (see Details) rather than \`0\`, since sharing a graph node
+doesn't mean \`point\` and the society have identical real-world
+coordinates. And since sea-crossing edges are removed from the graph, a
+society on a landmass with no land route to \`point\` (e.g. across an
+ocean, on another continent, or on an island) has no computable distance
+– it's dropped from the result and reported in a warning, rather than
+failing the whole call. \`"great_circle"\` has neither restriction:
+every society with valid coordinates gets a row.
+
+## Details
+
+The three \`method\`s are not different estimates of the same thing –
+they measure genuinely different quantities, and there is deliberately
+no default, so every call has to say which one it means:
+
+- \`"migration"\`:
+
+  The number of steps across geoGraph's world grid along the least-cost
+  land route (sea crossings excluded), using the habitat-based cost that
+  ships with the bundled graph – \*\*not\*\* a physical distance of any
+  kind, in km or otherwise, despite returning a plausible-looking
+  number. It's an index of how many grid cells a route has to cross,
+  useful as a proxy for how easy or hard a migration route is (e.g. for
+  isolation-by-distance-style analyses), but not interpretable in
+  real-world units. Requires 'geoGraph'.
+
+- \`"great_circle"\`:
+
+  The straight-line (haversine) distance in km between the two
+  coordinates, ignoring land/sea entirely – the shortest distance "as
+  the crow flies". Needs neither 'geoGraph' nor \`graph\`, is always
+  computable (no connectivity restrictions), and is fast even for very
+  large \`soc_id\` lists.
+
+- \`"land_route_km"\`:
+
+  The actual physical distance in km along the same least-cost land
+  route as \`"migration"\`, but with each grid edge weighted by its true
+  great-circle length rather than an arbitrary habitat-based cost. This
+  is what \`"migration"\` might look like it's giving you, but doesn't –
+  if you want real km that respect land routing (rather than a straight
+  line through oceans), this is the one to use. Requires 'geoGraph'.
+
+\`"land_route_km"\` will always be greater than or equal to
+\`"great_circle"\` for the same pair, since a land route can never be
+shorter than a straight line between the same two points –
+\`"land_route_km"\` includes the distance from each raw coordinate to
+the graph node it snaps to (which can be a meaningful fraction of the
+total for nearby points at \`worldgraph.10k\`'s resolution; use \`graph
+= "worldgraph.40k"\` to shrink it) specifically to guarantee this.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+get_geo_distance("B72", c("B73", "B79"), method = "great_circle")
+get_geo_distance("B72", c("B73", "B79"), method = "land_route_km")
+get_geo_distance(
+  c(longitude = 20, latitude = -20), c("B72", "B73", "B79"),
+  method = "migration"
+)
+} # }
+```

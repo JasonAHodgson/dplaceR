@@ -1,0 +1,143 @@
+# Pairwise cultural distance between societies
+
+Computes a pairwise cultural (dis)similarity between D-PLACE societies
+from the coded states of one or more cultural variables: for each pair
+of societies, and for each requested variable, the two societies either
+match (the same coded state) or don't, and the per-variable results are
+combined across variables into a single measure per pair.
+
+## Usage
+
+``` r
+get_pairwise_cult_distance(
+  soc_id,
+  var_id = NULL,
+  category = NULL,
+  type = NULL,
+  search = NULL,
+  missing = c("pairwise", "complete", "match"),
+  metric = c("proportion", "both", "sum"),
+  type_aware = FALSE
+)
+```
+
+## Arguments
+
+- soc_id:
+
+  Character vector of two or more D-PLACE society IDs (see
+  \[dp_societies()\]). Unknown IDs are dropped with a warning.
+
+- var_id, category, type, search:
+
+  Optional variable-selection criteria: \`var_id\` names variable ID(s)
+  explicitly, while \`category\`, \`type\`, and \`search\` select a
+  subset by searching – all four are passed straight to
+  \[dp_variables()\] and combined with AND, like there (including
+  \[contains()\] support for \`category\`). At least one must be
+  supplied. \`var_id\` values not found (or not matched by the other
+  criteria) are dropped with a warning.
+
+- missing:
+
+  One of \`"pairwise"\` (default), \`"complete"\`, or \`"match"\` – see
+  Details.
+
+- metric:
+
+  One of \`"proportion"\` (default), \`"both"\`, or \`"sum"\` – see
+  Details.
+
+- type_aware:
+
+  Logical; if \`TRUE\`, score ordinal/continuous variables by scaled
+  difference rather than simple match/mismatch. Default \`FALSE\`. See
+  Details.
+
+## Value
+
+A tibble with one row per unique pair of the input societies:
+\`soc_id_1\`, \`soc_id_2\`, and columns determined by \`metric\` (see
+Details). Under \`missing = "pairwise"\`, a pair with no variable in
+common (\`n_compared == 0\`) gets \`cult_distance\` \`NA\` (or, under
+\`metric = "sum"\`, \`n_match\` \`0\`), with a warning.
+
+## Details
+
+\# Missing data (\`missing\`) A society may lack a recorded value for
+one of the requested variables. \`missing\` controls how that's handled:
+
+- \`"pairwise"\` (default):
+
+  For each pair, only variables where BOTH societies have a recorded
+  state are compared; the number of variables compared (\`n_compared\`)
+  can differ from pair to pair.
+
+- \`"complete"\`:
+
+  Societies missing a value for ANY requested variable are dropped from
+  the calculation entirely (with a warning), so every remaining pair is
+  compared on the full set of \`var_id\` (\`n_compared\` is always
+  \`length(var_id)\`).
+
+- \`"match"\`:
+
+  Missingness is treated as its own state: two societies both missing a
+  variable count as matching on it, and a society missing a variable
+  that another has counts as differing on it. Every variable therefore
+  contributes to every pair (\`n_compared\` is always
+  \`length(var_id)\`).
+
+\# Combining variables (\`metric\`)
+
+- \`"proportion"\` (default):
+
+  Returns a single \`cult_distance\` column: the proportion of compared
+  variables the two societies differ on (\`0\` = identical on everything
+  compared, \`1\` = differ on everything compared).
+
+- \`"both"\`:
+
+  Also returns the underlying \`n_match\` (sum of per-variable
+  similarity) and \`n_compared\` counts alongside \`cult_distance\`.
+
+- \`"sum"\`:
+
+  Returns only \`n_match\`: the raw, unnormalized sum of per-variable
+  similarity across the compared variables – how many (or, with
+  \`type_aware = TRUE\`, how much) of the compared variables the two
+  societies share. Not comparable between pairs with different
+  \`n_compared\` (see \`"both"\` or \`"proportion"\` for that).
+
+\# Variable type (\`type_aware\`) By default (\`type_aware = FALSE\`)
+every variable is scored the same way: identical coded state =
+similarity \`1\`, anything else = \`0\`, regardless of whether D-PLACE
+calls the variable categorical, ordinal, or continuous. With
+\`type_aware = TRUE\`, categorical variables are still scored this way,
+but ordinal and continuous variables instead score \*partial\*
+similarity based on how far apart the two states are: for ordinal
+variables, using the code's rank (\[dp_codes()\]'s \`ord\` column); for
+continuous variables, using the numeric value. In both cases the
+absolute difference is rescaled by the variable's range across \*all\*
+societies that have a recorded value for it (in the full bundled
+dataset, not just \`soc_id\`), so a small difference on a wide-ranging
+variable counts for less than the same difference on a narrow one. A
+variable with zero range (a single observed state/value across the whole
+dataset) falls back to simple match/mismatch for that variable.
+
+Societies with multiple recorded observations for the same variable (a
+small number of variables in D-PLACE have more than one, from different
+sources/years) are collapsed to a single value per society/variable
+before comparison: the most recent by \`year\` where known, otherwise
+the first recorded. A warning reports how many society/variable
+combinations were collapsed this way; use \[dp_values()\] yourself first
+if you want different control over this.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+get_pairwise_cult_distance(c("B72", "B73", "B79"), var_id = c("B004", "B005"))
+get_pairwise_cult_distance(c("B72", "B73", "B79"), category = contains("Subsistence"))
+} # }
+```

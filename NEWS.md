@@ -41,6 +41,31 @@
   (via `get_society_country()` and the 'maps' package) applied last, after
   every other criterion has narrowed the search. All supplied criteria
   combine with AND.
+* `get_pairwise_language_distance()` and `get_language_distance()` compute
+  linguistic (branch-length/"patristic") distance between societies' languages
+  on a bundled D-PLACE language tree (`dp_trees()`/`dp_tree()`), mirroring
+  `get_pairwise_geo_distance()`/`get_geo_distance()`'s pairwise/single-point
+  split. Societies are matched to tree tips via `glottocode`, falling back to
+  `language_level_glottocodes` when it names a single Glottocode;
+  `get_language_distance()`'s `point` can be a D-PLACE society ID or a bare
+  Glottocode. Two important caveats: branch length units are NOT consistent
+  across D-PLACE's 114 bundled trees -- most are Glottolog's own family
+  classification trees with small arbitrary integer branch lengths
+  (classification depth, not time), while a minority are real dated
+  phylogenies with branch lengths plausibly in years (check `dp_trees()`'s
+  `source` column, and see the functions' documentation for details) -- so
+  distances from different trees should not be treated as comparable; and a
+  pair/society whose language is on a different tree entirely has no distance
+  at all. A required `cross_tree` argument (no default) controls that second
+  case: `"na"` records `NA` with a summarizing warning; a planned
+  `"join_root"` option (graft the two trees at the root, using a `multiplier`
+  of the larger tree's own root-to-tip depth as the cross-tree distance) is
+  **not implemented yet** -- no established method for this was found (a
+  literature/web search turned up nothing beyond supertree methods, which
+  require overlapping taxa and don't apply here), and it needs more thought
+  given the units caveat above, so `cross_tree = "join_root"` currently
+  errors explaining this; `multiplier` (default `2`) is reserved in the
+  signature for when it ships.
 * Bug fix: `get_geo_distance()` and `get_pairwise_geo_distance()` no longer
   fail their whole call ("Not all nodes are connected by the graph.") when
   some requested societies have no land route to each other (e.g. they're on

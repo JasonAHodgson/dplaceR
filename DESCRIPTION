@@ -42,6 +42,8 @@ Suggests:
     testthat (>= 3.0.0),
     knitr,
     rmarkdown
+Remotes:
+    EvolEcolGroup/geograph
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 Note: geoGraph (used by get_pairwise_geo_distance() and get_geo_distance())

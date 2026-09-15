@@ -215,3 +215,31 @@
   error) for an unknown society ID, a society with no `xd_id`, or an
   `xd_id` that currently has no other society sharing it -- as long as at
   least one requested society has an `xd_id` at all.
+* `dplace_societies` gains `lang_family_id`/`lang_family` columns: each
+  society's top-level Glottolog language family (e.g.
+  `lang_family_id = "indo1319"`, `lang_family = "Indo-European"`). Named
+  `lang_family*` (not plain `family`) to avoid clashing with D-PLACE's own
+  "family" cultural/kinship variables, which mean something unrelated.
+  D-PLACE's own CLDF data has no family classification at all (only a leaf
+  Glottocode per society), so this is joined in from a separate, pinned
+  Glottolog CLDF release (see `dplace_meta`'s new
+  `glottolog_version`/`glottolog_source_repo` columns, and `dp_citation()`,
+  which now reports it too) -- every one of the 2837 distinct Glottocodes
+  in the bundled D-PLACE snapshot matched. An isolate (a language with no
+  known relatives, e.g. Zuni) is its own top-level family, so
+  `lang_family`/`lang_family_id` equal the language's own name/Glottocode
+  in that case; `NA` for the small number of societies with no `glottocode`
+  at all. `lang_family`/`lang_family_id` are now filter arguments on both
+  `dp_societies()` and `get_society()`, with full `contains()` support --
+  e.g. `get_society(lang_family = "Indo-European")` or
+  `dp_societies(lang_family = contains("Austro"))` to match both
+  Austroasiatic and Austronesian at once.
+* `dp_lang_family_list()` returns a sorted character vector of every
+  distinct top-level language family among coded (`type = "society"`)
+  societies -- a quick way to see what's available before filtering by
+  `lang_family`.
+* `dp_lang_family_table()` returns a two-column tibble (`lang_family`,
+  `n_societies`), one row per family in the same order as
+  `dp_lang_family_list()`, counting how many coded societies belong to each
+  -- a quick way to see which families are well represented before
+  filtering by one.

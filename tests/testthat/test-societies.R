@@ -62,3 +62,23 @@ test_that("dp_societies filters by xd_id (with contains() support)", {
 
   expect_equal(nrow(dp_societies(xd_id = "not-a-real-xd-id")), 0)
 })
+
+test_that("dp_societies filters by lang_family/lang_family_id (with contains() support)", {
+  out <- dp_societies(lang_family = "Indo-European")
+  expect_true(nrow(out) > 0)
+  expect_true(all(out$lang_family == "Indo-European"))
+  expect_true(all(out$lang_family_id == "indo1319"))
+
+  out2 <- dp_societies(lang_family_id = "indo1319")
+  expect_identical(sort(out$soc_id), sort(out2$soc_id))
+
+  out3 <- dp_societies(lang_family = contains("Austro"))
+  expect_setequal(out3$lang_family, c("Austroasiatic", "Austronesian"))
+
+  # An isolate is its own top-level family.
+  out4 <- dp_societies(lang_family = "Zuni")
+  expect_true(nrow(out4) > 0)
+  expect_true(all(out4$lang_family_id == "zuni1245"))
+
+  expect_equal(nrow(dp_societies(lang_family = "not-a-real-family")), 0)
+})

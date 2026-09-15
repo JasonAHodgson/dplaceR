@@ -17,7 +17,9 @@ get_society(
   main_focal_year = NULL,
   language_level_glottocodes = NULL,
   contribution_id = NULL,
-  xd_id = NULL
+  xd_id = NULL,
+  lang_family = NULL,
+  lang_family_id = NULL
 )
 }
 \arguments{
@@ -43,6 +45,17 @@ Matching rules. Requires the 'maps' package. Does not support
 
 \item{latitude, longitude, main_focal_year}{Optional single value (exact)
 or `c(min, max)` (inclusive range) -- see Matching rules.}
+
+\item{lang_family, lang_family_id}{Optional character vector(s) for an
+exact match, or [contains()] for a partial/regex match -- see Matching
+rules. `lang_family` is the society's top-level Glottolog language
+family name (e.g. `"Indo-European"`); `lang_family_id` its Glottocode
+(e.g. `"indo1319"`), more stable across any future family renaming. An
+isolate (e.g. `"Zuni"`) is its own top-level family. Named
+`lang_family*` (not plain `family`) to avoid clashing with D-PLACE's
+own "family" cultural/kinship variables, which mean something
+unrelated. See [dp_lang_family_list()] for the full list of available
+families.}
 }
 \value{
 A tibble of matching societies (see [dplace_societies] for
@@ -59,11 +72,11 @@ combine with AND); omit (leave `NULL`) any you don't want to filter on.
 # Matching rules
 \describe{
   \item{`soc_id`, `glottocode`, `iso_code`, `region`, `type`,
-    `contribution_id`, `language_level_glottocodes`, `xd_id`}{Exact match
-    against one or more values (a society matches if its value is in the
-    vector you supply) -- or, for every one of these EXCEPT `type`, wrap
-    the value(s) in [contains()] for a partial/regex match instead (see
-    below).}
+    `contribution_id`, `language_level_glottocodes`, `xd_id`,
+    `lang_family`, `lang_family_id`}{Exact match against one or more
+    values (a society matches if its value is in the vector you supply)
+    -- or, for every one of these EXCEPT `type`, wrap the value(s) in
+    [contains()] for a partial/regex match instead (see below).}
   \item{`name`}{Case-insensitive partial match (e.g. `name = "kung"`
     matches "!Kung"). Not vectorized -- a single search string.}
   \item{`latitude`, `longitude`, `main_focal_year`}{A single value for
@@ -90,9 +103,10 @@ switches that argument from an exact match to a substring/regex match, so
 name contains "Africa", rather than matching nothing the way
 `region = "Africa"` would. This works for `soc_id`, `glottocode`,
 `iso_code`, `region`, `contribution_id`, `language_level_glottocodes`,
-and `xd_id`; it isn't supported for `type` (a fixed two-value
-vocabulary), `name` (already a partial match by default), `country`
-(already case-insensitive), or the numeric arguments.
+`xd_id`, `lang_family`, and `lang_family_id`; it isn't supported for
+`type` (a fixed two-value vocabulary), `name` (already a partial match by
+default), `country` (already case-insensitive), or the numeric
+arguments.
 }
 \examples{
 \dontrun{
@@ -102,6 +116,7 @@ get_society(name = "kung")
 get_society(latitude = c(3, 15), longitude = c(33, 48)) # rough Ethiopia box
 get_society(country = "Ethiopia")
 get_society(xd_id = "xd1") # !Kung, coded independently by 3 datasets
+get_society(lang_family = "Indo-European")
 }
 
 }

@@ -9,11 +9,11 @@
 #' # Matching rules
 #' \describe{
 #'   \item{`soc_id`, `glottocode`, `iso_code`, `region`, `type`,
-#'     `contribution_id`, `language_level_glottocodes`, `xd_id`}{Exact match
-#'     against one or more values (a society matches if its value is in the
-#'     vector you supply) -- or, for every one of these EXCEPT `type`, wrap
-#'     the value(s) in [contains()] for a partial/regex match instead (see
-#'     below).}
+#'     `contribution_id`, `language_level_glottocodes`, `xd_id`,
+#'     `lang_family`, `lang_family_id`}{Exact match against one or more
+#'     values (a society matches if its value is in the vector you supply)
+#'     -- or, for every one of these EXCEPT `type`, wrap the value(s) in
+#'     [contains()] for a partial/regex match instead (see below).}
 #'   \item{`name`}{Case-insensitive partial match (e.g. `name = "kung"`
 #'     matches "!Kung"). Not vectorized -- a single search string.}
 #'   \item{`latitude`, `longitude`, `main_focal_year`}{A single value for
@@ -40,9 +40,10 @@
 #' name contains "Africa", rather than matching nothing the way
 #' `region = "Africa"` would. This works for `soc_id`, `glottocode`,
 #' `iso_code`, `region`, `contribution_id`, `language_level_glottocodes`,
-#' and `xd_id`; it isn't supported for `type` (a fixed two-value
-#' vocabulary), `name` (already a partial match by default), `country`
-#' (already case-insensitive), or the numeric arguments.
+#' `xd_id`, `lang_family`, and `lang_family_id`; it isn't supported for
+#' `type` (a fixed two-value vocabulary), `name` (already a partial match by
+#' default), `country` (already case-insensitive), or the numeric
+#' arguments.
 #'
 #' @param soc_id,glottocode,iso_code,region,contribution_id,language_level_glottocodes,xd_id
 #'   Optional character vector(s) for an exact match, or [contains()] for a
@@ -51,6 +52,16 @@
 #'   that code the same real-world group -- see
 #'   [get_related_societies()] for finding one in the first place. Most
 #'   societies have no `xd_id` (`NA`) and so never match.
+#' @param lang_family,lang_family_id Optional character vector(s) for an
+#'   exact match, or [contains()] for a partial/regex match -- see Matching
+#'   rules. `lang_family` is the society's top-level Glottolog language
+#'   family name (e.g. `"Indo-European"`); `lang_family_id` its Glottocode
+#'   (e.g. `"indo1319"`), more stable across any future family renaming. An
+#'   isolate (e.g. `"Zuni"`) is its own top-level family. Named
+#'   `lang_family*` (not plain `family`) to avoid clashing with D-PLACE's
+#'   own "family" cultural/kinship variables, which mean something
+#'   unrelated. See [dp_lang_family_list()] for the full list of available
+#'   families.
 #' @param type Character; which row type(s) to include. Defaults to
 #'   `"society"` (societies with coded cultural data, excluding the
 #'   language-only "languoid" rows referenced only by a phylogeny); use
@@ -76,6 +87,7 @@
 #' get_society(latitude = c(3, 15), longitude = c(33, 48)) # rough Ethiopia box
 #' get_society(country = "Ethiopia")
 #' get_society(xd_id = "xd1") # !Kung, coded independently by 3 datasets
+#' get_society(lang_family = "Indo-European")
 #' }
 #'
 #' @export
@@ -83,7 +95,8 @@ get_society <- function(soc_id = NULL, name = NULL, glottocode = NULL,
                          iso_code = NULL, region = NULL, type = "society",
                          country = NULL, latitude = NULL, longitude = NULL,
                          main_focal_year = NULL, language_level_glottocodes = NULL,
-                         contribution_id = NULL, xd_id = NULL) {
+                         contribution_id = NULL, xd_id = NULL, lang_family = NULL,
+                         lang_family_id = NULL) {
   .gs_reject_contains(type, "type", "it only accepts \"society\"/\"languoid\"")
   .gs_reject_contains(name, "name", "it's already a partial, case-insensitive match by default")
   .gs_reject_contains(country, "country", "it's already matched case-insensitively; pass plain country name(s) instead")
@@ -116,6 +129,12 @@ get_society <- function(soc_id = NULL, name = NULL, glottocode = NULL,
   }
   if (!is.null(xd_id)) {
     out <- out[.gs_match_column(out$xd_id, xd_id, "xd_id"), , drop = FALSE]
+  }
+  if (!is.null(lang_family)) {
+    out <- out[.gs_match_column(out$lang_family, lang_family, "lang_family"), , drop = FALSE]
+  }
+  if (!is.null(lang_family_id)) {
+    out <- out[.gs_match_column(out$lang_family_id, lang_family_id, "lang_family_id"), , drop = FALSE]
   }
   if (!is.null(name)) {
     out <- out[!is.na(out$name) & grepl(name, out$name, ignore.case = TRUE), , drop = FALSE]

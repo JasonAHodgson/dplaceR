@@ -6,7 +6,10 @@
 \title{Metadata about the bundled D-PLACE snapshot}
 \format{
 A tibble with columns `cldf_version`, `source_repo`,
-  `prepared_on`, `citation`, and `data_license`.
+  `glottolog_version`, `glottolog_source_repo` (the separate Glottolog
+  CLDF release [dplace_societies]'s `lang_family`/`lang_family_id`
+  columns are joined from -- D-PLACE's own CLDF data has no language
+  family classification), `prepared_on`, `citation`, and `data_license`.
 }
 \usage{
 dplace_meta

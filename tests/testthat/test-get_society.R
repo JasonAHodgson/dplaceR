@@ -39,6 +39,25 @@ test_that("xd_id filters by cross-dataset ID (with contains() support)", {
   expect_equal(out3$soc_id, "B72")
 })
 
+test_that("lang_family/lang_family_id filter by top-level language family (with contains() support)", {
+  out <- get_society(lang_family = "Indo-European")
+  expect_true(nrow(out) > 0)
+  expect_true(all(out$lang_family == "Indo-European"))
+  expect_true(all(out$lang_family_id == "indo1319"))
+
+  out2 <- get_society(lang_family_id = "indo1319")
+  expect_identical(sort(out$soc_id), sort(out2$soc_id))
+
+  out3 <- get_society(lang_family = contains("Austro"))
+  expect_setequal(out3$lang_family, c("Austroasiatic", "Austronesian"))
+
+  expect_equal(nrow(get_society(lang_family = "not-a-real-family")), 0)
+
+  # combines with AND like the other exact-match filters
+  out4 <- get_society(lang_family = "Indo-European", soc_id = "B10")
+  expect_equal(out4$soc_id, "B10")
+})
+
 test_that("name does a case-insensitive partial match", {
   out <- get_society(name = "kung")
   expect_true("B72" %in% out$soc_id)

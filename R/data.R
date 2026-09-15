@@ -27,10 +27,27 @@
 #'     the same real-world group share an `xd_id` -- e.g. the !Kung are
 #'     coded separately by Binford, the Ethnographic Atlas, and the SCCS,
 #'     and all three share `xd_id = "xd1"`. See [get_related_societies()].}
+#'   \item{lang_family_id, lang_family}{Character. The society's top-level
+#'     Glottolog language family -- named `lang_family*` (not plain
+#'     `family`) to avoid clashing with D-PLACE's own "family"
+#'     cultural/kinship variables, which mean something unrelated.
+#'     `lang_family_id` is a stable Glottocode (e.g. `"indo1319"`),
+#'     `lang_family` its human-readable name (e.g. `"Indo-European"`). An
+#'     isolate (a language with no known relatives, e.g. Zuni) is its own
+#'     top-level family, so `lang_family`/`lang_family_id` equal the
+#'     language's own name/Glottocode in that case. `NA` for the ~1.5% of
+#'     societies with no `glottocode`. Not part of D-PLACE's own CLDF data
+#'     -- joined in from a separate Glottolog release; see [dplace_meta]'s
+#'     `glottolog_version`. See [dp_lang_family_list()] and
+#'     [dp_lang_family_table()] for browsing the available families.}
 #' }
 #' @source D-PLACE CLDF dataset, \url{https://github.com/D-PLACE/dplace-cldf}.
 #'   See [dplace_meta] for the exact release bundled with this package.
-#' @seealso [dp_societies()], [get_related_societies()]
+#'   `lang_family_id`/`lang_family` are instead joined in from Glottolog's
+#'   own CLDF release, \url{https://github.com/glottolog/glottolog-cldf} --
+#'   see [dplace_meta]'s `glottolog_version`/`glottolog_source_repo`.
+#' @seealso [dp_societies()], [get_related_societies()],
+#'   [dp_lang_family_list()], [dp_lang_family_table()]
 "dplace_societies"
 
 #' Cultural and environmental variables in D-PLACE
@@ -161,6 +178,9 @@
 #' with this version of dplaceR, when it was prepared, and how to cite it.
 #'
 #' @format A tibble with columns `cldf_version`, `source_repo`,
-#'   `prepared_on`, `citation`, and `data_license`.
+#'   `glottolog_version`, `glottolog_source_repo` (the separate Glottolog
+#'   CLDF release [dplace_societies]'s `lang_family`/`lang_family_id`
+#'   columns are joined from -- D-PLACE's own CLDF data has no language
+#'   family classification), `prepared_on`, `citation`, and `data_license`.
 #' @seealso [dp_citation()]
 "dplace_meta"

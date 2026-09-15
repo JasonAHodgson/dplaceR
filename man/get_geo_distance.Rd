@@ -27,7 +27,7 @@ geoGraph for higher resolution at the cost of speed.}
 }
 \value{
 A tibble with one row per society in `soc_id` that has a
-  computable distance to `point`: `soc_id` and `distance` (units depend on
+  computable distance to `point`: `soc_id` and `geo_distance` (units depend on
   `method` -- see Details; always km for `"great_circle"` and
   `"land_route_km"`, arbitrary graph-cost units for `"migration"`). For
   the two graph-based methods, if `point` snaps to the same underlying

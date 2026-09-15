@@ -46,19 +46,19 @@ test_that("missing = 'pairwise' (default) only compares variables both societies
   r <- pair_row(out, "SCCS11", "SCCS12")
   expect_equal(r$n_compared, 2)
   expect_equal(r$n_match, 0)
-  expect_equal(r$distance, 1)
+  expect_equal(r$cult_distance, 1)
 
   # SCCS11-SCCS3: SCCS202 excluded (SCCS3 missing it), only SCCS10 compared (mismatch)
   r <- pair_row(out, "SCCS11", "SCCS3")
   expect_equal(r$n_compared, 1)
   expect_equal(r$n_match, 0)
-  expect_equal(r$distance, 1)
+  expect_equal(r$cult_distance, 1)
 
   # SCCS12-SCCS3: SCCS202 excluded, only SCCS10 compared (match: both Large Game)
   r <- pair_row(out, "SCCS12", "SCCS3")
   expect_equal(r$n_compared, 1)
   expect_equal(r$n_match, 1)
-  expect_equal(r$distance, 0)
+  expect_equal(r$cult_distance, 0)
 })
 
 test_that("missing = 'complete' drops societies with any missing variable", {
@@ -73,7 +73,7 @@ test_that("missing = 'complete' drops societies with any missing variable", {
   expect_equal(sort(c(out$soc_id_1, out$soc_id_2)), c("SCCS11", "SCCS12"))
   expect_equal(out$n_compared, 2)
   expect_equal(out$n_match, 0)
-  expect_equal(out$distance, 1)
+  expect_equal(out$cult_distance, 1)
 })
 
 test_that("missing = 'match' treats missingness as its own state", {
@@ -85,24 +85,24 @@ test_that("missing = 'match' treats missingness as its own state", {
   r <- pair_row(out, "SCCS11", "SCCS12")
   expect_equal(r$n_compared, 2)
   expect_equal(r$n_match, 0)
-  expect_equal(r$distance, 1)
+  expect_equal(r$cult_distance, 1)
 
   # SCCS11-SCCS3: SCCS202 mismatch (present vs missing), SCCS10 mismatch -> 0/2
   r <- pair_row(out, "SCCS11", "SCCS3")
   expect_equal(r$n_compared, 2)
   expect_equal(r$n_match, 0)
-  expect_equal(r$distance, 1)
+  expect_equal(r$cult_distance, 1)
 
   # SCCS12-SCCS3: SCCS202 mismatch (present vs missing), SCCS10 match -> 1/2
   r <- pair_row(out, "SCCS12", "SCCS3")
   expect_equal(r$n_compared, 2)
   expect_equal(r$n_match, 1)
-  expect_equal(r$distance, 0.5)
+  expect_equal(r$cult_distance, 0.5)
 })
 
 test_that("metric controls which columns are returned", {
   out_prop <- get_pairwise_cult_distance(c("B72", "B73", "B79"), var_id = c("B004", "B005"))
-  expect_named(out_prop, c("soc_id_1", "soc_id_2", "distance"))
+  expect_named(out_prop, c("soc_id_1", "soc_id_2", "cult_distance"))
 
   out_sum <- get_pairwise_cult_distance(
     c("B72", "B73", "B79"), var_id = c("B004", "B005"), metric = "sum"
@@ -112,16 +112,16 @@ test_that("metric controls which columns are returned", {
   out_both <- get_pairwise_cult_distance(
     c("B72", "B73", "B79"), var_id = c("B004", "B005"), metric = "both"
   )
-  expect_named(out_both, c("soc_id_1", "soc_id_2", "n_match", "n_compared", "distance"))
+  expect_named(out_both, c("soc_id_1", "soc_id_2", "n_match", "n_compared", "cult_distance"))
 
   # B004: B72 = B73 = B79 = Gathering (all match)
   # B005: B72 = B79 = B005-1, B73 = B005-2 (B73 mismatches the other two)
   expect_equal(pair_row(out_both, "B72", "B73")$n_match, 1)
   expect_equal(pair_row(out_both, "B72", "B79")$n_match, 2)
   expect_equal(pair_row(out_both, "B73", "B79")$n_match, 1)
-  expect_equal(pair_row(out_both, "B72", "B73")$distance, 0.5)
-  expect_equal(pair_row(out_both, "B72", "B79")$distance, 0)
-  expect_equal(pair_row(out_both, "B73", "B79")$distance, 0.5)
+  expect_equal(pair_row(out_both, "B72", "B73")$cult_distance, 0.5)
+  expect_equal(pair_row(out_both, "B72", "B79")$cult_distance, 0)
+  expect_equal(pair_row(out_both, "B73", "B79")$cult_distance, 0.5)
 })
 
 test_that("type_aware = FALSE (default) uses exact match even for continuous variables", {
@@ -177,5 +177,5 @@ test_that("pairs with no variable in common get NA distance and a warning", {
     out <- get_pairwise_cult_distance(c("SCCS11", "SCCS3"), var_id = "SCCS202"),
     "No requested variable had data"
   )
-  expect_true(is.na(out$distance))
+  expect_true(is.na(out$cult_distance))
 })

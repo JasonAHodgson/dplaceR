@@ -59,7 +59,7 @@
 #'   geoGraph for higher resolution at the cost of speed.
 #'
 #' @return A tibble with one row per society in `soc_id` that has a
-#'   computable distance to `point`: `soc_id` and `distance` (units depend on
+#'   computable distance to `point`: `soc_id` and `geo_distance` (units depend on
 #'   `method` -- see Details; always km for `"great_circle"` and
 #'   `"land_route_km"`, arbitrary graph-cost units for `"migration"`). For
 #'   the two graph-based methods, if `point` snaps to the same underlying
@@ -122,12 +122,12 @@ get_geo_distance <- function(point, soc_id, method, graph = "worldgraph.10k") {
     # unname(): indexing a single row/column out of a matrix keeps the
     # column's dimname as the resulting scalar's name (e.g. "longitude"),
     # which would otherwise silently propagate through the arithmetic below
-    # and onto the `distance` column itself.
+    # and onto the `geo_distance` column itself.
     d <- .geo_dist_haversine_km(
       unname(point_coord[1, "longitude"]), unname(point_coord[1, "latitude"]),
       soc$longitude, soc$latitude
     )
-    return(tibble::tibble(soc_id = soc$soc_id, distance = d))
+    return(tibble::tibble(soc_id = soc$soc_id, geo_distance = d))
   }
 
   # From here on, `method` is "migration" or "land_route_km" -- both route
@@ -216,8 +216,8 @@ get_geo_distance <- function(point, soc_id, method, graph = "worldgraph.10k") {
     )
   }
 
-  distance <- rep(NA_real_, nrow(soc))
-  distance[same_as_point] <- 0
+  geo_distance <- rep(NA_real_, nrow(soc))
+  geo_distance[same_as_point] <- 0
 
   if (any(!same_as_point)) {
     query_g_data <- methods::new(
@@ -268,7 +268,7 @@ get_geo_distance <- function(point, soc_id, method, graph = "worldgraph.10k") {
         call. = FALSE
       )
     }
-    distance[!same_as_point] <- d
+    geo_distance[!same_as_point] <- d
   }
 
   if (method == "land_route_km") {
@@ -293,12 +293,12 @@ get_geo_distance <- function(point, soc_id, method, graph = "worldgraph.10k") {
       unname(node_coords[node_ids, 1]), unname(node_coords[node_ids, 2]),
       unname(coords[, "longitude"]), unname(coords[, "latitude"])
     )
-    distance <- distance + point_snap_km + soc_snap_km
+    geo_distance <- geo_distance + point_snap_km + soc_snap_km
   }
 
   tibble::tibble(
     soc_id = soc$soc_id,
-    distance = distance
+    geo_distance = geo_distance
   )
 }
 

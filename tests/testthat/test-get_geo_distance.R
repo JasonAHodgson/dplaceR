@@ -35,7 +35,7 @@ test_that("get_geo_distance errors informatively without geoGraph, only for grap
   )
   # great_circle needs no graph at all, so it should work even without geoGraph.
   out <- get_geo_distance("B72", c("B73", "B79"), method = "great_circle")
-  expect_true(all(out$distance >= 0))
+  expect_true(all(out$geo_distance >= 0))
 })
 
 test_that("get_geo_distance great_circle needs no geoGraph and has no connectivity restrictions", {
@@ -44,12 +44,12 @@ test_that("get_geo_distance great_circle needs no geoGraph and has no connectivi
   # great-circle distance is always computable regardless.
   out <- get_geo_distance("B72", c("B73", "WNAI8"), method = "great_circle")
   expect_s3_class(out, "tbl_df")
-  expect_named(out, c("soc_id", "distance"))
+  expect_named(out, c("soc_id", "geo_distance"))
   expect_equal(sort(out$soc_id), c("B73", "WNAI8"))
-  expect_true(all(out$distance > 0))
+  expect_true(all(out$geo_distance > 0))
   # WNAI8 is much further from B72 than B73 is (both roughly Southern Africa).
   expect_true(
-    out$distance[out$soc_id == "WNAI8"] > out$distance[out$soc_id == "B73"]
+    out$geo_distance[out$soc_id == "WNAI8"] > out$geo_distance[out$soc_id == "B73"]
   )
 })
 
@@ -71,16 +71,16 @@ test_that("get_geo_distance great_circle matches an independently computed haver
   expected_km <- R * 2 * atan2(sqrt(a), sqrt(1 - a))
 
   out <- get_geo_distance("B72", "B79", method = "great_circle")
-  expect_equal(out$distance, expected_km, tolerance = 1e-6)
+  expect_equal(out$geo_distance, expected_km, tolerance = 1e-6)
 })
 
 test_that("get_geo_distance returns one row per society, from a society point (migration)", {
   skip_if_not_installed("geoGraph")
   out <- get_geo_distance("B72", c("B73", "B79"), method = "migration")
   expect_s3_class(out, "tbl_df")
-  expect_named(out, c("soc_id", "distance"))
+  expect_named(out, c("soc_id", "geo_distance"))
   expect_equal(sort(out$soc_id), c("B73", "B79"))
-  expect_true(all(out$distance >= 0))
+  expect_true(all(out$geo_distance >= 0))
 })
 
 test_that("get_geo_distance (migration) from a society point matches get_pairwise_geo_distance (migration)", {
@@ -89,12 +89,12 @@ test_that("get_geo_distance (migration) from a society point matches get_pairwis
   one_vs_many <- get_geo_distance("B72", c("B73", "B79"), method = "migration")
 
   expect_equal(
-    one_vs_many$distance[one_vs_many$soc_id == "B73"],
-    pairwise$distance[pairwise$soc_id_1 == "B72" & pairwise$soc_id_2 == "B73"]
+    one_vs_many$geo_distance[one_vs_many$soc_id == "B73"],
+    pairwise$geo_distance[pairwise$soc_id_1 == "B72" & pairwise$soc_id_2 == "B73"]
   )
   expect_equal(
-    one_vs_many$distance[one_vs_many$soc_id == "B79"],
-    pairwise$distance[pairwise$soc_id_1 == "B72" & pairwise$soc_id_2 == "B79"]
+    one_vs_many$geo_distance[one_vs_many$soc_id == "B79"],
+    pairwise$geo_distance[pairwise$soc_id_1 == "B72" & pairwise$soc_id_2 == "B79"]
   )
 })
 
@@ -111,8 +111,8 @@ test_that("get_geo_distance matches get_pairwise_geo_distance for a larger set (
   expect_equal(nrow(one_vs_many), length(ids) - 1)
   for (id in setdiff(ids, "B72")) {
     expect_equal(
-      one_vs_many$distance[one_vs_many$soc_id == id],
-      pairwise$distance[
+      one_vs_many$geo_distance[one_vs_many$soc_id == id],
+      pairwise$geo_distance[
         (pairwise$soc_id_1 == "B72" & pairwise$soc_id_2 == id) |
           (pairwise$soc_id_1 == id & pairwise$soc_id_2 == "B72")
       ],
@@ -152,9 +152,9 @@ test_that("get_geo_distance accepts an arbitrary coordinate point (migration)", 
   # plain, uncomplicated "point vs a distinct society" check.
   out <- get_geo_distance(c(longitude = 21.2, latitude = -20), c("B72", "B79"), method = "migration")
   expect_equal(nrow(out), 2)
-  expect_true(all(out$distance >= 0))
+  expect_true(all(out$geo_distance >= 0))
   # B72 itself is at (21.2, -20) -- distance from that point to B72 should be ~0
-  expect_equal(out$distance[out$soc_id == "B72"], 0, tolerance = 1)
+  expect_equal(out$geo_distance[out$soc_id == "B72"], 0, tolerance = 1)
 })
 
 test_that("get_geo_distance records distance 0 (with a warning) for societies sharing `point`'s graph node (migration)", {
@@ -168,8 +168,8 @@ test_that("get_geo_distance records distance 0 (with a warning) for societies sh
     out <- get_geo_distance("B72", c("B73", "B79"), method = "migration"),
     "snapped to the same graph node as: B73"
   )
-  expect_equal(out$distance[out$soc_id == "B73"], 0)
-  expect_true(out$distance[out$soc_id == "B79"] > 0)
+  expect_equal(out$geo_distance[out$soc_id == "B73"], 0)
+  expect_true(out$geo_distance[out$soc_id == "B79"] > 0)
 })
 
 test_that("get_geo_distance land_route_km returns real km, at least as large as great_circle", {
@@ -184,8 +184,8 @@ test_that("get_geo_distance land_route_km returns real km, at least as large as 
   expect_true(length(common) > 0)
   for (id in common) {
     expect_gte(
-      lr$distance[lr$soc_id == id],
-      gc$distance[gc$soc_id == id] - 1e-6 # a land route can't be shorter than a straight line
+      lr$geo_distance[lr$soc_id == id],
+      gc$geo_distance[gc$soc_id == id] - 1e-6 # a land route can't be shorter than a straight line
     )
   }
 })
@@ -204,10 +204,10 @@ test_that("get_geo_distance land_route_km reflects real distance, not 0, even wh
   )
   gc <- get_geo_distance("B72", c("B73", "B79"), method = "great_circle")
 
-  expect_true(lr$distance[lr$soc_id == "B73"] > 0)
+  expect_true(lr$geo_distance[lr$soc_id == "B73"] > 0)
   expect_gte(
-    lr$distance[lr$soc_id == "B73"],
-    gc$distance[gc$soc_id == "B73"] - 1e-6
+    lr$geo_distance[lr$soc_id == "B73"],
+    gc$geo_distance[gc$soc_id == "B73"] - 1e-6
   )
 })
 

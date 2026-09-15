@@ -87,7 +87,7 @@
 #'   resolution at the cost of speed.
 #'
 #' @return A tibble with one row per unique pair of the input societies:
-#'   `soc_id_1`, `soc_id_2`, and `distance` (units depend on `method` -- see
+#'   `soc_id_1`, `soc_id_2`, and `geo_distance` (units depend on `method` -- see
 #'   Details; always km for `"great_circle"` and `"land_route_km"`,
 #'   arbitrary graph-cost units for `"migration"`). For the two graph-based
 #'   methods, if two societies snap to the same underlying graph node
@@ -100,7 +100,7 @@
 #'   for finer resolution in that case. Since
 #'   sea-crossing edges are removed from the graph, it isn't fully connected
 #'   -- a pair of societies with no land route between them (e.g. on
-#'   different continents, or either on an island) gets `distance = NA`,
+#'   different continents, or either on an island) gets `geo_distance = NA`,
 #'   with a warning summarizing how many such pairs were found, rather than
 #'   failing the whole call. `"great_circle"` has neither restriction: every
 #'   pair of societies with valid coordinates gets a row.
@@ -157,7 +157,7 @@ get_pairwise_geo_distance <- function(soc_id, method, graph = "worldgraph.10k") 
     return(tibble::tibble(
       soc_id_1 = soc$soc_id[pairs_idx[1, ]],
       soc_id_2 = soc$soc_id[pairs_idx[2, ]],
-      distance = d
+      geo_distance = d
     ))
   }
 
@@ -311,7 +311,7 @@ get_pairwise_geo_distance <- function(soc_id, method, graph = "worldgraph.10k") 
       n_unreachable, " pair(s) of societies have no land route between them ",
       "by this graph (they fall into ", length(groups), " landmass group(s) ",
       "with no land connection to each other -- e.g. different continents ",
-      "or islands) and are recorded as `distance = NA`.",
+      "or islands) and are recorded as `geo_distance = NA`.",
       call. = FALSE
     )
   }
@@ -342,6 +342,6 @@ get_pairwise_geo_distance <- function(soc_id, method, graph = "worldgraph.10k") 
   tibble::tibble(
     soc_id_1 = soc$soc_id[pairs_idx[1, ]],
     soc_id_2 = soc$soc_id[pairs_idx[2, ]],
-    distance = d
+    geo_distance = d
   )
 }

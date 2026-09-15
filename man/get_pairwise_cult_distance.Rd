@@ -33,7 +33,7 @@ by scaled difference rather than simple match/mismatch. Default
 A tibble with one row per unique pair of the input societies:
   `soc_id_1`, `soc_id_2`, and columns determined by `metric` (see
   Details). Under `missing = "pairwise"`, a pair with no variable in
-  common (`n_compared == 0`) gets `distance` `NA` (or, under
+  common (`n_compared == 0`) gets `cult_distance` `NA` (or, under
   `metric = "sum"`, `n_match` `0`), with a warning.
 }
 \description{
@@ -64,13 +64,13 @@ A society may lack a recorded value for one of the requested variables.
 
 # Combining variables (`metric`)
 \describe{
-  \item{`"proportion"` (default)}{Returns a single `distance` column: the
-    proportion of compared variables the two societies differ on (`0` =
+  \item{`"proportion"` (default)}{Returns a single `cult_distance` column:
+    the proportion of compared variables the two societies differ on (`0` =
     identical on everything compared, `1` = differ on everything
     compared).}
   \item{`"both"`}{Also returns the underlying `n_match` (sum of
     per-variable similarity) and `n_compared` counts alongside
-    `distance`.}
+    `cult_distance`.}
   \item{`"sum"`}{Returns only `n_match`: the raw, unnormalized sum of
     per-variable similarity across the compared variables -- how many
     (or, with `type_aware = TRUE`, how much) of the compared variables the

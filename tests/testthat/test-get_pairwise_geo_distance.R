@@ -27,7 +27,7 @@ test_that("get_pairwise_geo_distance errors informatively without geoGraph, only
   )
   # great_circle needs no graph at all, so it should work even without geoGraph.
   out <- get_pairwise_geo_distance(c("B72", "B73"), method = "great_circle")
-  expect_true(all(out$distance >= 0))
+  expect_true(all(out$geo_distance >= 0))
 })
 
 test_that("get_pairwise_geo_distance great_circle needs no geoGraph and has no connectivity restrictions", {
@@ -38,8 +38,8 @@ test_that("get_pairwise_geo_distance great_circle needs no geoGraph and has no c
   out <- get_pairwise_geo_distance(c("B72", "B73", "WNAI8"), method = "great_circle")
   expect_s3_class(out, "tbl_df")
   expect_equal(nrow(out), 3)
-  expect_true(all(!is.na(out$distance)))
-  expect_true(all(out$distance >= 0))
+  expect_true(all(!is.na(out$geo_distance)))
+  expect_true(all(out$geo_distance >= 0))
 })
 
 test_that("get_pairwise_geo_distance great_circle matches an independently computed haversine distance", {
@@ -60,7 +60,7 @@ test_that("get_pairwise_geo_distance great_circle matches an independently compu
   expected_km <- R * 2 * atan2(sqrt(a), sqrt(1 - a))
 
   out <- get_pairwise_geo_distance(c("B72", "B79"), method = "great_circle")
-  expect_equal(out$distance, expected_km, tolerance = 1e-6)
+  expect_equal(out$geo_distance, expected_km, tolerance = 1e-6)
 })
 
 test_that("get_pairwise_geo_distance drops unknown IDs and missing coordinates", {
@@ -80,8 +80,8 @@ test_that("get_pairwise_geo_distance returns a tibble of pairwise distances (mig
 
   expect_s3_class(out, "tbl_df")
   expect_equal(nrow(out), choose(length(ids), 2))
-  expect_true(all(c("soc_id_1", "soc_id_2", "distance") %in% names(out)))
-  expect_true(all(out$distance >= 0))
+  expect_true(all(c("soc_id_1", "soc_id_2", "geo_distance") %in% names(out)))
+  expect_true(all(out$geo_distance >= 0))
 })
 
 test_that("get_pairwise_geo_distance returns NA (with a warning) for pairs with no land route, without failing the whole call (migration)", {
@@ -96,12 +96,12 @@ test_that("get_pairwise_geo_distance returns NA (with a warning) for pairs with 
     "no land route between them"
   )
   expect_equal(nrow(out), 3)
-  b72_b73 <- out$distance[
+  b72_b73 <- out$geo_distance[
     (out$soc_id_1 == "B72" & out$soc_id_2 == "B73") |
       (out$soc_id_1 == "B73" & out$soc_id_2 == "B72")
   ]
   expect_true(!is.na(b72_b73) && b72_b73 >= 0)
-  cross_continent <- out$distance[
+  cross_continent <- out$geo_distance[
     out$soc_id_1 == "WNAI8" | out$soc_id_2 == "WNAI8"
   ]
   expect_true(all(is.na(cross_continent)))
@@ -119,11 +119,11 @@ test_that("get_pairwise_geo_distance handles a set spanning multiple distinct or
   out <- get_pairwise_geo_distance(ids, method = "migration")
 
   expect_equal(nrow(out), choose(length(ids), 2))
-  expect_true(all(!is.na(out$distance)))
-  expect_true(all(out$distance >= 0))
+  expect_true(all(!is.na(out$geo_distance)))
+  expect_true(all(out$geo_distance >= 0))
   # B72 and B73 share a graph node at this resolution -- distance 0.
   expect_equal(
-    out$distance[
+    out$geo_distance[
       (out$soc_id_1 == "B72" & out$soc_id_2 == "B73") |
         (out$soc_id_1 == "B73" & out$soc_id_2 == "B72")
     ],
@@ -149,7 +149,7 @@ test_that("get_pairwise_geo_distance land_route_km returns real km, at least as 
   expect_true(nrow(merged) > 0)
   # A land route can never be shorter than a straight line between the same
   # two points.
-  expect_true(all(merged$distance_lr >= merged$distance_gc - 1e-6))
+  expect_true(all(merged$geo_distance_lr >= merged$geo_distance_gc - 1e-6))
 })
 
 test_that("get_pairwise_geo_distance land_route_km reflects real distance, not 0, for a same-node pair", {
@@ -165,11 +165,11 @@ test_that("get_pairwise_geo_distance land_route_km reflects real distance, not 0
   lr <- suppressWarnings(get_pairwise_geo_distance(ids, method = "land_route_km"))
   gc <- get_pairwise_geo_distance(ids, method = "great_circle")
 
-  b72_b73_lr <- lr$distance[
+  b72_b73_lr <- lr$geo_distance[
     (lr$soc_id_1 == "B72" & lr$soc_id_2 == "B73") |
       (lr$soc_id_1 == "B73" & lr$soc_id_2 == "B72")
   ]
-  b72_b73_gc <- gc$distance[
+  b72_b73_gc <- gc$geo_distance[
     (gc$soc_id_1 == "B72" & gc$soc_id_2 == "B73") |
       (gc$soc_id_1 == "B73" & gc$soc_id_2 == "B72")
   ]

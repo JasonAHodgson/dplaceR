@@ -24,7 +24,7 @@ resolution at the cost of speed.}
 }
 \value{
 A tibble with one row per unique pair of the input societies:
-  `soc_id_1`, `soc_id_2`, and `distance` (units depend on `method` -- see
+  `soc_id_1`, `soc_id_2`, and `geo_distance` (units depend on `method` -- see
   Details; always km for `"great_circle"` and `"land_route_km"`,
   arbitrary graph-cost units for `"migration"`). For the two graph-based
   methods, if two societies snap to the same underlying graph node
@@ -37,7 +37,7 @@ A tibble with one row per unique pair of the input societies:
   for finer resolution in that case. Since
   sea-crossing edges are removed from the graph, it isn't fully connected
   -- a pair of societies with no land route between them (e.g. on
-  different continents, or either on an island) gets `distance = NA`,
+  different continents, or either on an island) gets `geo_distance = NA`,
   with a warning summarizing how many such pairs were found, rather than
   failing the whole call. `"great_circle"` has neither restriction: every
   pair of societies with valid coordinates gets a row.

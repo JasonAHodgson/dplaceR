@@ -27,13 +27,13 @@
 #'
 #' # Combining variables (`metric`)
 #' \describe{
-#'   \item{`"proportion"` (default)}{Returns a single `distance` column: the
-#'     proportion of compared variables the two societies differ on (`0` =
+#'   \item{`"proportion"` (default)}{Returns a single `cult_distance` column:
+#'     the proportion of compared variables the two societies differ on (`0` =
 #'     identical on everything compared, `1` = differ on everything
 #'     compared).}
 #'   \item{`"both"`}{Also returns the underlying `n_match` (sum of
 #'     per-variable similarity) and `n_compared` counts alongside
-#'     `distance`.}
+#'     `cult_distance`.}
 #'   \item{`"sum"`}{Returns only `n_match`: the raw, unnormalized sum of
 #'     per-variable similarity across the compared variables -- how many
 #'     (or, with `type_aware = TRUE`, how much) of the compared variables the
@@ -80,7 +80,7 @@
 #' @return A tibble with one row per unique pair of the input societies:
 #'   `soc_id_1`, `soc_id_2`, and columns determined by `metric` (see
 #'   Details). Under `missing = "pairwise"`, a pair with no variable in
-#'   common (`n_compared == 0`) gets `distance` `NA` (or, under
+#'   common (`n_compared == 0`) gets `cult_distance` `NA` (or, under
 #'   `metric = "sum"`, `n_match` `0`), with a warning.
 #'
 #' @examples
@@ -110,7 +110,7 @@ get_pairwise_cult_distance <- function(soc_id, var_id,
   }
   if (length(var_id) == 1) {
     warning(
-      "Only one variable requested; `distance` will only take the values 0 and 1.",
+      "Only one variable requested; `cult_distance` will only take the values 0 and 1.",
       call. = FALSE
     )
   }
@@ -238,13 +238,13 @@ get_pairwise_cult_distance <- function(soc_id, var_id,
   if (any(no_overlap)) {
     warning(
       "No requested variable had data for both societies in ",
-      sum(no_overlap), " pair(s); their distance is NA. Pair(s): ",
+      sum(no_overlap), " pair(s); their `cult_distance` is NA. Pair(s): ",
       paste(soc_id[i[no_overlap]], soc_id[j[no_overlap]], sep = "-", collapse = ", "),
       call. = FALSE
     )
   }
 
-  distance <- ifelse(n_compared > 0, 1 - n_match / n_compared, NA_real_)
+  cult_distance <- ifelse(n_compared > 0, 1 - n_match / n_compared, NA_real_)
 
   out <- tibble::tibble(
     soc_id_1 = soc_id[i],
@@ -253,8 +253,8 @@ get_pairwise_cult_distance <- function(soc_id, var_id,
 
   out <- switch(
     metric,
-    proportion = { out$distance <- distance; out },
-    both = { out$n_match <- n_match; out$n_compared <- n_compared; out$distance <- distance; out },
+    proportion = { out$cult_distance <- cult_distance; out },
+    both = { out$n_match <- n_match; out$n_compared <- n_compared; out$cult_distance <- cult_distance; out },
     sum = { out$n_match <- n_match; out }
   )
 

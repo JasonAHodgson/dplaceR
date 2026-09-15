@@ -244,18 +244,18 @@ get_cult_distance <- function(culture = NULL, soc_id, var_id, modal = FALSE,
   if (any(no_overlap)) {
     warning(
       "The reference culture and ", sum(no_overlap), " society(ies) had no ",
-      "variable in common; their distance is NA. Society(ies): ",
+      "variable in common; their `cult_distance` is NA. Society(ies): ",
       paste(soc_id[no_overlap], collapse = ", "), call. = FALSE
     )
   }
 
-  distance <- ifelse(n_compared > 0, 1 - n_match / n_compared, NA_real_)
+  cult_distance <- ifelse(n_compared > 0, 1 - n_match / n_compared, NA_real_)
 
   out <- tibble::tibble(soc_id = soc_id)
   out <- switch(
     metric,
-    proportion = { out$distance <- distance; out },
-    both = { out$n_match <- n_match; out$n_compared <- n_compared; out$distance <- distance; out },
+    proportion = { out$cult_distance <- cult_distance; out },
+    both = { out$n_match <- n_match; out$n_compared <- n_compared; out$cult_distance <- cult_distance; out },
     sum = { out$n_match <- n_match; out }
   )
 

@@ -87,10 +87,14 @@
   two *snapped* nodes could come out shorter than the straight line between
   the original, un-snapped coordinates, breaking the guarantee that
   `"land_route_km"` is always >= `"great_circle"` for the same pair). The
-  output column is now called `distance`
+  output column is now called `geo_distance`
   (was `distance_km`) for both functions, since its units depend on
-  `method`. Existing code must be updated to pass `method` explicitly and to
-  read `distance` instead of `distance_km`.
+  `method` -- named specifically (rather than the generic `distance`) so it
+  can't be confused with `get_cult_distance()`/`get_pairwise_cult_distance()`'s
+  own `cult_distance` column when both are joined into the same tibble (e.g.
+  via [get_society_meta()]) or plotted together. Existing code must be
+  updated to pass `method` explicitly and to read `geo_distance` instead of
+  `distance_km`.
 * Bug fix: the values previously returned by `get_geo_distance()` and
   `get_pairwise_geo_distance()` (now `method = "migration"`) were
   mislabelled as kilometres (`distance_km`) but were never physical

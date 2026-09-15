@@ -17,12 +17,12 @@ test_that("culture = an existing society compares its recorded states", {
   r73 <- out[out$soc_id == "B73", ]
   expect_equal(r73$n_compared, 2)
   expect_equal(r73$n_match, 1) # B004 matches, B005 (B005-2) doesn't
-  expect_equal(r73$distance, 0.5)
+  expect_equal(r73$cult_distance, 0.5)
 
   r79 <- out[out$soc_id == "B79", ]
   expect_equal(r79$n_compared, 2)
   expect_equal(r79$n_match, 2) # both match
-  expect_equal(r79$distance, 0)
+  expect_equal(r79$cult_distance, 0)
 })
 
 test_that("a named vector supplies a custom culture profile", {
@@ -59,17 +59,17 @@ test_that("modal = TRUE computes the mode from soc_id by default, with a tie war
   r11 <- out[out$soc_id == "SCCS11", ]
   expect_equal(r11$n_compared, 2)
   expect_equal(r11$n_match, 0) # mismatches both
-  expect_equal(r11$distance, 1)
+  expect_equal(r11$cult_distance, 1)
 
   r12 <- out[out$soc_id == "SCCS12", ]
   expect_equal(r12$n_compared, 2)
   expect_equal(r12$n_match, 2) # matches both
-  expect_equal(r12$distance, 0)
+  expect_equal(r12$cult_distance, 0)
 
   r3 <- out[out$soc_id == "SCCS3", ]
   expect_equal(r3$n_compared, 1) # SCCS202 excluded (SCCS3 missing it)
   expect_equal(r3$n_match, 1) # SCCS10 matches
-  expect_equal(r3$distance, 0)
+  expect_equal(r3$cult_distance, 0)
 })
 
 test_that("mode_ref_soc_id computes the mode from a separate group", {
@@ -81,7 +81,7 @@ test_that("mode_ref_soc_id computes the mode from a separate group", {
   )
   expect_equal(out$n_compared, 2)
   expect_equal(out$n_match, 0) # SCCS11 mismatches the mode-group's profile on both
-  expect_equal(out$distance, 1)
+  expect_equal(out$cult_distance, 1)
 })
 
 test_that("modal = TRUE warns if `culture` is also supplied, and ignores it", {
@@ -97,13 +97,13 @@ test_that("modal = TRUE warns if `culture` is also supplied, and ignores it", {
 
 test_that("metric controls which columns are returned", {
   out_prop <- get_cult_distance("B72", c("B73", "B79"), var_id = c("B004", "B005"))
-  expect_named(out_prop, c("soc_id", "distance"))
+  expect_named(out_prop, c("soc_id", "cult_distance"))
 
   out_sum <- get_cult_distance("B72", c("B73", "B79"), var_id = c("B004", "B005"), metric = "sum")
   expect_named(out_sum, c("soc_id", "n_match"))
 
   out_both <- get_cult_distance("B72", c("B73", "B79"), var_id = c("B004", "B005"), metric = "both")
-  expect_named(out_both, c("soc_id", "n_match", "n_compared", "distance"))
+  expect_named(out_both, c("soc_id", "n_match", "n_compared", "cult_distance"))
 })
 
 test_that("type_aware = TRUE scales ordinal variables by rank and range", {
@@ -140,17 +140,17 @@ test_that("missing = 'match' treats missingness on either side as its own state"
   r11 <- out[out$soc_id == "SCCS11", ]
   expect_equal(r11$n_compared, 2)
   expect_equal(r11$n_match, 1) # SCCS202 matches, SCCS10 mismatches (culture missing)
-  expect_equal(r11$distance, 0.5)
+  expect_equal(r11$cult_distance, 0.5)
 
   r12 <- out[out$soc_id == "SCCS12", ]
   expect_equal(r12$n_compared, 2)
   expect_equal(r12$n_match, 0)
-  expect_equal(r12$distance, 1)
+  expect_equal(r12$cult_distance, 1)
 
   r3 <- out[out$soc_id == "SCCS3", ]
   expect_equal(r3$n_compared, 2)
   expect_equal(r3$n_match, 0) # SCCS202: present vs missing; SCCS10: missing vs present
-  expect_equal(r3$distance, 1)
+  expect_equal(r3$cult_distance, 1)
 })
 
 test_that("no variable in common gives NA distance and a warning", {
@@ -158,7 +158,7 @@ test_that("no variable in common gives NA distance and a warning", {
     out <- get_cult_distance("SCCS11", "SCCS3", var_id = "SCCS202"),
     "no variable in common"
   )
-  expect_true(is.na(out$distance))
+  expect_true(is.na(out$cult_distance))
 })
 
 test_that("duplicate society/variable observations in `culture` are collapsed with a warning", {

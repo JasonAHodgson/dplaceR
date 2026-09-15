@@ -3,9 +3,10 @@
 #' Draws a world map (via ggplot2 and the 'maps' package's bundled
 #' low-resolution world boundaries) with one point per society, optionally
 #' coloured by another column -- e.g. a variable's coded value, or the
-#' `distance`/`n_match` column from [get_geo_distance()],
-#' [get_cult_distance()], or their pairwise counterparts (after joining in
-#' coordinates with [get_society_meta()], if needed).
+#' `geo_distance` column from [get_geo_distance()], the `cult_distance`
+#' column from [get_cult_distance()], or an `n_match` column from either
+#' (or their pairwise counterparts), after joining in coordinates with
+#' [get_society_meta()] if needed.
 #'
 #' @param data Either a character vector of D-PLACE society IDs, or a data
 #'   frame/tibble. If it doesn't already have `latitude`/`longitude`

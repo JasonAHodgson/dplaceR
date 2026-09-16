@@ -453,3 +453,16 @@
   of silently matching nothing (the previous fix in this release only
   made that case error clearly; it now works). A data frame/tibble
   missing the expected column still errors clearly, naming the fix.
+- [`get_lang_clade()`](https://jasonahodgson.github.io/dplaceR/reference/get_lang_clade.md)
+  finds societies belonging to a language grouping finer than
+  `lang_family`/`lang_family_id` (which only track the top-level
+  Glottolog family – e.g. Bantu languages are all classified under
+  “Atlantic-Congo”, alongside hundreds of unrelated languages, with no
+  bundled column identifying Bantu specifically). Give it two or more
+  societies/Glottocodes known to belong to the group you want (e.g. Zulu
+  and Ganda for Bantu), and it returns every society whose language
+  falls in the smallest clade containing all of them – their most recent
+  common ancestor in the relevant bundled tree
+  ([`dp_trees()`](https://jasonahodgson.github.io/dplaceR/reference/dp_trees.md)/[`dp_tree()`](https://jasonahodgson.github.io/dplaceR/reference/dp_tree.md)).
+  Warns if the identified clade spans the seeds’ entire top-level family
+  tree, a sign the seeds may not tightly bracket the intended group.

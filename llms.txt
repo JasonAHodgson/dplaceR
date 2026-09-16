@@ -211,6 +211,8 @@ links, country lookup, and language-family classification.
   : List every language family represented among coded societies
 - [`dp_lang_family_table()`](https://jasonahodgson.github.io/dplaceR/reference/dp_lang_family_table.md)
   : Count how many coded societies belong to each language family
+- [`get_lang_clade()`](https://jasonahodgson.github.io/dplaceR/reference/get_lang_clade.md)
+  : Get societies belonging to a language clade (e.g. Bantu)
 
 ## Cultural and environmental variables
 

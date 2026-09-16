@@ -17,6 +17,7 @@ reference:
   - dp_map_societies
   - dp_lang_family_list
   - dp_lang_family_table
+  - get_lang_clade
 
 - title: Cultural and environmental variables
   desc: >

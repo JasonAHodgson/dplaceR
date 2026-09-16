@@ -1,0 +1,287 @@
+"population","dataset","soc_id","society_name","society_region","match_method","match_score","geo_distance_km","confidence","reviewed"
+"Abkhasian",,,,,"unmatched",,,"none",FALSE
+"Adygei","HGDP",,,,"unmatched",,,"none",FALSE
+"African_American","KGP","CCMCamer1254","Latin American Spanish","Southwestern Europe","fuzzy",0.9,9055,"low",FALSE
+"African_American","KGP","CCMCyaka1272","Yaka (Central African Republic)","West-Central Tropical Africa","fuzzy",0.9,13190,"low",FALSE
+"African_American","KGP","Ii1","American Samoans","Southwestern Pacific","fuzzy",0.9,8362,"low",FALSE
+"Albanian",,"CCMCalba1267","Albanian","Southeastern Europe","exact",1,90,"high",FALSE
+"Aleut",,"B298","Aleut","Subarctic America","exact",1,1966,"high",FALSE
+"Aleut",,"Na9","Aleut","Subarctic America","exact",1,1751,"high",FALSE
+"Aleut",,"SCCS123","Aleut","Subarctic America","exact",1,1966,"high",FALSE
+"Altaian",,"CCMCalba1267","Albanian","Southeastern Europe","fuzzy",0.75,4967,"low",FALSE
+"Ami","KGP","Ia9","Ami","Eastern Asia","exact",1,21,"high",FALSE
+"Armenian",,"CCMCnucl1235","Eastern Armenian","Caucasus","fuzzy",0.9,151,"medium",FALSE
+"Armenian",,"Ci10","Armenians","Caucasus","fuzzy",0.9,151,"medium",FALSE
+"Armenian",,"SCCS56","Armenians","Caucasus","fuzzy",0.9,193,"medium",FALSE
+"Atayal","KGP","CARNEIRO6_035","Atayal","Eastern Asia","exact",1,74,"high",FALSE
+"Atayal","KGP","CCMCatay1247","Atayal","Eastern Asia","exact",1,14,"high",FALSE
+"Atayal","KGP","Ia1","Atayal","Eastern Asia","exact",1,74,"high",FALSE
+"Atayal","KGP","SCCS113","Atayal","Eastern Asia","exact",1,64,"high",FALSE
+"Australian",,,,,"unmatched",,,"none",FALSE
+"Balochi","HGDP",,,,"unmatched",,,"none",FALSE
+"Bantu",,"CCMCbant1295","Bantu A-B10-B20-B30","West-Central Tropical Africa","fuzzy",0.9,,"medium",FALSE
+"BantuHerero","HGDP",,,,"unmatched",,,"none",FALSE
+"BantuKenya","HGDP",,,,"unmatched",,,"none",FALSE
+"BantuTswana","HGDP",,,,"unmatched",,,"none",FALSE
+"Bantu_North","HGDP","CCMCbant1295","Bantu A-B10-B20-B30","West-Central Tropical Africa","fuzzy",0.9,782,"medium",FALSE
+"Bantu_South","HGDP","CCMCbant1295","Bantu A-B10-B20-B30","West-Central Tropical Africa","fuzzy",0.9,3988,"medium",FALSE
+"Barbados","KGP",,,,"unmatched",,,"none",FALSE
+"Basque","HGDP","CCMCbasq1248","Basque","Southwestern Europe","exact",1,,"high",FALSE
+"Batwa",,"Ah34","Bata","West Tropical Africa","fuzzy",0.8,,"medium",FALSE
+"Bedouin","HGDP",,,,"unmatched",,,"none",FALSE
+"BedouinB","HGDP",,,,"unmatched",,,"none",FALSE
+"Bengali","KGP","CCMCbeng1280","Bengali","Indian Subcontinent","exact",1,,"high",FALSE
+"Bengali","KGP","Ef2","Bengali","Indian Subcontinent","exact",1,,"high",FALSE
+"Bergamo","HGDP","Aa4","Bergdama","Southern Africa","fuzzy",0.75,7585,"low",FALSE
+"Betsileo",,"Eh10","Betsileo","Western Indian Ocean","exact",1,,"high",FALSE
+"Betsimisaraka",,,,,"unmatched",,,"none",FALSE
+"Biaka","HGDP","B63","Baka","West-Central Tropical Africa","fuzzy",0.8,259,"medium",FALSE
+"Biaka","HGDP","Ai23","Bwaka","West-Central Tropical Africa","fuzzy",0.8,248,"medium",FALSE
+"Biaka_Pygmy","HGDP","B63","Baka","West-Central Tropical Africa","fuzzy",0.8,259,"medium",FALSE
+"Biaka_Pygmy","HGDP","Ai23","Bwaka","West-Central Tropical Africa","fuzzy",0.8,248,"medium",FALSE
+"Borneo",,"B41","Bororo","Brazil","fuzzy",0.667,,"low",FALSE
+"Borneo",,"CCMCboro1282","Bororo","Brazil","fuzzy",0.667,,"low",FALSE
+"Borneo",,"Si1","Bororo","Brazil","fuzzy",0.667,,"low",FALSE
+"Borneo",,"Ai35","Bongo","Northeast Tropical Africa","fuzzy",0.667,,"low",FALSE
+"Bougainville","HGDP",,,,"unmatched",,,"none",FALSE
+"Brahmin",,,,,"unmatched",,,"none",FALSE
+"Brahui","HGDP",,,,"unmatched",,,"none",FALSE
+"British","KGP",,,,"unmatched",,,"none",FALSE
+"Bulgarian",,"CCMCbulg1262","Bulgarian","Southeastern Europe","exact",1,136,"high",FALSE
+"Burmese",,"CCMCnucl1310","Burmese","Indo-China","exact",1,510,"high",FALSE
+"Burmese",,"Ei3","Burmese","Indo-China","exact",1,379,"high",FALSE
+"Burmese",,"SCCS71","Burmese","Indo-China","exact",1,566,"high",FALSE
+"Burunge",,,,,"unmatched",,,"none",FALSE
+"Burusho","HGDP","Ee2","Burusho","China","exact",1,105,"high",FALSE
+"Burusho","HGDP","SCCS64","Burusho","Indian Subcontinent","exact",1,52,"high",FALSE
+"CEPH_Europeans","KGP",,,,"unmatched",,,"none",FALSE
+"Cambodian","HGDP",,,,"unmatched",,,"none",FALSE
+"Chane",,,,,"unmatched",,,"none",FALSE
+"Chechen",,"Ci7","Chechen","Caucasus","exact",1,47,"high",FALSE
+"China_Japan","KGP","CARNEIRO4_005","China (Han Dynasty)","China","fuzzy",0.9,,"medium",FALSE
+"China_South","KGP","CARNEIRO4_005","China (Han Dynasty)","China","fuzzy",0.9,,"medium",FALSE
+"Chinese_Denver","KGP","SCCS114","Chinese","China","exact",1,10969,"high",FALSE
+"Chipewyan","KGP","CARNEIRO4_084","Chippewa","North-Central U.S.A.","fuzzy",0.667,1606,"low",FALSE
+"Chipewyan","KGP","CARNEIRO6_058","Chippewa","North-Central U.S.A.","fuzzy",0.667,1606,"low",FALSE
+"Chipewyan","KGP","CCMCchip1241","Chippewa","North-Central U.S.A.","fuzzy",0.667,1606,"low",FALSE
+"Chukchi",,"CCMCchuk1273","Chukchi","Russian Far East","exact",1,58,"high",FALSE
+"Chukchi",,"Ec3","Chukchi","Russian Far East","exact",1,476,"high",FALSE
+"Chukchi",,"SCCS121","Chukchi","Russian Far East","exact",1,525,"high",FALSE
+"Colombian","KGP",,,,"unmatched",,,"none",FALSE
+"Cree",,"CCMCcree1272","Cree","Eastern Canada","exact",1,842,"high",FALSE
+"Crete",,"CCMCcree1272","Cree","Eastern Canada","fuzzy",0.8,8432,"low",FALSE
+"Czech","KGP","CCMCczec1258","Czech","Middle Europe","exact",1,56,"high",FALSE
+"Dai","HGDP","CCMCdari1249","Dari","Western Asia","fuzzy",0.75,3628,"low",FALSE
+"Dai","HGDP","Ie38","Dani","Papuasia","fuzzy",0.75,5079,"low",FALSE
+"Daur","HGDP","Eb4","Dagur","China","fuzzy",0.8,92,"medium",FALSE
+"Diego",,"Ad30","Digo","East Tropical Africa","fuzzy",0.8,,"medium",FALSE
+"Dinka",,"Aj11","Dinka","Northeast Tropical Africa","exact",1,177,"high",FALSE
+"Druze","HGDP","Cj8","Druze","Western Asia","exact",1,86,"high",FALSE
+"Dusun",,"Ib5","Kadazan-Dusun","Malesia","fuzzy",0.9,293,"medium",FALSE
+"English","KGP","CCMCstan1293","English","Northern Europe","exact",1,231,"high",FALSE
+"Esan","KGP",,,,"unmatched",,,"none",FALSE
+"Eskimo_Chaplin",,"CCMCmisk1235","M<U+00ED>skito","Central America","fuzzy",0.667,9090,"low",FALSE
+"Eskimo_Naukan",,"B40","Nukak","Western South America","fuzzy",0.667,10985,"low",FALSE
+"Eskimo_Naukan",,"CCMCakan1250","Akan","West Tropical Africa","fuzzy",0.667,11935,"low",FALSE
+"Eskimo_Naukan",,"CCMCmisk1235","M<U+00ED>skito","Central America","fuzzy",0.667,9172,"low",FALSE
+"Eskimo_Naukan",,"CCMCniue1239","Niuean","Southwestern Pacific","fuzzy",0.667,9615,"low",FALSE
+"Eskimo_Sireniki",,"CCMCmisk1235","M<U+00ED>skito","Central America","fuzzy",0.667,9045,"low",FALSE
+"Estonian",,"CCMCesto1258","Estonian","Eastern Europe","exact",1,79,"high",FALSE
+"European","KGP",,,,"unmatched",,,"none",FALSE
+"Even",,"ec16","Evenk","Siberia","fuzzy",0.8,1493,"medium",FALSE
+"Finish","KGP","CCMCfinn1318","Finnish","Northern Europe","fuzzy",0.857,,"medium",FALSE
+"Finnish","KGP","CCMCfinn1318","Finnish","Northern Europe","exact",1,508,"high",FALSE
+"French","HGDP","CCMCstan1290","French","Southwestern Europe","exact",1,222,"high",FALSE
+"Gambian","KGP",,,,"unmatched",,,"none",FALSE
+"Georgian",,"CCMCnucl1302","Georgian","Caucasus","exact",1,175,"high",FALSE
+"Greek","KGP","CCMCmode1248","Modern Greek","Southeastern Europe","fuzzy",0.9,64,"medium",FALSE
+"Greek","KGP","Ce7","Greeks","Southeastern Europe","fuzzy",0.9,127,"medium",FALSE
+"Gujarati","KGP","CCMCguja1252","Gujarati","Indian Subcontinent","exact",1,14025,"high",FALSE
+"Gujarati","KGP","Ef9","Gujarati","Indian Subcontinent","exact",1,14445,"high",FALSE
+"Han","HGDP","CARNEIRO4_005","China (Han Dynasty)","China","fuzzy",0.9,518,"medium",FALSE
+"Han_Chinese","KGP","SCCS114","Chinese","China","exact",1,1015,"high",FALSE
+"Hawaiian","KGP","CCMChawa1245","Hawaiian","North-Central Pacific","exact",1,309,"high",FALSE
+"Hazara","HGDP","CARNEIRO4_103","Hazara","Western Asia","exact",1,404,"high",FALSE
+"Hazara","HGDP","Ea3","Hazara","Western Asia","exact",1,404,"high",FALSE
+"Hezhen","HGDP","Ci7","Chechen","Caucasus","fuzzy",0.714,6491,"low",FALSE
+"Hezhen","HGDP","Ad8","Hehe","East Tropical Africa","fuzzy",0.667,11300,"low",FALSE
+"Hungarian","KGP","CCMChung1274","Hungarian","Middle Europe","exact",1,78,"high",FALSE
+"Iberian","KGP",,,,"unmatched",,,"none",FALSE
+"Icelandic","KGP","CCMCicel1247","Icelandic","Northern Europe","exact",1,157,"high",FALSE
+"Igbo",,"Af10","Igbo","West Tropical Africa","exact",1,0,"high",FALSE
+"Igbo",,"SCCS17","Igbo","West Tropical Africa","exact",1,67,"high",FALSE
+"Igorot",,"Ca9","Goroa","East Tropical Africa","fuzzy",0.667,9609,"low",FALSE
+"Iranian",,"Ea9","Iranians","Western Asia","fuzzy",0.9,67,"medium",FALSE
+"Iranian",,"Ef3","Indo-Iranian","Indian Subcontinent","fuzzy",0.9,2280,"medium",FALSE
+"Iraqi_Jew",,"Ca4","Iraqw","East Tropical Africa","fuzzy",0.8,4264,"medium",FALSE
+"Irula",,"Ad28","Zigula","East Tropical Africa","fuzzy",0.667,5032,"low",FALSE
+"Itelman",,"ec13","Itelmen","Russian Far East","fuzzy",0.857,373,"medium",FALSE
+"Japanese","HGDP","CCMCnucl1643","Japanese","Eastern Asia","exact",1,428,"high",FALSE
+"Japanese","HGDP","Ed5","Japanese","Eastern Asia","exact",1,378,"high",FALSE
+"Japanese","HGDP","SCCS117","Japanese","Eastern Asia","exact",1,536,"high",FALSE
+"Jordanian",,"Cj6","Jordanians","Western Asia","fuzzy",0.9,10,"medium",FALSE
+"Ju_hoan_North","HGDP","CCMCjuho1239","South-Eastern Ju","Southern Africa","fuzzy",0.9,110,"medium",FALSE
+"Kalash","HGDP","CCMCkaza1248","Kazakh","Middle Asia","fuzzy",0.667,1687,"low",FALSE
+"Kalash","HGDP","Eb1","Kazakh","Middle Asia","fuzzy",0.667,1340,"low",FALSE
+"Kalash","HGDP","SCCS65","Kazakh","Middle Asia","fuzzy",0.667,800,"low",FALSE
+"Kapu",,,,,"unmatched",,,"none",FALSE
+"Karitiana","HGDP","CARNEIRO4_013","Tahitians","South-Central Pacific","fuzzy",0.667,9309,"low",FALSE
+"Karitiana","HGDP","CARNEIRO6_007","Tahitians","South-Central Pacific","fuzzy",0.667,9309,"low",FALSE
+"Karitiana","HGDP","CCMChait1244","Haitian","Caribbean","fuzzy",0.667,3355,"low",FALSE
+"Karitiana","HGDP","Sb9","Haitians","Caribbean","fuzzy",0.667,3315,"low",FALSE
+"Karitiana","HGDP","ch19","Karelians","Eastern Europe","fuzzy",0.667,11298,"low",FALSE
+"Karitiana","HGDP","Ij8","Tahitians","South-Central Pacific","fuzzy",0.667,9309,"low",FALSE
+"Karitiana","HGDP","SCCS160","Haitians","Caribbean","fuzzy",0.667,3360,"low",FALSE
+"Kashmiri_Pandit",,"Ef8","Kashmiri","Indian Subcontinent","exact",1,84,"high",FALSE
+"Kharia",,"Ad38","Kara","East Tropical Africa","fuzzy",0.667,6156,"low",FALSE
+"Kharia",,"Nh20","Kamia","Southwestern U.S.A.","fuzzy",0.667,13524,"low",FALSE
+"Kharia",,"Sb4","Cari<U+00F1>a","Northern South America","fuzzy",0.667,15070,"low",FALSE
+"Kharia",,"Eb3","Khalka","Mongolia","fuzzy",0.667,2866,"low",FALSE
+"Kharia",,"Ei8","Khasi","Indian Subcontinent","fuzzy",0.667,904,"low",FALSE
+"Kharia",,"SCCS66","Khalka","Mongolia","fuzzy",0.667,2950,"low",FALSE
+"Kharia",,"WNAI142","Kamia","Mexico","fuzzy",0.667,13577,"low",FALSE
+"Khomani_San",,"B77","/'Auni-Khomani","Southern Africa","fuzzy",0.9,105,"medium",FALSE
+"Khonda_Dora",,"Eg12","Khond","Indian Subcontinent","fuzzy",0.833,101,"medium",FALSE
+"Kiga",,"CARNEIRO4_038","Kiga","West-Central Tropical Africa","exact",1,,"high",FALSE
+"Kiga",,"Ad13","Kiga","West-Central Tropical Africa","exact",1,,"high",FALSE
+"Kinh","KGP",,,,"unmatched",,,"none",FALSE
+"Kongo",,"CCMCmong1338","Mongo","West-Central Tropical Africa","fuzzy",0.8,1059,"medium",FALSE
+"Kongo",,"Ad44","Konjo","East Tropical Africa","fuzzy",0.8,2060,"medium",FALSE
+"Kongo",,"Ae24","Mongo","West-Central Tropical Africa","fuzzy",0.8,1146,"medium",FALSE
+"Kongo",,"Ai35","Bongo","Northeast Tropical Africa","fuzzy",0.8,1970,"medium",FALSE
+"Kongo",,"Ca1","Konso","Northeast Tropical Africa","fuzzy",0.8,2821,"medium",FALSE
+"Kongo",,"Ac25","Songo","West-Central Tropical Africa","fuzzy",0.8,1082,"medium",FALSE
+"Kongo",,"SCCS35","Konso","Northeast Tropical Africa","fuzzy",0.8,2867,"medium",FALSE
+"Korean",,"CCMCkore1280","Korean","Eastern Asia","exact",1,7,"high",FALSE
+"Kurumba",,"Ad31","Duruma","East Tropical Africa","fuzzy",0.714,4480,"low",FALSE
+"Kurumba",,"Ah21","Kurama","West Tropical Africa","fuzzy",0.714,7383,"low",FALSE
+"Kurumba",,"CARNEIRO4_053","Gururumba","Papuasia","fuzzy",0.667,7816,"low",FALSE
+"Kusunda",,"Ac37","Kunda","South Tropical Africa","fuzzy",0.714,7243,"low",FALSE
+"Kyrgyz",,,,,"unmatched",,,"none",FALSE
+"Lahu","HGDP","Ih4","Lau","Southwestern Pacific","fuzzy",0.75,9825,"low",FALSE
+"Lemande",,,,,"unmatched",,,"none",FALSE
+"Lezgin",,,,,"unmatched",,,"none",FALSE
+"Luhya","KGP",,,,"unmatched",,,"none",FALSE
+"Luo",,"Aj6","Luo","East Tropical Africa","exact",1,105,"high",FALSE
+"Maasai","KGP","CARNEIRO6_022","Maasai","East Tropical Africa","exact",1,339,"high",FALSE
+"Madiga",,"Eg3","Madia","Indian Subcontinent","fuzzy",0.833,283,"medium",FALSE
+"Madiga",,"SCCS60","Madia","Indian Subcontinent","fuzzy",0.833,330,"medium",FALSE
+"Makrani","HGDP","CCMCwaor1240","Waorani","Western South America","fuzzy",0.714,14982,"low",FALSE
+"Mala",,"CARNEIRO4_056","Mala","Papuasia","exact",1,,"high",FALSE
+"Mala",,"CARNEIRO6_030","Mala","Papuasia","exact",1,,"high",FALSE
+"Malay",,"CCMCjamb1236","Jambi Malay","Malesia","fuzzy",0.9,,"medium",FALSE
+"Malay",,"Ej8","Malays","Malesia","fuzzy",0.9,,"medium",FALSE
+"Mandenka","HGDP",,,,"unmatched",,,"none",FALSE
+"Mansi",,"ec15","Mansi","Siberia","exact",1,93,"high",FALSE
+"Maori","KGP","CCMCmaor1246","Maori","New Zealand","exact",1,378,"high",FALSE
+"Masai","KGP","CCMCmasa1300","Masai","East Tropical Africa","exact",1,230,"high",FALSE
+"Maya","HGDP","CCMCyuca1254","Yucatec Maya","Mexico","fuzzy",0.9,216,"medium",FALSE
+"Maya","HGDP","Sa6","Yucatec Maya","Mexico","fuzzy",0.9,153,"medium",FALSE
+"Mayan","HGDP","CCMCmaya1287","Mayan","Mexico","exact",1,263,"high",FALSE
+"Mbuti","HGDP","B65","Mbuti","West-Central Tropical Africa","exact",1,74,"high",FALSE
+"Mbuti","HGDP","CARNEIRO4_099","Mbuti","West-Central Tropical Africa","exact",1,157,"high",FALSE
+"Mbuti","HGDP","Aa5","Mbuti","West-Central Tropical Africa","exact",1,157,"high",FALSE
+"Mbuti","HGDP","SCCS13","Mbuti","West-Central Tropical Africa","exact",1,93,"high",FALSE
+"Mbuti_Pygmy","HGDP","B65","Mbuti","West-Central Tropical Africa","exact",1,74,"high",FALSE
+"Mbuti_Pygmy","HGDP","CARNEIRO4_099","Mbuti","West-Central Tropical Africa","exact",1,157,"high",FALSE
+"Mbuti_Pygmy","HGDP","Aa5","Mbuti","West-Central Tropical Africa","exact",1,157,"high",FALSE
+"Mbuti_Pygmy","HGDP","SCCS13","Mbuti","West-Central Tropical Africa","exact",1,93,"high",FALSE
+"Melanesian","HGDP",,,,"unmatched",,,"none",FALSE
+"Mende","KGP","Af5","Mende","West Tropical Africa","exact",1,,"high",FALSE
+"Mende","KGP","SCCS20","Mende","West Tropical Africa","exact",1,,"high",FALSE
+"Merina",,"Eh2","Merina","Western Indian Ocean","exact",1,,"high",FALSE
+"Mexican_American","KGP","CCMCamer1254","Latin American Spanish","Southwestern Europe","fuzzy",0.9,,"medium",FALSE
+"Mexican_American","KGP","Ii1","American Samoans","Southwestern Pacific","fuzzy",0.9,,"medium",FALSE
+"Mexican_LA","KGP","CCMClaoo1244","Lao","Indo-China","fuzzy",0.667,12729,"low",FALSE
+"Mexican_LA","KGP","Ac1","Ila","South Tropical Africa","fuzzy",0.667,15990,"low",FALSE
+"Mexican_LA","KGP","Ih4","Lau","Southwestern Pacific","fuzzy",0.667,8668,"low",FALSE
+"Miao","HGDP","Ed4","Miao","China","exact",1,298,"high",FALSE
+"Miaozu","HGDP","Ed4","Miao","China","exact",1,298,"high",FALSE
+"Mikea",,"B66","Mikea","Western Indian Ocean","exact",1,,"high",FALSE
+"Mixe",,"Nj7","Mixe","Mexico","exact",1,168,"high",FALSE
+"Mixtec",,"Nj12","Mixtec","Mexico","exact",1,154,"high",FALSE
+"Mongola","HGDP","Ae11","Songola","West-Central Tropical Africa","fuzzy",0.857,9930,"low",FALSE
+"Mongolia","HGDP","Ae11","Songola","West-Central Tropical Africa","fuzzy",0.75,10561,"low",FALSE
+"Mozabite","HGDP",,,,"unmatched",,,"none",FALSE
+"Mozanbique",,,,,"unmatched",,,"none",FALSE
+"Murut",,,,,"unmatched",,,"none",FALSE
+"Nahua",,,,,"unmatched",,,"none",FALSE
+"Naxi","HGDP",,,,"unmatched",,,"none",FALSE
+"North_Ossetian",,"Ci6","Ossetians","Caucasus","fuzzy",0.9,53,"medium",FALSE
+"Norwegian",,"CCMCnorw1258","Norwegian","Northern Europe","exact",1,299,"high",FALSE
+"Onge",,"B5","Onge","Indo-China","exact",1,109,"high",FALSE
+"Orcadian","HGDP",,,,"unmatched",,,"none",FALSE
+"Oroqen","HGDP","B23","Orogens","China","fuzzy",0.714,320,"medium",FALSE
+"Palestinian","HGDP",,,,"unmatched",,,"none",FALSE
+"Papuan","HGDP","CCMCpala1344","Palauan","Northwestern Pacific","fuzzy",0.714,1576,"low",FALSE
+"Papuan","HGDP","CCMCpaiw1248","Paiwan","Eastern Asia","fuzzy",0.667,3793,"low",FALSE
+"Papuan","HGDP","Ia6","Paiwan","Eastern Asia","fuzzy",0.667,3805,"low",FALSE
+"Pathan","HGDP","B155","Patwin","Southwestern U.S.A.","fuzzy",0.667,11842,"low",FALSE
+"Pathan","HGDP","CCMCpaiw1248","Paiwan","Eastern Asia","fuzzy",0.667,5047,"low",FALSE
+"Pathan","HGDP","Nc22","Patwin","Southwestern U.S.A.","fuzzy",0.667,11851,"low",FALSE
+"Pathan","HGDP","Ia6","Paiwan","Eastern Asia","fuzzy",0.667,5038,"low",FALSE
+"Pathan","HGDP","WNAI67","Patwin","Southwestern U.S.A.","fuzzy",0.667,11884,"low",FALSE
+"Peruvian","KGP",,,,"unmatched",,,"none",FALSE
+"Piapoco","HGDP","Sc17","Piapoco","Western South America","exact",1,334,"high",FALSE
+"Piapoco_and_Curripaco","HGDP","Sc17","Piapoco","Western South America","exact",1,334,"high",FALSE
+"Piapoco_and_Curripaco","HGDP","Sc9","Curripaco","Northern South America","exact",1,249,"high",FALSE
+"Pima","HGDP","Ni6","Pima","Mexico","exact",1,365,"high",FALSE
+"Pima","HGDP","WNAI145","Pima","Southwestern U.S.A.","exact",1,602,"high",FALSE
+"Polish",,"CCMCpoli1260","Polish","Middle Europe","exact",1,167,"high",FALSE
+"Puerto_Rican","KGP",,,,"unmatched",,,"none",FALSE
+"Punjabi","KGP","Ea13","Punjabi","Indian Subcontinent","exact",1,,"high",FALSE
+"Punjabi","KGP","SCCS59","Punjabi","Indian Subcontinent","exact",1,,"high",FALSE
+"Quechua","KGP","CCMCayac1239","Ayacucho Quechua","Western South America","fuzzy",0.9,254,"medium",FALSE
+"Quechua","KGP","CCMCcusc1236","Cusco Quechua","Western South America","fuzzy",0.9,70,"medium",FALSE
+"Quechua","KGP","CCMCecua1248","Ecuadorian Quechua A","Western South America","fuzzy",0.9,1561,"medium",FALSE
+"Quechua","KGP","CCMCsout2991","South Bolivian Quechua","Western South America","fuzzy",0.9,1021,"medium",FALSE
+"Relli",,,,,"unmatched",,,"none",FALSE
+"Russia","HGDP","CCMCruss1264","Russia Buriat","Siberia","fuzzy",0.9,4047,"medium",FALSE
+"Russia","HGDP","CCMCruss1263","Russian","Eastern Europe","fuzzy",0.857,598,"medium",FALSE
+"Russian","HGDP","CCMCruss1263","Russian","Eastern Europe","exact",1,598,"high",FALSE
+"Saami",,"CCMCsaam1281","Saami","Northern Europe","exact",1,344,"high",FALSE
+"Saharawi",,,,,"unmatched",,,"none",FALSE
+"Sakalava_Tsimihety",,"Eh8","Sakalava","Western Indian Ocean","exact",1,,"high",FALSE
+"Samaritan",,"CCMCbava1246","Bavarian","Middle Europe","fuzzy",0.667,2546,"low",FALSE
+"San","HGDP","Ci9","Svan","Caucasus","fuzzy",0.75,7496,"low",FALSE
+"Sardinia","HGDP","CCMCsard1257","Sardinian","Southwestern Europe","fuzzy",0.889,26,"medium",FALSE
+"Sardinian","HGDP","CCMCsard1257","Sardinian","Southwestern Europe","exact",1,26,"high",FALSE
+"She","HGDP",,,,"unmatched",,,"none",FALSE
+"Sherpa",,"Ee6","Sherpa","China","exact",1,37,"high",FALSE
+"Sindhi","HGDP","Ea1","Sindhi","Indian Subcontinent","exact",1,115,"high",FALSE
+"Somali",,"Ca10","Somali (Esa)","Northeast Tropical Africa","fuzzy",0.9,762,"medium",FALSE
+"Somali",,"Ca2","Somali (Dolbahanta)","Northeast Tropical Africa","fuzzy",0.9,269,"medium",FALSE
+"Somali",,"SCCS36","Somali (Dolbahanta)","Northeast Tropical Africa","fuzzy",0.9,395,"medium",FALSE
+"Spanish","KGP","CCMCstan1288","Spanish","Southwestern Europe","exact",1,252,"high",FALSE
+"Surui","HGDP","Aj20","Suri","Northeast Tropical Africa","fuzzy",0.8,10895,"low",FALSE
+"Tajik",,"CCMCtaji1245","Tajik","Middle Asia","exact",1,301,"high",FALSE
+"Tamil","KGP","CCMCtami1289","Tamil","Indian Subcontinent","exact",1,,"high",FALSE
+"Tamil","KGP","Eg2","Tamil","Indian Subcontinent","exact",1,,"high",FALSE
+"Telugu","KGP","CCMCtelu1262","Telugu","Indian Subcontinent","exact",1,,"high",FALSE
+"Telugu","KGP","Eg10","Telugu","Indian Subcontinent","exact",1,,"high",FALSE
+"Temoro",,"Ad48","Toro","East Tropical Africa","fuzzy",0.667,,"low",FALSE
+"Temoro",,"Ai40","Moro","Northeast Tropical Africa","fuzzy",0.667,,"low",FALSE
+"Thai",,"Ej9","Thai","Indo-China","exact",1,144,"high",FALSE
+"Thai",,"SCCS76","Thai","Indo-China","exact",1,44,"high",FALSE
+"Tibetan",,"Ee4","Central Tibetans","China","fuzzy",0.9,660,"medium",FALSE
+"Tlingit",,"CCMCtlin1245","Tlingit","Subarctic America","exact",1,3972,"high",FALSE
+"Tlingit",,"Nb22","Tlingit","Subarctic America","exact",1,4098,"high",FALSE
+"Tu","HGDP","Eb2","Tu","China","exact",1,345,"high",FALSE
+"Tubalar",,,,,"unmatched",,,"none",FALSE
+"Tujia","HGDP",,,,"unmatched",,,"none",FALSE
+"Turkish",,"CCMCnucl1301","Turkish","Western Asia","exact",1,261,"high",FALSE
+"Tuscan","HGDP","Se12","Tucano","Brazil","fuzzy",0.667,9277,"low",FALSE
+"Ulchi",,"ec18","Ulch","Russian Far East","fuzzy",0.8,409,"medium",FALSE
+"Uygur","HGDP","CCMCuigh1240","Uighur","China","fuzzy",0.667,511,"low",FALSE
+"Uygur","HGDP","Ah33","Yungur","West Tropical Africa","fuzzy",0.667,7562,"low",FALSE
+"Vezo",,,,,"unmatched",,,"none",FALSE
+"Vietnamese",,"CCMCviet1252","Vietnamese","Indo-China","exact",1,,"high",FALSE
+"Xibo","HGDP",,,,"unmatched",,,"none",FALSE
+"Yadava",,"Ah19","Adara","West Tropical Africa","fuzzy",0.667,8127,"low",FALSE
+"Yakut","HGDP","Ec2","Yakut","Siberia","exact",1,312,"high",FALSE
+"Yemeni",,"Cj9","Yemeni","Arabian Peninsula","exact",1,215,"high",FALSE
+"Yemenite_Jew",,"Cj9","Yemeni","Arabian Peninsula","fuzzy",0.75,97,"medium",FALSE
+"Yi","HGDP",,,,"unmatched",,,"none",FALSE
+"Yizu","HGDP",,,,"unmatched",,,"none",FALSE
+"Yoruba","HGDP","Af6","Oyo Yoruba","West Tropical Africa","fuzzy",0.9,110,"medium",FALSE
+"Zapotec",,"Nj10","Zapotec","Mexico","exact",1,139,"high",FALSE

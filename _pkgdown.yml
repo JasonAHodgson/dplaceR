@@ -51,6 +51,14 @@ reference:
   - get_language_distance
   - get_pairwise_language_distance
 
+- title: Group differentiation (Fst/Qst)
+  desc: >
+    Measure cultural differentiation between GROUPS of societies (e.g. by
+    region or language family), analogous to population-genetic Fst/Qst.
+  contents:
+  - get_cultural_FST
+  - get_pairwise_cultural_FST
+
 - title: Language phylogenies
   desc: >
     Browse and parse the language phylogenies/classification trees bundled

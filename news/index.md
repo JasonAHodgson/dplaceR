@@ -466,3 +466,32 @@
   ([`dp_trees()`](https://jasonahodgson.github.io/dplaceR/reference/dp_trees.md)/[`dp_tree()`](https://jasonahodgson.github.io/dplaceR/reference/dp_tree.md)).
   Warns if the identified clade spans the seeds’ entire top-level family
   tree, a sign the seeds may not tightly bracket the intended group.
+- [`plot_distance_tree()`](https://jasonahodgson.github.io/dplaceR/reference/plot_distance_tree.md)
+  builds and plots a distance-based tree (via
+  [`ape::nj()`](https://rdrr.io/pkg/ape/man/nj.html), or
+  `method = "upgma"`) from any of this package’s pairwise
+  distance/differentiation tables –
+  [`get_pairwise_geo_distance()`](https://jasonahodgson.github.io/dplaceR/reference/get_pairwise_geo_distance.md),
+  [`get_pairwise_cult_distance()`](https://jasonahodgson.github.io/dplaceR/reference/get_pairwise_cult_distance.md),
+  [`get_pairwise_language_distance()`](https://jasonahodgson.github.io/dplaceR/reference/get_pairwise_language_distance.md)
+  (`soc_id_1`/`soc_id_2`-keyed), or
+  [`get_pairwise_cultural_FST()`](https://jasonahodgson.github.io/dplaceR/reference/get_pairwise_cultural_FST.md)‘s
+  `overall`/`by_variable` tibbles (`group_1`/`group_2`-keyed) – or any
+  data frame following the same one-row-per-unique-pair convention.
+  `root` controls how the tree is rooted: `"none"` (left exactly as
+  `method` produces it – genuinely unrooted for `"nj"`), `"midpoint"`
+  (via the new ’phangorn’ Suggests dependency), or `"outgroup"` (one or
+  more specified tips, via
+  [`ape::root()`](https://rdrr.io/pkg/ape/man/root.html)). Missing
+  (`NA`) pairwise distances – e.g. from societies with no land route, or
+  languages on different trees – are handled via `on_missing`: `"drop"`
+  (the default) repeatedly excludes whichever node has the most
+  remaining missing distances until none are left, with a warning naming
+  what was dropped; `"error"` stops immediately instead.
+  `tip_label = "name"` relabels tips with each society’s name (instead
+  of its `soc_id`) for `soc_id`-keyed input, via
+  [`dp_societies()`](https://jasonahodgson.github.io/dplaceR/reference/dp_societies.md),
+  disambiguating with the `soc_id` in parentheses if any names collide.
+  Returns the plotted `"phylo"` object invisibly, for further
+  inspection, re-plotting, or saving (e.g.
+  `ape::write.tree(tree, "tree.nwk")`).

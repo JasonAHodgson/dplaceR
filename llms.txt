@@ -262,6 +262,8 @@ either pairwise or from a single reference point.
   of societies
 - [`get_pairwise_language_distance()`](https://jasonahodgson.github.io/dplaceR/reference/get_pairwise_language_distance.md)
   : Pairwise language (branch-length) distance between societies
+- [`plot_distance_tree()`](https://jasonahodgson.github.io/dplaceR/reference/plot_distance_tree.md)
+  : Plot a distance tree from a pairwise distance table
 
 ## Group differentiation (Fst/Qst)
 

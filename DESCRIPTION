@@ -38,6 +38,7 @@ Suggests:
     ggplot2,
     graph,
     maps,
+    phangorn,
     RBGL,
     testthat (>= 3.0.0),
     knitr,

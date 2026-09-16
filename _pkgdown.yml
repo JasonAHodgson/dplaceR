@@ -51,6 +51,7 @@ reference:
   - get_pairwise_cult_distance
   - get_language_distance
   - get_pairwise_language_distance
+  - plot_distance_tree
 
 - title: Group differentiation (Fst/Qst)
   desc: >

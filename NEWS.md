@@ -335,3 +335,24 @@
   ancestor in the relevant bundled tree (`dp_trees()`/`dp_tree()`). Warns
   if the identified clade spans the seeds' entire top-level family tree, a
   sign the seeds may not tightly bracket the intended group.
+* `plot_distance_tree()` builds and plots a distance-based tree (via
+  `ape::nj()`, or `method = "upgma"`) from any of this package's pairwise
+  distance/differentiation tables -- `get_pairwise_geo_distance()`,
+  `get_pairwise_cult_distance()`, `get_pairwise_language_distance()`
+  (`soc_id_1`/`soc_id_2`-keyed), or `get_pairwise_cultural_FST()`'s
+  `overall`/`by_variable` tibbles (`group_1`/`group_2`-keyed) -- or any
+  data frame following the same one-row-per-unique-pair convention. `root`
+  controls how the tree is rooted: `"none"` (left exactly as `method`
+  produces it -- genuinely unrooted for `"nj"`), `"midpoint"` (via the new
+  'phangorn' Suggests dependency), or `"outgroup"` (one or more specified
+  tips, via `ape::root()`). Missing (`NA`) pairwise distances -- e.g. from
+  societies with no land route, or languages on different trees -- are
+  handled via `on_missing`: `"drop"` (the default) repeatedly excludes
+  whichever node has the most remaining missing distances until none are
+  left, with a warning naming what was dropped; `"error"` stops
+  immediately instead. `tip_label = "name"` relabels tips with each
+  society's name (instead of its `soc_id`) for `soc_id`-keyed input, via
+  `dp_societies()`, disambiguating with the `soc_id` in parentheses if any
+  names collide. Returns the plotted `"phylo"` object invisibly, for
+  further inspection, re-plotting, or saving (e.g.
+  `ape::write.tree(tree, "tree.nwk")`).

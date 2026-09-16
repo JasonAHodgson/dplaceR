@@ -46,3 +46,14 @@ test_that("dp_variables search is case-insensitive and matches description", {
 test_that("dp_search_variables matches dp_variables(search=)", {
   expect_equal(dp_search_variables("descent"), dp_variables(search = "descent"))
 })
+
+test_that("dp_search_variables(type=) matches dp_variables(search=, type=)", {
+  expect_equal(
+    dp_search_variables("descent", type = "Categorical"),
+    dp_variables(search = "descent", type = "Categorical")
+  )
+})
+
+test_that("dp_search_variables rejects contains() on type", {
+  expect_error(dp_search_variables("descent", type = contains("Cat")), "doesn't support contains")
+})

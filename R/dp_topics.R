@@ -26,6 +26,12 @@
 #' @param topic Optional character vector of one or more topics to filter to
 #'   (exact match against the split, trimmed topic), or [contains()] for a
 #'   partial/regex match -- see Details.
+#' @param type Optional character vector restricting to variable type(s):
+#'   `"Categorical"`, `"Ordinal"`, and/or `"Continuous"`. Does not support
+#'   [contains()]. Applied before splitting `category` into topics, so it
+#'   restricts which *variables* (and hence which variable/topic pairs)
+#'   contribute to the result -- a topic itself has no single type, since
+#'   several variables of different types can share it.
 #'
 #' @return A tibble with one row per variable/topic pair: `var_id`,
 #'   `var_name`, `topic`. A variable with no recorded `category` (currently
@@ -34,11 +40,17 @@
 #' @examples
 #' dp_topics(topic = "Subsistence")
 #' dp_topics(topic = contains("Wealth")) # merges "Wealth Transactions"/"Wealth transactions"
+#' dp_topics(type = "Continuous") # topics carried by continuous variables only
 #' sort(table(dp_topics()$topic), decreasing = TRUE) # topic counts, most first
 #'
 #' @export
-dp_topics <- function(var_id = NULL, topic = NULL) {
-  vars <- dplace_variables[!is.na(dplace_variables$category), c("var_id", "name", "category")]
+dp_topics <- function(var_id = NULL, topic = NULL, type = NULL) {
+  .gs_reject_contains(type, "type", "it only accepts a fixed vocabulary of variable types")
+
+  vars <- dplace_variables[!is.na(dplace_variables$category), c("var_id", "name", "category", "type")]
+  if (!is.null(type)) {
+    vars <- vars[!is.na(vars$type) & vars$type %in% type, , drop = FALSE]
+  }
 
   split_topics <- strsplit(vars$category, ",")
   n_topics <- lengths(split_topics)

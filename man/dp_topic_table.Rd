@@ -4,7 +4,14 @@
 \alias{dp_topic_table}
 \title{Count how many variables carry each topic}
 \usage{
-dp_topic_table()
+dp_topic_table(type = NULL)
+}
+\arguments{
+\item{type}{Optional character vector restricting to variable type(s):
+`"Categorical"`, `"Ordinal"`, and/or `"Continuous"`. Passed straight to
+[dp_topics()]/[dp_topic_list()] -- see there for what it means to
+filter topics by type. Topics with no variable of the given type(s)
+are dropped entirely rather than shown with `n_variables = 0`.}
 }
 \value{
 A tibble with one row per topic, in the same order as
@@ -22,5 +29,6 @@ which topics are broad and which are narrow before filtering by one.
 dp_topic_table()
 # most common topics first
 dp_topic_table()[order(-dp_topic_table()$n_variables), ]
+dp_topic_table(type = "Continuous")
 
 }

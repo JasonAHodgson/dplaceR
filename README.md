@@ -4,6 +4,8 @@
 # dplaceR
 
 <!-- badges: start -->
+
+[![pkgdown](https://img.shields.io/badge/docs-pkgdown-blue.svg)](https://jasonahodgson.github.io/dplaceR/)
 <!-- badges: end -->
 
 dplaceR provides an R interface to [D-PLACE](https://d-place.org)
@@ -33,9 +35,6 @@ and join them to society information in one step:
 
 ``` r
 library(dplaceR)
-#> dplaceR 0.1.0 -- bundled D-PLACE CLDF snapshot v3.3.0 (prepared 2026-09-14)
-#> Data licence: CC-BY-NC-4.0 (D-PLACE data; see https://d-place.org)
-#> Please cite dplaceR and D-PLACE if you use this data -- see dp_citation() or ?dplace_meta.
 
 # Societies in a region
 dp_societies(region = "Southern Africa")

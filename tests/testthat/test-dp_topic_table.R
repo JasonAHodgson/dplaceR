@@ -17,3 +17,9 @@ test_that("dp_topic_table counts match dp_topics() row counts per topic", {
     nrow(dp_topics(topic = "Anthropometry"))
   )
 })
+
+test_that("dp_topic_table(type=) matches dp_topic_list(type=)/dp_topics(type=)", {
+  out <- dp_topic_table(type = "Continuous")
+  expect_identical(out$topic, dp_topic_list(type = "Continuous"))
+  expect_equal(sum(out$n_variables), nrow(dp_topics(type = "Continuous")))
+})

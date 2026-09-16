@@ -53,3 +53,25 @@ test_that("dp_topics combines var_id and topic with AND", {
 test_that("dp_topics returns zero rows for an unmatched topic", {
   expect_equal(nrow(dp_topics(topic = "not-a-real-topic")), 0)
 })
+
+test_that("dp_topics(type=) restricts to variables of that type", {
+  out <- dp_topics(type = "Continuous")
+  expect_true(nrow(out) > 0)
+  expect_true(all(
+    dplace_variables$type[match(out$var_id, dplace_variables$var_id)] == "Continuous"
+  ))
+  expect_true(nrow(out) < nrow(dp_topics()))
+})
+
+test_that("dp_topics combines type with topic/var_id using AND", {
+  by_topic <- dp_topics(topic = "Subsistence")
+  by_topic_and_type <- dp_topics(topic = "Subsistence", type = "Continuous")
+  expect_true(nrow(by_topic_and_type) <= nrow(by_topic))
+  expect_true(all(
+    dplace_variables$type[match(by_topic_and_type$var_id, dplace_variables$var_id)] == "Continuous"
+  ))
+})
+
+test_that("dp_topics rejects contains() on type", {
+  expect_error(dp_topics(type = contains("Cont")), "doesn't support contains")
+})

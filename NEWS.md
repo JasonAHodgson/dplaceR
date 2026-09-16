@@ -253,3 +253,14 @@
   package-level help page (`?dplaceR`), and the README all now ask users to
   cite the dplaceR package itself in addition to D-PLACE and the source
   dataset(s).
+* `dp_search_variables()` gains a `type` argument (`"Categorical"`,
+  `"Ordinal"`, and/or `"Continuous"`, passed straight to `dp_variables()`),
+  so you can search by keyword and restrict to a variable type in one call
+  instead of going through `dp_variables(search = ..., type = ...)`
+  yourself.
+* `dp_topics()`, `dp_topic_list()`, and `dp_topic_table()` gain a `type`
+  argument, restricting topic browsing/counting to variables of the given
+  type(s) -- applied before variables are split into topics, so it selects
+  which variables (and hence which variable/topic pairs) contribute to the
+  result. (`dp_variables()`, `get_society_data()`, `get_cult_distance()`,
+  and `get_pairwise_cult_distance()` already supported filtering by `type`.)

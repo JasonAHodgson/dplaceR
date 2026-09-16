@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
 # dplaceR
 
 <!-- badges: start -->
+[![pkgdown](https://img.shields.io/badge/docs-pkgdown-blue.svg)](https://jasonahodgson.github.io/dplaceR/)
 <!-- badges: end -->
 
 dplaceR provides an R interface to [D-PLACE](https://d-place.org) (Database

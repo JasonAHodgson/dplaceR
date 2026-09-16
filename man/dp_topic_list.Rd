@@ -4,7 +4,12 @@
 \alias{dp_topic_list}
 \title{List every topic used in D-PLACE's variable categories}
 \usage{
-dp_topic_list()
+dp_topic_list(type = NULL)
+}
+\arguments{
+\item{type}{Optional character vector restricting to variable type(s):
+`"Categorical"`, `"Ordinal"`, and/or `"Continuous"`. Passed straight to
+[dp_topics()] -- see there for what it means to filter topics by type.}
 }
 \value{
 A sorted character vector of every distinct topic (see
@@ -19,5 +24,6 @@ variable/topic table yourself.
 }
 \examples{
 dp_topic_list()
+dp_topic_list(type = "Continuous")
 
 }

@@ -4,11 +4,15 @@
 \alias{dp_search_variables}
 \title{Search D-PLACE variables by keyword}
 \usage{
-dp_search_variables(keyword)
+dp_search_variables(keyword, type = NULL)
 }
 \arguments{
 \item{keyword}{A search term matched (case-insensitively) against
 variable names and descriptions.}
+
+\item{type}{Optional character vector restricting to variable type(s):
+`"Categorical"`, `"Ordinal"`, and/or `"Continuous"`. Does not support
+[contains()]. Passed straight to [dp_variables()].}
 }
 \value{
 A tibble of matching variables (see [dplace_variables] for column
@@ -19,5 +23,6 @@ A thin, more discoverable wrapper around `dp_variables(search = keyword)`.
 }
 \examples{
 dp_search_variables("marriage")
+dp_search_variables("descent", type = "Categorical")
 
 }

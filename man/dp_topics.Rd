@@ -4,7 +4,7 @@
 \alias{dp_topics}
 \title{Browse D-PLACE variables by atomic topic}
 \usage{
-dp_topics(var_id = NULL, topic = NULL)
+dp_topics(var_id = NULL, topic = NULL, type = NULL)
 }
 \arguments{
 \item{var_id}{Optional character vector of variable ID(s) to filter to.}
@@ -12,6 +12,13 @@ dp_topics(var_id = NULL, topic = NULL)
 \item{topic}{Optional character vector of one or more topics to filter to
 (exact match against the split, trimmed topic), or [contains()] for a
 partial/regex match -- see Details.}
+
+\item{type}{Optional character vector restricting to variable type(s):
+`"Categorical"`, `"Ordinal"`, and/or `"Continuous"`. Does not support
+[contains()]. Applied before splitting `category` into topics, so it
+restricts which *variables* (and hence which variable/topic pairs)
+contribute to the result -- a topic itself has no single type, since
+several variables of different types can share it.}
 }
 \value{
 A tibble with one row per variable/topic pair: `var_id`,
@@ -44,6 +51,7 @@ case-insensitive by default -- `topic = contains("Wealth")` matches both
 \examples{
 dp_topics(topic = "Subsistence")
 dp_topics(topic = contains("Wealth")) # merges "Wealth Transactions"/"Wealth transactions"
+dp_topics(type = "Continuous") # topics carried by continuous variables only
 sort(table(dp_topics()$topic), decreasing = TRUE) # topic counts, most first
 
 }

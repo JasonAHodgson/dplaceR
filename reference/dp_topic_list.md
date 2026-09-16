@@ -8,8 +8,17 @@ variable/topic table yourself.
 ## Usage
 
 ``` r
-dp_topic_list()
+dp_topic_list(type = NULL)
 ```
+
+## Arguments
+
+- type:
+
+  Optional character vector restricting to variable type(s):
+  \`"Categorical"\`, \`"Ordinal"\`, and/or \`"Continuous"\`. Passed
+  straight to \[dp_topics()\] – see there for what it means to filter
+  topics by type.
 
 ## Value
 
@@ -77,4 +86,13 @@ dp_topic_list()
 #> [54] "Watercraft and Navigation"             
 #> [55] "Wealth Transactions"                   
 #> [56] "Wealth transactions"                   
+dp_topic_list(type = "Continuous")
+#>  [1] "Anthropometry"          "Childhood"              "Climate"               
+#>  [4] "Community organization" "Data Quality"           "Death"                 
+#>  [7] "Demography"             "Ecology"                "Economy"               
+#> [10] "Gender"                 "Kinship"                "Life cycle"            
+#> [13] "Marriage"               "Mourning"               "Physical Landscape"    
+#> [16] "Politics"               "Population"             "Property"              
+#> [19] "Religion"               "Ritual"                 "Settlement"            
+#> [22] "Subsistence"            "Warfare"               
 ```

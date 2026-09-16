@@ -50,7 +50,7 @@
 <div class="page-header"><h1 id="dplacer">dplaceR<a class="anchor" aria-label="anchor" href="#dplacer"></a>
 </h1></div>
 <!-- badges: start -->
-<!-- badges: end -->
+
 <p>dplaceR provides an R interface to <a href="https://d-place.org" class="external-link">D-PLACE</a> (Database of Places, Language, Culture and Environment), a cross-cultural database linking ethnographic, linguistic, environmental, and geographic information for societies around the world.</p>
 <p>A snapshot of the D-PLACE <a href="https://cldf.clld.org/" class="external-link">CLDF</a> dataset is bundled with the package, so no internet connection is needed after installation, and results are reproducible across dplaceR versions. See <code><a href="reference/dp_citation.html">dp_citation()</a></code> for exactly which release is bundled.</p>
 <div class="section level2">
@@ -67,9 +67,6 @@
 <p>Browse societies and variables, look up the coded values for a variable, and join them to society information in one step:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jasonahodgson.github.io/dplaceR/">dplaceR</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; dplaceR 0.1.0 -- bundled D-PLACE CLDF snapshot v3.3.0 (prepared 2026-09-14)</span></span>
-<span><span class="co">#&gt; Data licence: CC-BY-NC-4.0 (D-PLACE data; see https://d-place.org)</span></span>
-<span><span class="co">#&gt; Please cite dplaceR and D-PLACE if you use this data -- see dp_citation() or ?dplace_meta.</span></span>
 <span></span>
 <span><span class="co"># Societies in a region</span></span>
 <span><span class="fu"><a href="reference/dp_societies.html">dp_societies</a></span><span class="op">(</span>region <span class="op">=</span> <span class="st">"Southern Africa"</span><span class="op">)</span></span>
@@ -243,7 +240,12 @@
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://jasonahodgson.github.io/dplaceR/"><img src="https://img.shields.io/badge/docs-pkgdown-blue.svg" alt="pkgdown"></a></li>
+</ul>
+</div>
 
   </aside>
 </div>

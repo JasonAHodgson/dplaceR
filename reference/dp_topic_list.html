@@ -48,9 +48,19 @@ variable/topic table yourself.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">dp_topic_list</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">dp_topic_list</span><span class="op">(</span>type <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+
+
+<dl><dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
+<dd><p>Optional character vector restricting to variable type(s):
+`"Categorical"`, `"Ordinal"`, and/or `"Continuous"`. Passed straight to
+[dp_topics()] – see there for what it means to filter topics by type.</p></dd>
+
+</dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A sorted character vector of every distinct topic (see
@@ -117,6 +127,15 @@ variable/topic table yourself.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [54] "Watercraft and Navigation"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [55] "Wealth Transactions"                   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [56] "Wealth transactions"                   </span>
+<span class="r-in"><span><span class="fu">dp_topic_list</span><span class="op">(</span>type <span class="op">=</span> <span class="st">"Continuous"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "Anthropometry"          "Childhood"              "Climate"               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4] "Community organization" "Data Quality"           "Death"                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "Demography"             "Ecology"                "Economy"               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10] "Gender"                 "Kinship"                "Life cycle"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "Marriage"               "Mourning"               "Physical Landscape"    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16] "Politics"               "Population"             "Property"              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "Religion"               "Ritual"                 "Settlement"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22] "Subsistence"            "Warfare"               </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

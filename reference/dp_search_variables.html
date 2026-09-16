@@ -39,7 +39,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">dp_search_variables</span><span class="op">(</span><span class="va">keyword</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">dp_search_variables</span><span class="op">(</span><span class="va">keyword</span>, type <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -49,6 +49,12 @@
 <dl><dt id="arg-keyword">keyword<a class="anchor" aria-label="anchor" href="#arg-keyword"></a></dt>
 <dd><p>A search term matched (case-insensitively) against
 variable names and descriptions.</p></dd>
+
+
+<dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
+<dd><p>Optional character vector restricting to variable type(s):
+`"Categorical"`, `"Ordinal"`, and/or `"Continuous"`. Does not support
+[contains()]. Passed straight to [dp_variables()].</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -74,6 +80,23 @@ variable names and descriptions.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> CARNEIRO6_227 Marriages per… Marriages … Social … Cate… <span style="color: #BB0000;">NA</span>    dplace-dataset…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> CARNEIRO6_370 Laws governin… Laws gover… Law and… Cate… <span style="color: #BB0000;">NA</span>    dplace-dataset…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 68 more rows</span></span>
+<span class="r-in"><span><span class="fu">dp_search_variables</span><span class="op">(</span><span class="st">"descent"</span>, type <span class="op">=</span> <span class="st">"Categorical"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 13 × 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    var_id        name           description category type  unit  contribution_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> CARNEIRO6_223 Occupational … <span style="color: #949494;">"</span>Occupatio… Social … Cate… <span style="color: #BB0000;">NA</span>    dplace-dataset…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> CARNEIRO6_326 (Semi)divine … <span style="color: #949494;">"</span>Ruler is … Politic… Cate… <span style="color: #BB0000;">NA</span>    dplace-dataset…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> EA022         Secondary cog… <span style="color: #949494;">"</span>The prese… Kinship  Cate… <span style="color: #BB0000;">NA</span>    dplace-dataset…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> EA043         Descent: majo… <span style="color: #949494;">"</span>Major mod… Kinship  Cate… <span style="color: #BB0000;">NA</span>    dplace-dataset…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> SCCS70        Descent - Mem… <span style="color: #949494;">"</span>Murdock, … Communi… Cate… <span style="color: #BB0000;">NA</span>    dplace-dataset…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> SCCS71        Descent Group… <span style="color: #949494;">"</span>Murdock, … Communi… Cate… <span style="color: #BB0000;">NA</span>    dplace-dataset…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> SCCS247       Descent: majo… <span style="color: #949494;">"</span>Gray (199… Kinship  Cate… (bla… dplace-dataset…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> SCCS836       Rule of Desce… <span style="color: #949494;">"</span>Murdock, … Kinship  Cate… <span style="color: #BB0000;">NA</span>    dplace-dataset…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> SCCS1193      Exogamous Non… <span style="color: #949494;">"</span>Kin Avoid… Kinship  Cate… <span style="color: #BB0000;">NA</span>    dplace-dataset…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> SCCS1753      Depth of Unil… <span style="color: #949494;">"</span>Lang, H. … Kinship… Cate… <span style="color: #BB0000;">NA</span>    dplace-dataset…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> WNAI311       Forms of desc… <span style="color: #949494;">"</span>This is a… Kinship… Cate… <span style="color: #BB0000;">NA</span>    dplace-dataset…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> WNAI312       Forms of kins… <span style="color: #949494;">"</span>Kinship u… Kinship… Cate… <span style="color: #BB0000;">NA</span>    dplace-dataset…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> WNAI313       Stipulated de…  <span style="color: #BB0000;">NA</span>         Kinship… Cate… <span style="color: #BB0000;">NA</span>    dplace-dataset…</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

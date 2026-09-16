@@ -344,3 +344,24 @@
   ([`?dplaceR`](https://jasonahodgson.github.io/dplaceR/reference/dplaceR-package.md)),
   and the README all now ask users to cite the dplaceR package itself in
   addition to D-PLACE and the source dataset(s).
+- [`dp_search_variables()`](https://jasonahodgson.github.io/dplaceR/reference/dp_search_variables.md)
+  gains a `type` argument (`"Categorical"`, `"Ordinal"`, and/or
+  `"Continuous"`, passed straight to
+  [`dp_variables()`](https://jasonahodgson.github.io/dplaceR/reference/dp_variables.md)),
+  so you can search by keyword and restrict to a variable type in one
+  call instead of going through `dp_variables(search = ..., type = ...)`
+  yourself.
+- [`dp_topics()`](https://jasonahodgson.github.io/dplaceR/reference/dp_topics.md),
+  [`dp_topic_list()`](https://jasonahodgson.github.io/dplaceR/reference/dp_topic_list.md),
+  and
+  [`dp_topic_table()`](https://jasonahodgson.github.io/dplaceR/reference/dp_topic_table.md)
+  gain a `type` argument, restricting topic browsing/counting to
+  variables of the given type(s) – applied before variables are split
+  into topics, so it selects which variables (and hence which
+  variable/topic pairs) contribute to the result.
+  ([`dp_variables()`](https://jasonahodgson.github.io/dplaceR/reference/dp_variables.md),
+  [`get_society_data()`](https://jasonahodgson.github.io/dplaceR/reference/get_society_data.md),
+  [`get_cult_distance()`](https://jasonahodgson.github.io/dplaceR/reference/get_cult_distance.md),
+  and
+  [`get_pairwise_cult_distance()`](https://jasonahodgson.github.io/dplaceR/reference/get_pairwise_cult_distance.md)
+  already supported filtering by `type`.)

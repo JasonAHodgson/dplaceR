@@ -7,8 +7,19 @@ which topics are broad and which are narrow before filtering by one.
 ## Usage
 
 ``` r
-dp_topic_table()
+dp_topic_table(type = NULL)
 ```
+
+## Arguments
+
+- type:
+
+  Optional character vector restricting to variable type(s):
+  \`"Categorical"\`, \`"Ordinal"\`, and/or \`"Continuous"\`. Passed
+  straight to \[dp_topics()\]/\[dp_topic_list()\] – see there for what
+  it means to filter topics by type. Topics with no variable of the
+  given type(s) are dropped entirely rather than shown with
+  \`n_variables = 0\`.
 
 ## Value
 
@@ -52,4 +63,19 @@ dp_topic_table()[order(-dp_topic_table()$n_variables), ]
 #>  9 Kinship             280
 #> 10 Marriage            249
 #> # ℹ 46 more rows
+dp_topic_table(type = "Continuous")
+#> # A tibble: 23 × 2
+#>    topic                  n_variables
+#>    <chr>                        <int>
+#>  1 Anthropometry                    4
+#>  2 Childhood                        6
+#>  3 Climate                         10
+#>  4 Community organization          10
+#>  5 Data Quality                    14
+#>  6 Death                            8
+#>  7 Demography                       7
+#>  8 Ecology                         28
+#>  9 Economy                          3
+#> 10 Gender                          11
+#> # ℹ 13 more rows
 ```

@@ -12,7 +12,7 @@ clean topic instead of the raw compound string.
 ## Usage
 
 ``` r
-dp_topics(var_id = NULL, topic = NULL)
+dp_topics(var_id = NULL, topic = NULL, type = NULL)
 ```
 
 ## Arguments
@@ -26,6 +26,15 @@ dp_topics(var_id = NULL, topic = NULL)
   Optional character vector of one or more topics to filter to (exact
   match against the split, trimmed topic), or \[contains()\] for a
   partial/regex match – see Details.
+
+- type:
+
+  Optional character vector restricting to variable type(s):
+  \`"Categorical"\`, \`"Ordinal"\`, and/or \`"Continuous"\`. Does not
+  support \[contains()\]. Applied before splitting \`category\` into
+  topics, so it restricts which \*variables\* (and hence which
+  variable/topic pairs) contribute to the result – a topic itself has no
+  single type, since several variables of different types can share it.
 
 ## Value
 
@@ -84,6 +93,21 @@ dp_topics(topic = contains("Wealth")) # merges "Wealth Transactions"/"Wealth tra
 #> 11 SCCS279 Inheritance rule for movable property [Note, identical to EA07… Weal…
 #> 12 SCCS280 Inheritance distribution for real property (land) [Note, ident… Weal…
 #> 13 SCCS281 Inheritance distribution for movable property [Note, identical… Weal…
+dp_topics(type = "Continuous") # topics carried by continuous variables only
+#> # A tibble: 208 × 3
+#>    var_id var_name                       topic      
+#>    <chr>  <chr>                          <chr>      
+#>  1 B001   Subsistence economy: Gathering Economy    
+#>  2 B001   Subsistence economy: Gathering Property   
+#>  3 B001   Subsistence economy: Gathering Subsistence
+#>  4 B002   Subsistence economy: Hunting   Economy    
+#>  5 B002   Subsistence economy: Hunting   Property   
+#>  6 B002   Subsistence economy: Hunting   Subsistence
+#>  7 B003   Subsistence economy: Fishing   Economy    
+#>  8 B003   Subsistence economy: Fishing   Property   
+#>  9 B003   Subsistence economy: Fishing   Subsistence
+#> 10 B006   Population of ethnic group     Population 
+#> # ℹ 198 more rows
 sort(table(dp_topics()$topic), decreasing = TRUE) # topic counts, most first
 #> 
 #>                                 Gender                             Life cycle 

@@ -58,9 +58,12 @@
 #' @param culture The reference culture -- see Details. Ignored if
 #'   `modal = TRUE`.
 #' @param soc_id Character vector of one or more D-PLACE society IDs to
-#'   compare `culture` against (see [dp_societies()]).
+#'   compare `culture` against (see [dp_societies()]). Also accepts a data
+#'   frame/tibble with a `soc_id` column, from which the column is used
+#'   automatically.
 #' @param var_id,category,type,search Optional variable-selection criteria:
-#'   `var_id` names variable ID(s) explicitly, while `category`, `type`,
+#'   `var_id` names variable ID(s) explicitly (also accepting a data
+#'   frame/tibble with a `var_id` column), while `category`, `type`,
 #'   and `search` select a subset by searching -- all four are passed
 #'   straight to [dp_variables()] and combined with AND, like there
 #'   (including [contains()] support for `category`). At least one must be
@@ -71,7 +74,8 @@
 #'   `FALSE`.
 #' @param mode_ref_soc_id Optional character vector of society IDs to
 #'   compute the modal profile from, when `modal = TRUE`, instead of using
-#'   `soc_id`. Ignored unless `modal = TRUE`.
+#'   `soc_id` (also accepts a data frame/tibble with a `soc_id` column).
+#'   Ignored unless `modal = TRUE`.
 #' @param missing One of `"pairwise"` (default), `"complete"`, or `"match"`
 #'   -- see Details.
 #' @param metric One of `"proportion"` (default), `"both"`, or `"sum"` --
@@ -101,6 +105,9 @@ get_cult_distance <- function(culture = NULL, soc_id, var_id = NULL, category = 
                                type_aware = FALSE) {
   missing <- match.arg(missing)
   metric <- match.arg(metric)
+  soc_id <- .gs_coerce_ids(soc_id, "soc_id", "soc_id")
+  var_id <- .gs_coerce_ids(var_id, "var_id", "var_id")
+  mode_ref_soc_id <- .gs_coerce_ids(mode_ref_soc_id, "soc_id", "mode_ref_soc_id")
 
   if (length(soc_id) < 1) {
     stop("`soc_id` must contain at least one society ID.", call. = FALSE)

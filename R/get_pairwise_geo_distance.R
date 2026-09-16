@@ -74,8 +74,10 @@
 #' environment.
 #'
 #' @param soc_id Character vector of two or more D-PLACE society IDs (see
-#'   [dp_societies()]). Societies with missing coordinates are dropped with
-#'   a warning; unknown IDs are dropped with a warning.
+#'   [dp_societies()]). Also accepts a data frame/tibble with a `soc_id`
+#'   column, from which the column is used automatically. Societies with
+#'   missing coordinates are dropped with a warning; unknown IDs are
+#'   dropped with a warning.
 #' @param method One of `"migration"`, `"great_circle"`, or
 #'   `"land_route_km"` -- see Details. There is no default; it must be
 #'   supplied explicitly.
@@ -115,6 +117,7 @@
 #' @export
 get_pairwise_geo_distance <- function(soc_id, method, graph = "worldgraph.10k") {
   method <- .geo_dist_check_method(method)
+  soc_id <- .gs_coerce_ids(soc_id, "soc_id", "soc_id")
 
   if (length(soc_id) < 2) {
     stop("`soc_id` must contain at least two society IDs.", call. = FALSE)

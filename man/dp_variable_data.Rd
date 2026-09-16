@@ -7,7 +7,9 @@
 dp_variable_data(var_id, society_info = TRUE)
 }
 \arguments{
-\item{var_id}{Character vector of variable ID(s).}
+\item{var_id}{Character vector of variable ID(s). Also accepts a data
+frame/tibble with a `var_id` column, from which the column is used
+automatically.}
 
 \item{society_info}{Logical; if `TRUE` (the default), join in `name`,
 `latitude`, `longitude`, `glottocode`, and `region` from

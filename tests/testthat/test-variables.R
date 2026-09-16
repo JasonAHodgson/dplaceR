@@ -25,6 +25,26 @@ test_that("dp_variables rejects contains() on type", {
   expect_error(dp_variables(type = contains("Cont")), "doesn't support contains")
 })
 
+test_that("dp_variables accepts a data frame/tibble for var_id, using its var_id column", {
+  # A common mistake: passing a dp_variables() result straight through
+  # instead of its `var_id` column -- this used to silently match nothing;
+  # now the column is used automatically.
+  vars <- dp_variables(category = "Subsistence")
+  out_df <- dp_variables(var_id = vars)
+  out_vec <- dp_variables(var_id = vars$var_id)
+  expect_identical(out_df, out_vec)
+  expect_equal(nrow(out_df), nrow(vars))
+})
+
+test_that("dp_variables errors clearly if var_id is a data frame with no var_id column", {
+  no_id_col <- data.frame(name = c("a", "b"))
+  expect_error(dp_variables(var_id = no_id_col), "no `var_id` column")
+})
+
+test_that("dp_variables errors clearly if var_id is some other non-character type", {
+  expect_error(dp_variables(var_id = 1:3), "must be a character vector")
+})
+
 test_that("dp_variables filters by type", {
   out <- dp_variables(type = "Continuous")
   expect_true(all(out$type == "Continuous"))

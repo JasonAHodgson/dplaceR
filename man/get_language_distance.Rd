@@ -14,9 +14,10 @@ language tree (see [dp_trees()]) -- useful for referencing a language
 with no D-PLACE society attached.}
 
 \item{soc_id}{Character vector of one or more D-PLACE society IDs to
-compute the distance to (see [dp_societies()]). Unknown IDs, and
-societies whose language can't be matched to any bundled tree, are
-dropped with a warning.}
+compute the distance to (see [dp_societies()]). Also accepts a data
+frame/tibble with a `soc_id` column, from which the column is used
+automatically. Unknown IDs, and societies whose language can't be
+matched to any bundled tree, are dropped with a warning.}
 
 \item{cross_tree}{One of `"na"` or `"join_root"` -- see
 [get_pairwise_language_distance()]. There is no default; it must be

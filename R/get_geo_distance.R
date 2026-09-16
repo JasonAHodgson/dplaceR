@@ -47,8 +47,10 @@
 #'   [dp_societies()]), or a named numeric vector of length 2,
 #'   `c(longitude = ..., latitude = ...)`, giving an arbitrary coordinate.
 #' @param soc_id Character vector of one or more D-PLACE society IDs to
-#'   compute the distance to (see [dp_societies()]). Unknown IDs, and
-#'   societies with missing coordinates, are dropped with a warning.
+#'   compute the distance to (see [dp_societies()]). Also accepts a data
+#'   frame/tibble with a `soc_id` column, from which the column is used
+#'   automatically. Unknown IDs, and societies with missing coordinates,
+#'   are dropped with a warning.
 #' @param method One of `"migration"`, `"great_circle"`, or
 #'   `"land_route_km"` -- see Details. There is no default; it must be
 #'   supplied explicitly.
@@ -89,6 +91,7 @@
 #' @export
 get_geo_distance <- function(point, soc_id, method, graph = "worldgraph.10k") {
   method <- .geo_dist_check_method(method)
+  soc_id <- .gs_coerce_ids(soc_id, "soc_id", "soc_id")
 
   if (length(soc_id) < 1) {
     stop("`soc_id` must contain at least one society ID.", call. = FALSE)

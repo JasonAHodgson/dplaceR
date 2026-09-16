@@ -26,7 +26,10 @@ D-PLACE splits Africa into several regions with no single `"Africa"`
 value.}
 
 \item{soc_id}{Optional character vector of society IDs to filter to, or
-[contains()] for a partial/regex match.}
+[contains()] for a partial/regex match. Also accepts a data
+frame/tibble with a `soc_id` column (e.g. an earlier `dp_societies()`
+result passed straight through), from which the column is used
+automatically.}
 
 \item{xd_id}{Optional character vector of cross-dataset ID(s) to filter
 to, or [contains()] for a partial/regex match -- see

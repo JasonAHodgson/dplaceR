@@ -8,8 +8,9 @@ get_society_country(soc_id)
 }
 \arguments{
 \item{soc_id}{Character vector of one or more D-PLACE society IDs (see
-[dp_societies()]). Unknown IDs, and societies with missing
-coordinates, are dropped with a warning.}
+[dp_societies()]). Also accepts a data frame/tibble with a `soc_id`
+column, from which the column is used automatically. Unknown IDs, and
+societies with missing coordinates, are dropped with a warning.}
 }
 \value{
 A tibble with one row per society: `soc_id` and `country`

@@ -59,7 +59,9 @@
 #' }
 #'
 #' @param soc_id Character vector of two or more D-PLACE society IDs (see
-#'   [dp_societies()]). Unknown IDs are dropped with a warning.
+#'   [dp_societies()]). Also accepts a data frame/tibble with a `soc_id`
+#'   column, from which the column is used automatically. Unknown IDs are
+#'   dropped with a warning.
 #' @param cross_tree One of `"na"` or `"join_root"` -- see Details. There is
 #'   no default; it must be supplied explicitly. `"join_root"` currently
 #'   errors (not implemented yet).
@@ -82,6 +84,7 @@
 #' @export
 get_pairwise_language_distance <- function(soc_id, cross_tree, multiplier = 2) {
   cross_tree <- .lang_dist_check_cross_tree(cross_tree)
+  soc_id <- .gs_coerce_ids(soc_id, "soc_id", "soc_id")
 
   if (length(soc_id) < 2) {
     stop("`soc_id` must contain at least two society IDs.", call. = FALSE)

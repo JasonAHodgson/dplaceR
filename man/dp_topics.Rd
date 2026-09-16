@@ -7,7 +7,9 @@
 dp_topics(var_id = NULL, topic = NULL, type = NULL)
 }
 \arguments{
-\item{var_id}{Optional character vector of variable ID(s) to filter to.}
+\item{var_id}{Optional character vector of variable ID(s) to filter to.
+Also accepts a data frame/tibble with a `var_id` column, from which the
+column is used automatically.}
 
 \item{topic}{Optional character vector of one or more topics to filter to
 (exact match against the split, trimmed topic), or [contains()] for a

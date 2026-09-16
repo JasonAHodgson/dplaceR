@@ -17,8 +17,9 @@
 #' convenient approximation, not authoritative for borderline cases.
 #'
 #' @param soc_id Character vector of one or more D-PLACE society IDs (see
-#'   [dp_societies()]). Unknown IDs, and societies with missing
-#'   coordinates, are dropped with a warning.
+#'   [dp_societies()]). Also accepts a data frame/tibble with a `soc_id`
+#'   column, from which the column is used automatically. Unknown IDs, and
+#'   societies with missing coordinates, are dropped with a warning.
 #'
 #' @return A tibble with one row per society: `soc_id` and `country`
 #'   (character; `NA` where the coordinates didn't resolve to any mapped
@@ -31,6 +32,7 @@
 #'
 #' @export
 get_society_country <- function(soc_id) {
+  soc_id <- .gs_coerce_ids(soc_id, "soc_id", "soc_id")
   if (length(soc_id) < 1) {
     stop("`soc_id` must contain at least one society ID.", call. = FALSE)
   }

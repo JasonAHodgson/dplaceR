@@ -47,11 +47,14 @@
 #'
 #' @param soc_id,glottocode,iso_code,region,contribution_id,language_level_glottocodes,xd_id
 #'   Optional character vector(s) for an exact match, or [contains()] for a
-#'   partial/regex match -- see Matching rules. `xd_id` is D-PLACE's
-#'   cross-dataset identifier, shared by societies from different datasets
-#'   that code the same real-world group -- see
-#'   [get_related_societies()] for finding one in the first place. Most
-#'   societies have no `xd_id` (`NA`) and so never match.
+#'   partial/regex match -- see Matching rules. `soc_id` also accepts a data
+#'   frame/tibble with a `soc_id` column (e.g. an earlier `dp_societies()`/
+#'   `get_society()` result passed straight through), from which the column
+#'   is used automatically. `xd_id` is D-PLACE's cross-dataset identifier,
+#'   shared by societies from different datasets that code the same
+#'   real-world group -- see [get_related_societies()] for finding one in
+#'   the first place. Most societies have no `xd_id` (`NA`) and so never
+#'   match.
 #' @param lang_family,lang_family_id Optional character vector(s) for an
 #'   exact match, or [contains()] for a partial/regex match -- see Matching
 #'   rules. `lang_family` is the society's top-level Glottolog language
@@ -100,6 +103,7 @@ get_society <- function(soc_id = NULL, name = NULL, glottocode = NULL,
   .gs_reject_contains(type, "type", "it only accepts \"society\"/\"languoid\"")
   .gs_reject_contains(name, "name", "it's already a partial, case-insensitive match by default")
   .gs_reject_contains(country, "country", "it's already matched case-insensitively; pass plain country name(s) instead")
+  soc_id <- .gs_coerce_ids(soc_id, "soc_id", "soc_id")
 
   out <- dplace_societies
 

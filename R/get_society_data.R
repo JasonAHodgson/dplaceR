@@ -31,12 +31,14 @@
 #' }
 #'
 #' @param soc_id Optional character vector of society ID(s) to include (see
-#'   [dp_societies()]). Defaults to every society with coded cultural data
-#'   (`type = "society"`).
+#'   [dp_societies()]). Also accepts a data frame/tibble with a `soc_id`
+#'   column, from which the column is used automatically. Defaults to every
+#'   society with coded cultural data (`type = "society"`).
 #' @param var_id,category,type,search Optional variable-selection criteria,
 #'   passed straight to [dp_variables()] and combined with AND -- see its
 #'   documentation for what each means (including [contains()] support for
-#'   `category`). At least one must be supplied.
+#'   `category`, and a data frame/tibble with a `var_id` column for
+#'   `var_id`). At least one must be supplied.
 #' @param format One of `"long"` (default) or `"wide"` -- see Details.
 #' @param society_info Logical; if `TRUE` (the default), join in society
 #'   `name` (as `society_name`), `latitude`, `longitude`, `glottocode`, and
@@ -57,6 +59,8 @@ get_society_data <- function(soc_id = NULL, var_id = NULL, category = NULL,
                               format = c("long", "wide"),
                               society_info = TRUE) {
   format <- match.arg(format)
+  soc_id <- .gs_coerce_ids(soc_id, "soc_id", "soc_id")
+  var_id <- .gs_coerce_ids(var_id, "var_id", "var_id")
 
   if (is.null(var_id) && is.null(category) && is.null(type) && is.null(search)) {
     stop(

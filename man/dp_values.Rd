@@ -7,9 +7,13 @@
 dp_values(var_id = NULL, soc_id = NULL)
 }
 \arguments{
-\item{var_id}{Optional character vector of variable ID(s) to filter to.}
+\item{var_id}{Optional character vector of variable ID(s) to filter to.
+Also accepts a data frame/tibble with a `var_id` column, from which the
+column is used automatically.}
 
-\item{soc_id}{Optional character vector of society ID(s) to filter to.}
+\item{soc_id}{Optional character vector of society ID(s) to filter to.
+Also accepts a data frame/tibble with a `soc_id` column, from which the
+column is used automatically.}
 }
 \value{
 A tibble of values (see [dplace_values] for column definitions).

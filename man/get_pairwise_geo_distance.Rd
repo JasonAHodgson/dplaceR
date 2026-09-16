@@ -8,8 +8,10 @@ get_pairwise_geo_distance(soc_id, method, graph = "worldgraph.10k")
 }
 \arguments{
 \item{soc_id}{Character vector of two or more D-PLACE society IDs (see
-[dp_societies()]). Societies with missing coordinates are dropped with
-a warning; unknown IDs are dropped with a warning.}
+[dp_societies()]). Also accepts a data frame/tibble with a `soc_id`
+column, from which the column is used automatically. Societies with
+missing coordinates are dropped with a warning; unknown IDs are
+dropped with a warning.}
 
 \item{method}{One of `"migration"`, `"great_circle"`, or
 `"land_route_km"` -- see Details. There is no default; it must be

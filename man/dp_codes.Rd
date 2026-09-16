@@ -7,7 +7,9 @@
 dp_codes(var_id)
 }
 \arguments{
-\item{var_id}{Character vector of variable ID(s) to get codes for.}
+\item{var_id}{Character vector of variable ID(s) to get codes for. Also
+accepts a data frame/tibble with a `var_id` column, from which the
+column is used automatically.}
 }
 \value{
 A tibble of codes, ordered by `ord` within each variable (see

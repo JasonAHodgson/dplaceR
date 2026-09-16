@@ -23,6 +23,8 @@
 #' `"Wealth Transactions"` and `"Wealth transactions"` in one call.
 #'
 #' @param var_id Optional character vector of variable ID(s) to filter to.
+#'   Also accepts a data frame/tibble with a `var_id` column, from which the
+#'   column is used automatically.
 #' @param topic Optional character vector of one or more topics to filter to
 #'   (exact match against the split, trimmed topic), or [contains()] for a
 #'   partial/regex match -- see Details.
@@ -46,6 +48,7 @@
 #' @export
 dp_topics <- function(var_id = NULL, topic = NULL, type = NULL) {
   .gs_reject_contains(type, "type", "it only accepts a fixed vocabulary of variable types")
+  var_id <- .gs_coerce_ids(var_id, "var_id", "var_id")
 
   vars <- dplace_variables[!is.na(dplace_variables$category), c("var_id", "name", "category", "type")]
   if (!is.null(type)) {

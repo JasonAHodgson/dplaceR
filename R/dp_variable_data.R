@@ -4,7 +4,9 @@
 #' (name, coordinates, glottocode) and, for categorical/ordinal variables,
 #' to human-readable code labels.
 #'
-#' @param var_id Character vector of variable ID(s).
+#' @param var_id Character vector of variable ID(s). Also accepts a data
+#'   frame/tibble with a `var_id` column, from which the column is used
+#'   automatically.
 #' @param society_info Logical; if `TRUE` (the default), join in `name`,
 #'   `latitude`, `longitude`, `glottocode`, and `region` from
 #'   [dplace_societies].
@@ -19,6 +21,7 @@
 #'
 #' @export
 dp_variable_data <- function(var_id, society_info = TRUE) {
+  var_id <- .gs_coerce_ids(var_id, "var_id", "var_id")
   vals <- dp_values(var_id = var_id)
 
   codes <- dplace_codes[, c("code_id", "var_id", "name")]

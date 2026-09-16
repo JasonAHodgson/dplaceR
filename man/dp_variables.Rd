@@ -7,7 +7,10 @@
 dp_variables(var_id = NULL, category = NULL, type = NULL, search = NULL)
 }
 \arguments{
-\item{var_id}{Optional character vector of variable IDs to filter to.}
+\item{var_id}{Optional character vector of variable IDs to filter to.
+Also accepts a data frame/tibble with a `var_id` column (e.g. an
+earlier `dp_variables()` result passed straight through), from which
+the column is used automatically.}
 
 \item{category}{Optional character vector of categories to filter to
 (matched exactly; see `unique(dplace_variables$category)` for valid

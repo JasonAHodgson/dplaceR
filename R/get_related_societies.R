@@ -12,7 +12,9 @@
 #' `xd_id` at all -- they haven't been cross-referenced to another dataset.
 #'
 #' @param soc_id Character vector of one or more D-PLACE society IDs (see
-#'   [dp_societies()]).
+#'   [dp_societies()]). Also accepts a data frame/tibble with a `soc_id`
+#'   column (e.g. a `dp_societies()` result passed straight through), from
+#'   which the column is used automatically.
 #'
 #' @return A tibble with one row per (queried society, related society)
 #'   pair: `soc_id` (the society you asked about), `xd_id`, `related_soc_id`,
@@ -29,6 +31,7 @@
 #'
 #' @export
 get_related_societies <- function(soc_id) {
+  soc_id <- .gs_coerce_ids(soc_id, "soc_id", "soc_id")
   if (length(soc_id) < 1) {
     stop("`soc_id` must contain at least one society ID.", call. = FALSE)
   }

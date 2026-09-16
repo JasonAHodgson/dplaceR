@@ -24,11 +24,14 @@ get_society(
 }
 \arguments{
 \item{soc_id, glottocode, iso_code, region, contribution_id, language_level_glottocodes, xd_id}{Optional character vector(s) for an exact match, or [contains()] for a
-partial/regex match -- see Matching rules. `xd_id` is D-PLACE's
-cross-dataset identifier, shared by societies from different datasets
-that code the same real-world group -- see
-[get_related_societies()] for finding one in the first place. Most
-societies have no `xd_id` (`NA`) and so never match.}
+partial/regex match -- see Matching rules. `soc_id` also accepts a data
+frame/tibble with a `soc_id` column (e.g. an earlier `dp_societies()`/
+`get_society()` result passed straight through), from which the column
+is used automatically. `xd_id` is D-PLACE's cross-dataset identifier,
+shared by societies from different datasets that code the same
+real-world group -- see [get_related_societies()] for finding one in
+the first place. Most societies have no `xd_id` (`NA`) and so never
+match.}
 
 \item{name}{Optional case-insensitive partial match on society name --
 see Matching rules. Does not support [contains()] (it's already a

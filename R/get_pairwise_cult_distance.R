@@ -66,9 +66,12 @@
 #' different control over this.
 #'
 #' @param soc_id Character vector of two or more D-PLACE society IDs (see
-#'   [dp_societies()]). Unknown IDs are dropped with a warning.
+#'   [dp_societies()]). Also accepts a data frame/tibble with a `soc_id`
+#'   column, from which the column is used automatically. Unknown IDs are
+#'   dropped with a warning.
 #' @param var_id,category,type,search Optional variable-selection criteria:
-#'   `var_id` names variable ID(s) explicitly, while `category`, `type`,
+#'   `var_id` names variable ID(s) explicitly (also accepting a data
+#'   frame/tibble with a `var_id` column), while `category`, `type`,
 #'   and `search` select a subset by searching -- all four are passed
 #'   straight to [dp_variables()] and combined with AND, like there
 #'   (including [contains()] support for `category`). At least one must be
@@ -102,6 +105,8 @@ get_pairwise_cult_distance <- function(soc_id, var_id = NULL, category = NULL,
                                         type_aware = FALSE) {
   missing <- match.arg(missing)
   metric <- match.arg(metric)
+  soc_id <- .gs_coerce_ids(soc_id, "soc_id", "soc_id")
+  var_id <- .gs_coerce_ids(var_id, "var_id", "var_id")
 
   if (length(soc_id) < 2) {
     stop("`soc_id` must contain at least two society IDs.", call. = FALSE)

@@ -6,7 +6,11 @@
 #' [dp_variable_data()] instead.
 #'
 #' @param var_id Optional character vector of variable ID(s) to filter to.
+#'   Also accepts a data frame/tibble with a `var_id` column, from which the
+#'   column is used automatically.
 #' @param soc_id Optional character vector of society ID(s) to filter to.
+#'   Also accepts a data frame/tibble with a `soc_id` column, from which the
+#'   column is used automatically.
 #'
 #' @return A tibble of values (see [dplace_values] for column definitions).
 #'
@@ -15,6 +19,9 @@
 #'
 #' @export
 dp_values <- function(var_id = NULL, soc_id = NULL) {
+  var_id <- .gs_coerce_ids(var_id, "var_id", "var_id")
+  soc_id <- .gs_coerce_ids(soc_id, "soc_id", "soc_id")
+
   out <- dplace_values
 
   if (!is.null(var_id)) {

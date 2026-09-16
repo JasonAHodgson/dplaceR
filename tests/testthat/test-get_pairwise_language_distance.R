@@ -5,7 +5,7 @@
 # depth for this tree, not time -- see the units caveat in the docs).
 # B72, B73 and B79 each resolve to a tip on a DIFFERENT tree from one
 # another, so any pair drawn from them is a genuine cross-tree case.
-# B284 has a glottocode ((quil1240) that isn't a tip in any bundled tree, so
+# B284 has a glottocode (quil1240) that isn't a tip in any bundled tree, so
 # it's a genuine "no match" case (distinct from an unknown society ID).
 
 test_that("get_pairwise_language_distance requires `cross_tree` to be supplied explicitly", {

@@ -19,7 +19,9 @@ get_pairwise_language_distance(soc_id, cross_tree, multiplier = 2)
 - soc_id:
 
   Character vector of two or more D-PLACE society IDs (see
-  \[dp_societies()\]). Unknown IDs are dropped with a warning.
+  \[dp_societies()\]). Also accepts a data frame/tibble with a
+  \`soc_id\` column, from which the column is used automatically.
+  Unknown IDs are dropped with a warning.
 
 - cross_tree:
 

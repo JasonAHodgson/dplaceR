@@ -12,7 +12,10 @@ dp_variables(var_id = NULL, category = NULL, type = NULL, search = NULL)
 
 - var_id:
 
-  Optional character vector of variable IDs to filter to.
+  Optional character vector of variable IDs to filter to. Also accepts a
+  data frame/tibble with a \`var_id\` column (e.g. an earlier
+  \`dp_variables()\` result passed straight through), from which the
+  column is used automatically.
 
 - category:
 

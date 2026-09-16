@@ -63,8 +63,10 @@ share their `method` semantics and, for the two methods that need it, the
 
 <dl><dt id="arg-soc-id">soc_id<a class="anchor" aria-label="anchor" href="#arg-soc-id"></a></dt>
 <dd><p>Character vector of two or more D-PLACE society IDs (see
-[dp_societies()]). Societies with missing coordinates are dropped with
-a warning; unknown IDs are dropped with a warning.</p></dd>
+[dp_societies()]). Also accepts a data frame/tibble with a `soc_id`
+column, from which the column is used automatically. Societies with
+missing coordinates are dropped with a warning; unknown IDs are
+dropped with a warning.</p></dd>
 
 
 <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>

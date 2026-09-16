@@ -30,15 +30,18 @@ get_society_data(
 - soc_id:
 
   Optional character vector of society ID(s) to include (see
-  \[dp_societies()\]). Defaults to every society with coded cultural
-  data (\`type = "society"\`).
+  \[dp_societies()\]). Also accepts a data frame/tibble with a
+  \`soc_id\` column, from which the column is used automatically.
+  Defaults to every society with coded cultural data (\`type =
+  "society"\`).
 
 - var_id, category, type, search:
 
   Optional variable-selection criteria, passed straight to
   \[dp_variables()\] and combined with AND – see its documentation for
-  what each means (including \[contains()\] support for \`category\`).
-  At least one must be supplied.
+  what each means (including \[contains()\] support for \`category\`,
+  and a data frame/tibble with a \`var_id\` column for \`var_id\`). At
+  least one must be supplied.
 
 - format:
 

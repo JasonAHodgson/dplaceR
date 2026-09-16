@@ -73,6 +73,17 @@ either pairwise or from a single reference point.
 - [`get_pairwise_language_distance()`](https://jasonahodgson.github.io/dplaceR/reference/get_pairwise_language_distance.md)
   : Pairwise language (branch-length) distance between societies
 
+## Group differentiation (Fst/Qst)
+
+Measure cultural differentiation between GROUPS of societies (e.g. by
+region or language family), analogous to population-genetic Fst/Qst.
+
+- [`get_cultural_FST()`](https://jasonahodgson.github.io/dplaceR/reference/get_cultural_FST.md)
+  : Cultural differentiation (Fst-style) between groups of societies
+- [`get_pairwise_cultural_FST()`](https://jasonahodgson.github.io/dplaceR/reference/get_pairwise_cultural_FST.md)
+  : Pairwise cultural differentiation (Fst-style) between groups of
+  societies
+
 ## Language phylogenies
 
 Browse and parse the language phylogenies/classification trees bundled

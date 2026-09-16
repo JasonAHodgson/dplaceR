@@ -19,7 +19,9 @@ dp_topics(var_id = NULL, topic = NULL, type = NULL)
 
 - var_id:
 
-  Optional character vector of variable ID(s) to filter to.
+  Optional character vector of variable ID(s) to filter to. Also accepts
+  a data frame/tibble with a \`var_id\` column, from which the column is
+  used automatically.
 
 - topic:
 

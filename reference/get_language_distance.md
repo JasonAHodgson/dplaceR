@@ -27,9 +27,10 @@ get_language_distance(point, soc_id, cross_tree, multiplier = 2)
 - soc_id:
 
   Character vector of one or more D-PLACE society IDs to compute the
-  distance to (see \[dp_societies()\]). Unknown IDs, and societies whose
-  language can't be matched to any bundled tree, are dropped with a
-  warning.
+  distance to (see \[dp_societies()\]). Also accepts a data frame/tibble
+  with a \`soc_id\` column, from which the column is used automatically.
+  Unknown IDs, and societies whose language can't be matched to any
+  bundled tree, are dropped with a warning.
 
 - cross_tree:
 

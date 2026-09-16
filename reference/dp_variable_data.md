@@ -14,7 +14,8 @@ dp_variable_data(var_id, society_info = TRUE)
 
 - var_id:
 
-  Character vector of variable ID(s).
+  Character vector of variable ID(s). Also accepts a data frame/tibble
+  with a \`var_id\` column, from which the column is used automatically.
 
 - society_info:
 

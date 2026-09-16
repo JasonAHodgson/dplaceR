@@ -1,0 +1,81 @@
+# Pairwise cultural differentiation (Fst-style) between groups of societies
+
+Computes the same Gst/Qst-style cultural differentiation as
+\[get_cultural_FST()\], but separately for every pair of groups among
+three or more, rather than one combined calculation across all of them
+at once – directly analogous to how \[get_pairwise_cult_distance()\]
+relates to \[get_cult_distance()\], but with groups of societies as the
+unit of comparison instead of individual societies. See
+\[get_cultural_FST()\] for the full explanation of \`group\`, the
+Gst/Qst calculations, missing-data handling, and the \`overall\` summary
+– all identical here, just computed once per pair of groups instead of
+once across all groups together.
+
+## Usage
+
+``` r
+get_pairwise_cultural_FST(
+  soc_id,
+  group,
+  var_id = NULL,
+  category = NULL,
+  type = NULL,
+  search = NULL,
+  type_aware = FALSE
+)
+```
+
+## Arguments
+
+- soc_id:
+
+  Character vector of D-PLACE society IDs spanning at least two groups
+  (see \[dp_societies()\]). Also accepts a data frame/tibble with a
+  \`soc_id\` column, from which the column is used automatically.
+  Unknown IDs are dropped with a warning.
+
+- group:
+
+  Assigns each society in \`soc_id\` to a group – see Details.
+
+- var_id, category, type, search:
+
+  Optional variable-selection criteria: \`var_id\` names variable ID(s)
+  explicitly (also accepting a data frame/tibble with a \`var_id\`
+  column), while \`category\`, \`type\`, and \`search\` select a subset
+  by searching – all four are passed straight to \[dp_variables()\] and
+  combined with AND, like there (including \[contains()\] support for
+  \`category\`). At least one must be supplied. \`var_id\` values not
+  found (or not matched by the other criteria) are dropped with a
+  warning.
+
+- type_aware:
+
+  Logical; if \`TRUE\`, ordinal variables are scored by Qst (using
+  \`ord\` as a quantity) instead of Gst. Default \`FALSE\` – see
+  Details. Does not affect categorical or continuous variables.
+
+## Value
+
+A list with two tibbles, each with one row per group pair (in addition
+to what \[get_cultural_FST()\] returns per row):
+
+- \`by_variable\`:
+
+  \`group_1\`, \`group_2\`, \`var_id\`, \`type\`, \`method\`,
+  \`n_groups\` (always \`2\`), \`n_societies\`, \`value\`.
+
+- \`overall\`:
+
+  \`group_1\`, \`group_2\`, \`method\`, \`n_variables\`, \`value\`.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+get_pairwise_cultural_FST(
+  dp_societies(lang_family = c("Indo-European", "Afro-Asiatic", "Austronesian"))$soc_id,
+  group = "lang_family", category = contains("Subsistence")
+)
+} # }
+```

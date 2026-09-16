@@ -26,17 +26,20 @@ get_pairwise_cult_distance(
 - soc_id:
 
   Character vector of two or more D-PLACE society IDs (see
-  \[dp_societies()\]). Unknown IDs are dropped with a warning.
+  \[dp_societies()\]). Also accepts a data frame/tibble with a
+  \`soc_id\` column, from which the column is used automatically.
+  Unknown IDs are dropped with a warning.
 
 - var_id, category, type, search:
 
   Optional variable-selection criteria: \`var_id\` names variable ID(s)
-  explicitly, while \`category\`, \`type\`, and \`search\` select a
-  subset by searching – all four are passed straight to
-  \[dp_variables()\] and combined with AND, like there (including
-  \[contains()\] support for \`category\`). At least one must be
-  supplied. \`var_id\` values not found (or not matched by the other
-  criteria) are dropped with a warning.
+  explicitly (also accepting a data frame/tibble with a \`var_id\`
+  column), while \`category\`, \`type\`, and \`search\` select a subset
+  by searching – all four are passed straight to \[dp_variables()\] and
+  combined with AND, like there (including \[contains()\] support for
+  \`category\`). At least one must be supplied. \`var_id\` values not
+  found (or not matched by the other criteria) are dropped with a
+  warning.
 
 - missing:
 

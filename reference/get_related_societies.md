@@ -22,7 +22,9 @@ get_related_societies(soc_id)
 - soc_id:
 
   Character vector of one or more D-PLACE society IDs (see
-  \[dp_societies()\]).
+  \[dp_societies()\]). Also accepts a data frame/tibble with a
+  \`soc_id\` column (e.g. a \`dp_societies()\` result passed straight
+  through), from which the column is used automatically.
 
 ## Value
 

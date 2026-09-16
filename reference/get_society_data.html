@@ -83,15 +83,17 @@ what's available first.</p>
 
 <dl><dt id="arg-soc-id">soc_id<a class="anchor" aria-label="anchor" href="#arg-soc-id"></a></dt>
 <dd><p>Optional character vector of society ID(s) to include (see
-[dp_societies()]). Defaults to every society with coded cultural data
-(`type = "society"`).</p></dd>
+[dp_societies()]). Also accepts a data frame/tibble with a `soc_id`
+column, from which the column is used automatically. Defaults to every
+society with coded cultural data (`type = "society"`).</p></dd>
 
 
 <dt id="arg-var-id-category-type-search">var_id, category, type, search<a class="anchor" aria-label="anchor" href="#arg-var-id-category-type-search"></a></dt>
 <dd><p>Optional variable-selection criteria,
 passed straight to [dp_variables()] and combined with AND – see its
 documentation for what each means (including [contains()] support for
-`category`). At least one must be supplied.</p></dd>
+`category`, and a data frame/tibble with a `var_id` column for
+`var_id`). At least one must be supplied.</p></dd>
 
 
 <dt id="arg-format">format<a class="anchor" aria-label="anchor" href="#arg-format"></a></dt>

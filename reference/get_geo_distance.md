@@ -26,8 +26,10 @@ get_geo_distance(point, soc_id, method, graph = "worldgraph.10k")
 - soc_id:
 
   Character vector of one or more D-PLACE society IDs to compute the
-  distance to (see \[dp_societies()\]). Unknown IDs, and societies with
-  missing coordinates, are dropped with a warning.
+  distance to (see \[dp_societies()\]). Also accepts a data frame/tibble
+  with a \`soc_id\` column, from which the column is used automatically.
+  Unknown IDs, and societies with missing coordinates, are dropped with
+  a warning.
 
 - method:
 

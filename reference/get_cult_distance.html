@@ -83,12 +83,15 @@ distances between all pairs within a set of societies, use
 
 <dt id="arg-soc-id">soc_id<a class="anchor" aria-label="anchor" href="#arg-soc-id"></a></dt>
 <dd><p>Character vector of one or more D-PLACE society IDs to
-compare `culture` against (see [dp_societies()]).</p></dd>
+compare `culture` against (see [dp_societies()]). Also accepts a data
+frame/tibble with a `soc_id` column, from which the column is used
+automatically.</p></dd>
 
 
 <dt id="arg-var-id-category-type-search">var_id, category, type, search<a class="anchor" aria-label="anchor" href="#arg-var-id-category-type-search"></a></dt>
 <dd><p>Optional variable-selection criteria:
-`var_id` names variable ID(s) explicitly, while `category`, `type`,
+`var_id` names variable ID(s) explicitly (also accepting a data
+frame/tibble with a `var_id` column), while `category`, `type`,
 and `search` select a subset by searching – all four are passed
 straight to [dp_variables()] and combined with AND, like there
 (including [contains()] support for `category`). At least one must be
@@ -105,7 +108,8 @@ modal profile instead of using `culture` – see Details. Default
 <dt id="arg-mode-ref-soc-id">mode_ref_soc_id<a class="anchor" aria-label="anchor" href="#arg-mode-ref-soc-id"></a></dt>
 <dd><p>Optional character vector of society IDs to
 compute the modal profile from, when `modal = TRUE`, instead of using
-`soc_id`. Ignored unless `modal = TRUE`.</p></dd>
+`soc_id` (also accepts a data frame/tibble with a `soc_id` column).
+Ignored unless `modal = TRUE`.</p></dd>
 
 
 <dt id="arg-missing">missing<a class="anchor" aria-label="anchor" href="#arg-missing"></a></dt>

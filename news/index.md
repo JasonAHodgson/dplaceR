@@ -388,3 +388,68 @@
   which already surface the sentinel transparently via
   `code_label = "Missing data"` rather than silently treating it as
   data.
+- [`get_cultural_FST()`](https://jasonahodgson.github.io/dplaceR/reference/get_cultural_FST.md)
+  and
+  [`get_pairwise_cultural_FST()`](https://jasonahodgson.github.io/dplaceR/reference/get_pairwise_cultural_FST.md)
+  compute cultural differentiation between GROUPS of societies (not
+  individual societies – Fst/Qst need a within-group variance term,
+  which a single society doesn’t have), analogous to population-genetic
+  Fst: Nei’s Gst for categorical variables (and, by default, ordinal
+  ones, using their coded states rather than `ord`), and a
+  variance-ratio Qst for continuous variables (and ordinal variables
+  with `type_aware = TRUE`, using `ord` as a quantity). `group` assigns
+  each society to a group – one of D-PLACE’s/Glottolog’s own built-in
+  groupings (`"region"`, `"lang_family"`, `"lang_family_id"`) or a
+  custom vector.
+  [`get_cultural_FST()`](https://jasonahodgson.github.io/dplaceR/reference/get_cultural_FST.md)
+  computes one value per variable across all supplied groups at once;
+  [`get_pairwise_cultural_FST()`](https://jasonahodgson.github.io/dplaceR/reference/get_pairwise_cultural_FST.md)
+  computes it separately for every pair of groups, mirroring how
+  [`get_pairwise_cult_distance()`](https://jasonahodgson.github.io/dplaceR/reference/get_pairwise_cult_distance.md)
+  relates to
+  [`get_cult_distance()`](https://jasonahodgson.github.io/dplaceR/reference/get_cult_distance.md).
+  Both return a `by_variable` table plus an `overall` summary combining
+  Gst results and Qst results separately (via summed components, the
+  standard multi-locus combining method, not an average of per-variable
+  ratios) – Gst and Qst are never blended into a single number, since
+  they’re different statistics on different scales. D-PLACE’s
+  missing-data sentinel codes are excluded exactly as in
+  [`get_cult_distance()`](https://jasonahodgson.github.io/dplaceR/reference/get_cult_distance.md).
+- Performance:
+  [`get_pairwise_cultural_FST()`](https://jasonahodgson.github.io/dplaceR/reference/get_pairwise_cultural_FST.md)
+  now precomputes each variable’s per-group summary statistics once,
+  rather than rescanning raw data for every pair of groups – the number
+  of pairs grows quadratically with the number of groups
+  (e.g. `group = "lang_family"` across the whole bundled dataset has
+  ~200 groups and so ~20,000 pairs), which made the original approach
+  impractically slow. A realistic query at that scale (every lang_family
+  pair, ~250 variables) now completes in under two minutes instead of
+  not finishing at all.
+- Bug fix / feature: every function taking `soc_id` and/or `var_id`
+  ([`dp_societies()`](https://jasonahodgson.github.io/dplaceR/reference/dp_societies.md),
+  [`dp_variables()`](https://jasonahodgson.github.io/dplaceR/reference/dp_variables.md),
+  [`dp_values()`](https://jasonahodgson.github.io/dplaceR/reference/dp_values.md),
+  [`dp_variable_data()`](https://jasonahodgson.github.io/dplaceR/reference/dp_variable_data.md),
+  [`dp_codes()`](https://jasonahodgson.github.io/dplaceR/reference/dp_codes.md),
+  [`dp_topics()`](https://jasonahodgson.github.io/dplaceR/reference/dp_topics.md),
+  [`get_society()`](https://jasonahodgson.github.io/dplaceR/reference/get_society.md),
+  [`get_related_societies()`](https://jasonahodgson.github.io/dplaceR/reference/get_related_societies.md),
+  [`get_society_country()`](https://jasonahodgson.github.io/dplaceR/reference/get_society_country.md),
+  [`get_society_data()`](https://jasonahodgson.github.io/dplaceR/reference/get_society_data.md),
+  [`get_geo_distance()`](https://jasonahodgson.github.io/dplaceR/reference/get_geo_distance.md),
+  [`get_pairwise_geo_distance()`](https://jasonahodgson.github.io/dplaceR/reference/get_pairwise_geo_distance.md),
+  [`get_language_distance()`](https://jasonahodgson.github.io/dplaceR/reference/get_language_distance.md),
+  [`get_pairwise_language_distance()`](https://jasonahodgson.github.io/dplaceR/reference/get_pairwise_language_distance.md),
+  [`get_cult_distance()`](https://jasonahodgson.github.io/dplaceR/reference/get_cult_distance.md),
+  [`get_pairwise_cult_distance()`](https://jasonahodgson.github.io/dplaceR/reference/get_pairwise_cult_distance.md),
+  [`get_cultural_FST()`](https://jasonahodgson.github.io/dplaceR/reference/get_cultural_FST.md),
+  and
+  [`get_pairwise_cultural_FST()`](https://jasonahodgson.github.io/dplaceR/reference/get_pairwise_cultural_FST.md))
+  now accepts a data frame/tibble with a `soc_id`/`var_id` column in
+  place of a plain character vector, using that column automatically –
+  so passing an earlier result straight through
+  (e.g. `var_id = dp_variables(category = contains("Marriage"))`,
+  without remembering to index `$var_id`) now works as expected instead
+  of silently matching nothing (the previous fix in this release only
+  made that case error clearly; it now works). A data frame/tibble
+  missing the expected column still errors clearly, naming the fix.

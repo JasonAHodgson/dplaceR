@@ -70,7 +70,10 @@ value.</p></dd>
 
 <dt id="arg-soc-id">soc_id<a class="anchor" aria-label="anchor" href="#arg-soc-id"></a></dt>
 <dd><p>Optional character vector of society IDs to filter to, or
-[contains()] for a partial/regex match.</p></dd>
+[contains()] for a partial/regex match. Also accepts a data
+frame/tibble with a `soc_id` column (e.g. an earlier `dp_societies()`
+result passed straight through), from which the column is used
+automatically.</p></dd>
 
 
 <dt id="arg-xd-id">xd_id<a class="anchor" aria-label="anchor" href="#arg-xd-id"></a></dt>

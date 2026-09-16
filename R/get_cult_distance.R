@@ -159,6 +159,7 @@ get_cult_distance <- function(culture = NULL, soc_id, var_id = NULL, category = 
   )
 
   vals <- dp_values(var_id = var_id, soc_id = soc_id)
+  vals <- .cult_dist_drop_missing_sentinel(vals)
   vals <- .cult_dist_collapse_duplicates(vals)
 
   state_chr <- matrix(
@@ -326,6 +327,7 @@ get_cult_distance <- function(culture = NULL, soc_id, var_id = NULL, category = 
       stop("`culture` society ID not found: ", culture, call. = FALSE)
     }
     cv <- dp_values(var_id = var_id, soc_id = culture)
+    cv <- .cult_dist_drop_missing_sentinel(cv)
     cv <- .cult_dist_collapse_duplicates(cv)
     profile <- stats::setNames(rep(NA_character_, length(var_id)), var_id)
     if (nrow(cv) > 0) {
@@ -359,6 +361,7 @@ get_cult_distance <- function(culture = NULL, soc_id, var_id = NULL, category = 
 # with a warning; a variable with no data in ref_soc_id is NA.
 .cult_dist_modal_profile <- function(ref_soc_id, var_id) {
   vals <- dp_values(var_id = var_id, soc_id = ref_soc_id)
+  vals <- .cult_dist_drop_missing_sentinel(vals)
   vals <- .cult_dist_collapse_duplicates(vals)
 
   profile <- stats::setNames(rep(NA_character_, length(var_id)), var_id)

@@ -204,3 +204,54 @@ test_that("pairs with no variable in common get NA distance and a warning", {
   )
   expect_true(is.na(out$cult_distance))
 })
+
+# D-PLACE gives every variable a dedicated "missing data" code (code_id
+# ending "-NA", e.g. "EA113-NA") -- a real code_id, but not a real observed
+# state. EA113 (Categorical): Aa1 = Aa5 = "EA113-2" (a genuine match);
+# Aa2 = Aa3 = "EA113-NA" (both only have the sentinel).
+test_that("the missing-data sentinel code isn't treated as a real observed state", {
+  ws <- character(0)
+  out <- withCallingHandlers(
+    get_pairwise_cult_distance(c("Aa1", "Aa2", "Aa3", "Aa5"), var_id = "EA113", metric = "both"),
+    warning = function(w) { ws <<- c(ws, conditionMessage(w)); invokeRestart("muffleWarning") }
+  )
+
+  # A genuine shared state still matches normally.
+  r <- pair_row(out, "Aa1", "Aa5")
+  expect_equal(r$n_compared, 1)
+  expect_equal(r$n_match, 1)
+
+  # Both only "missing data" -- NOT a match (would incorrectly be one before
+  # the fix, since "EA113-NA" == "EA113-NA" as plain strings).
+  r <- pair_row(out, "Aa2", "Aa3")
+  expect_equal(r$n_compared, 0)
+  expect_true(is.na(r$cult_distance))
+
+  # One real, one sentinel -- also not comparable.
+  r <- pair_row(out, "Aa1", "Aa2")
+  expect_equal(r$n_compared, 0)
+  expect_true(is.na(r$cult_distance))
+
+  expect_true(any(grepl("had data for both", ws)))
+})
+
+test_that("the missing-data sentinel doesn't inflate an ordinal variable's range", {
+  # EA036's real codes run ord 1-6 ("No taboo" .. "More than two years"); its
+  # sentinel code ("EA036-NA") has ord = 99, which must NOT leak into the
+  # range used for type_aware scaling.
+  expect_equal(dplaceR:::.cult_dist_var_range("EA036", "Ordinal"), 5)
+
+  # Aa1 = Aa2 = Aa3 = "EA036-3" (ord 3); Aa5 = "EA036-5" (ord 5);
+  # Aa4 = only the sentinel ("EA036-NA").
+  out <- suppressWarnings(get_pairwise_cult_distance(
+    c("Aa1", "Aa4", "Aa5"), var_id = "EA036", metric = "both", type_aware = TRUE
+  ))
+  # Aa1-Aa4: Aa4 has no usable state -- excluded, not scored against ord 99.
+  r <- pair_row(out, "Aa1", "Aa4")
+  expect_equal(r$n_compared, 0)
+  # Aa1-Aa5: a real, moderate scaled difference (|3-5|/5), not swamped by a
+  # spurious sentinel-driven range.
+  r <- pair_row(out, "Aa1", "Aa5")
+  expect_equal(r$n_compared, 1)
+  expect_equal(r$n_match, 1 - 2 / 5, tolerance = 1e-8)
+})

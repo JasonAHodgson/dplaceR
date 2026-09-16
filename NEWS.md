@@ -264,3 +264,21 @@
   which variables (and hence which variable/topic pairs) contribute to the
   result. (`dp_variables()`, `get_society_data()`, `get_cult_distance()`,
   and `get_pairwise_cult_distance()` already supported filtering by `type`.)
+* Bug fix: `get_cult_distance()` and `get_pairwise_cult_distance()` no
+  longer treat D-PLACE's own "missing data" sentinel code (a dedicated
+  code per variable, e.g. `"B017-NA"`, always with `ord = 99`) as a real
+  observed state. Roughly a quarter of recorded categorical observations
+  and 40% of recorded ordinal observations in the bundled snapshot use
+  this sentinel rather than a genuine value, and because it's a real
+  (non-`NA`) `code_id`, it previously flowed straight through as if it
+  were one: two societies both explicitly coded "missing" on a variable
+  would register as *matching* on it, and for ordinal variables its
+  `ord = 99` would pollute `.cult_dist_var_range()`'s range and any
+  `type_aware = TRUE` scaled comparison against it. Such observations are
+  now dropped before comparison -- including in `modal = TRUE`'s modal-vote
+  calculation, and when `culture` is a single society ID -- leaving the
+  society/variable combination with no recorded state, exactly as if
+  D-PLACE had never recorded anything for it. This does not affect
+  `dp_variable_data()`/`get_society_data()`, which already surface the
+  sentinel transparently via `code_label = "Missing data"` rather than
+  silently treating it as data.

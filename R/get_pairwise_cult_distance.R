@@ -162,6 +162,7 @@ get_pairwise_cult_distance <- function(soc_id, var_id = NULL, category = NULL,
   var_type <- stats::setNames(vars$type, vars$var_id)
 
   vals <- dp_values(var_id = var_id, soc_id = soc_id)
+  vals <- .cult_dist_drop_missing_sentinel(vals)
   vals <- .cult_dist_collapse_duplicates(vals)
 
   # soc x var matrix of raw states (code_id for categorical/ordinal, raw
@@ -282,6 +283,32 @@ get_pairwise_cult_distance <- function(soc_id, var_id = NULL, category = NULL,
 
 # --- internal helpers (not exported) ---------------------------------------
 
+# D-PLACE gives every coded variable its own dedicated "no data" code (e.g.
+# "B017-NA" for variable B017), always with `ord = 99` -- confirmed
+# empirically that every code_id ending "-NA" has ord == 99 and vice versa
+# (bar a handful of real substantive codes that happen to also use ord = 99
+# without the "-NA" suffix, which are deliberately left alone here). Roughly
+# a quarter of recorded categorical observations and 40% of recorded
+# ordinal observations in the bundled snapshot use this sentinel rather
+# than a genuine state. Because it's a real (non-NA) code_id, it otherwise
+# flows through as if it were an ordinary recorded state: two societies
+# both explicitly coded "missing" would register as matching on that
+# variable, and (for ordinal variables) its ord = 99 would be treated as a
+# real position, badly distorting both `.cult_dist_var_range()`'s range and
+# any type-aware difference computed against it. This drops such rows
+# entirely -- before duplicate-collapsing, so a genuine observation from a
+# different source/year for the same society/variable is never displaced by
+# a "missing" sentinel that happens to have a more recent year -- leaving
+# the society/variable combination with no recorded state at all, exactly
+# as if D-PLACE had never recorded anything for it.
+.cult_dist_is_missing_sentinel <- function(code_id) {
+  !is.na(code_id) & endsWith(code_id, "-NA")
+}
+
+.cult_dist_drop_missing_sentinel <- function(vals) {
+  vals[!.cult_dist_is_missing_sentinel(vals$code_id), , drop = FALSE]
+}
+
 # Collapse multiple observations of the same soc_id/var_id combination
 # (a small number of D-PLACE variables have more than one, from different
 # sources/years) to a single row: most recent `year`, or the first recorded
@@ -315,6 +342,7 @@ get_pairwise_cult_distance <- function(soc_id, var_id = NULL, category = NULL,
     x <- suppressWarnings(as.numeric(dplace_values$value[dplace_values$var_id == var]))
   } else if (identical(var_type, "Ordinal")) {
     codes <- dplace_codes[dplace_codes$var_id == var, c("code_id", "ord")]
+    codes <- codes[!.cult_dist_is_missing_sentinel(codes$code_id), , drop = FALSE]
     v <- dplace_values$code_id[dplace_values$var_id == var]
     x <- codes$ord[match(v, codes$code_id)]
   } else {
@@ -335,6 +363,7 @@ get_pairwise_cult_distance <- function(soc_id, var_id = NULL, category = NULL,
     suppressWarnings(as.numeric(state_col))
   } else {
     codes <- dplace_codes[dplace_codes$var_id == var, c("code_id", "ord")]
+    codes <- codes[!.cult_dist_is_missing_sentinel(codes$code_id), , drop = FALSE]
     codes$ord[match(state_col, codes$code_id)]
   }
 }

@@ -195,3 +195,42 @@ test_that("duplicate society/variable observations in `culture` are collapsed wi
   )
   expect_equal(nrow(out), 1)
 })
+
+# D-PLACE gives every variable a dedicated "missing data" code (code_id
+# ending "-NA", e.g. "EA113-NA") -- a real code_id, but not a real observed
+# state. EA113 (Categorical): Aa1 = Aa5 = "EA113-2" (a genuine match);
+# Aa2 = Aa3 = only have the sentinel.
+test_that("a society whose only recorded state is the missing-data sentinel has no usable culture", {
+  expect_warning(
+    out <- get_cult_distance("Aa2", c("Aa1", "Aa5"), var_id = "EA113", metric = "both"),
+    "no variable in common"
+  )
+  expect_equal(out$n_compared, c(0, 0))
+  expect_true(all(is.na(out$cult_distance)))
+})
+
+test_that("culture = a society with a genuine state still compares normally against the sentinel", {
+  out <- get_cult_distance("Aa1", c("Aa2", "Aa5"), var_id = "EA113", metric = "both")
+  # Aa2 only has the sentinel -- excluded, not a mismatch.
+  r2 <- out[out$soc_id == "Aa2", ]
+  expect_equal(r2$n_compared, 0)
+  expect_true(is.na(r2$cult_distance))
+  # Aa5 genuinely shares Aa1's state.
+  r5 <- out[out$soc_id == "Aa5", ]
+  expect_equal(r5$n_compared, 1)
+  expect_equal(r5$n_match, 1)
+})
+
+test_that("the missing-data sentinel doesn't contribute a modal vote", {
+  # Aa2 and Aa3 both only have the sentinel for EA113 -- the modal profile
+  # should end up with no state at all for it, not "EA113-NA".
+  expect_warning(
+    out <- get_cult_distance(
+      NULL, "Aa1", var_id = "EA113", modal = TRUE, mode_ref_soc_id = c("Aa2", "Aa3"),
+      metric = "both"
+    ),
+    "no variable in common"
+  )
+  expect_equal(out$n_compared, 0)
+  expect_true(is.na(out$cult_distance))
+})

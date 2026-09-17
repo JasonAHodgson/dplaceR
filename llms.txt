@@ -223,6 +223,8 @@ for a society, and the topics/categories they belong to.
   : Browse or filter D-PLACE cultural variables
 - [`dp_search_variables()`](https://jasonahodgson.github.io/dplaceR/reference/dp_search_variables.md)
   : Search D-PLACE variables by keyword
+- [`get_variable_coverage()`](https://jasonahodgson.github.io/dplaceR/reference/get_variable_coverage.md)
+  : See which cultural variables have data for a given set of societies
 - [`dp_codes()`](https://jasonahodgson.github.io/dplaceR/reference/dp_codes.md)
   : Look up codes for categorical/ordinal D-PLACE variables
 - [`dp_topics()`](https://jasonahodgson.github.io/dplaceR/reference/dp_topics.md)

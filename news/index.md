@@ -495,3 +495,21 @@
   Returns the plotted `"phylo"` object invisibly, for further
   inspection, re-plotting, or saving (e.g.
   `ape::write.tree(tree, "tree.nwk")`).
+- [`get_variable_coverage()`](https://jasonahodgson.github.io/dplaceR/reference/get_variable_coverage.md)
+  reports, for a chosen subset of societies, how many of them have a
+  genuinely coded observation for each D-PLACE variable – one row per
+  variable with `n_coded`/`n_total`/`pct_coded`, sorted by decreasing
+  coverage, so which variables are well populated for your specific
+  societies (versus mostly empty) is visible at a glance before choosing
+  which to pass to
+  [`get_cult_distance()`](https://jasonahodgson.github.io/dplaceR/reference/get_cult_distance.md)/[`get_pairwise_cult_distance()`](https://jasonahodgson.github.io/dplaceR/reference/get_pairwise_cult_distance.md)/
+  [`get_cultural_FST()`](https://jasonahodgson.github.io/dplaceR/reference/get_cultural_FST.md).
+  Takes the same `var_id`/`category`/`type`/`search` filters as
+  [`dp_variables()`](https://jasonahodgson.github.io/dplaceR/reference/dp_variables.md)
+  to narrow which variables to report on, but – unlike those
+  distance/Fst functions – defaults to reporting on every variable when
+  none are given, since browsing coverage is the point. `min_pct`
+  filters to variables at or above a given coverage threshold. As in
+  [`get_cult_distance()`](https://jasonahodgson.github.io/dplaceR/reference/get_cult_distance.md)
+  and friends, D-PLACE’s dedicated “no data” sentinel code
+  (e.g. `"B017-NA"`) is not counted as a real observation.

@@ -26,6 +26,7 @@ reference:
   contents:
   - dp_variables
   - dp_search_variables
+  - get_variable_coverage
   - dp_codes
   - dp_topics
   - dp_topic_list

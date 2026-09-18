@@ -19,6 +19,8 @@ links, country lookup, and language-family classification.
   : Append D-PLACE society metadata to a tibble
 - [`dp_map_societies()`](https://jasonahodgson.github.io/dplaceR/reference/dp_map_societies.md)
   : Plot societies on a world map
+- [`plot_variable_map()`](https://jasonahodgson.github.io/dplaceR/reference/plot_variable_map.md)
+  : Plot a coded variable on a map, one point per society
 - [`dp_lang_family_list()`](https://jasonahodgson.github.io/dplaceR/reference/dp_lang_family_list.md)
   : List every language family represented among coded societies
 - [`dp_lang_family_table()`](https://jasonahodgson.github.io/dplaceR/reference/dp_lang_family_table.md)

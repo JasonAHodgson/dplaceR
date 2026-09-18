@@ -513,3 +513,38 @@
   [`get_cult_distance()`](https://jasonahodgson.github.io/dplaceR/reference/get_cult_distance.md)
   and friends, D-PLACE’s dedicated “no data” sentinel code
   (e.g. `"B017-NA"`) is not counted as a real observation.
+- [`plot_variable_map()`](https://jasonahodgson.github.io/dplaceR/reference/plot_variable_map.md)
+  plots a single D-PLACE variable on a world map, one point per society,
+  coloured by each society’s coded value (e.g. community marriage
+  organization, `"B035"`, across a chosen set of societies) – the
+  variable-aware companion to
+  [`dp_map_societies()`](https://jasonahodgson.github.io/dplaceR/reference/dp_map_societies.md)
+  (which colours by any column you already have). Handles the details
+  specific to D-PLACE’s coded data: a society’s more than one recorded
+  observation is collapsed to one (as in
+  [`get_society_data()`](https://jasonahodgson.github.io/dplaceR/reference/get_society_data.md)‘s
+  `format = "wide"`), D-PLACE’s missing-data sentinel code doesn’t count
+  as a real observation (as in
+  [`get_cult_distance()`](https://jasonahodgson.github.io/dplaceR/reference/get_cult_distance.md)
+  and friends – this excludes it from an `"Ordinal"` variable’s
+  colour-scale *levels* too, not just from the plotted data, so it can
+  never appear as a (nonsensical) highest-ranked category), and an
+  `"Ordinal"` variable’s colour scale is ordered by the codes’ rank
+  (`ord`) rather than alphabetically. `drop_na` (default `TRUE`)
+  controls whether societies with no usable value for the variable are
+  dropped or kept and shown as `NA`; either way, how many and why is
+  reported via a warning. Returns a `ggplot` object, exactly like
+  [`dp_map_societies()`](https://jasonahodgson.github.io/dplaceR/reference/dp_map_societies.md).
+- [`dp_map_societies()`](https://jasonahodgson.github.io/dplaceR/reference/dp_map_societies.md)
+  (and, through it,
+  [`plot_variable_map()`](https://jasonahodgson.github.io/dplaceR/reference/plot_variable_map.md))
+  now defaults to cropping the map to a padded bounding box around the
+  plotted societies, rather than always showing the whole world – a
+  handful of societies all in, say, Madagascar now produces a map of
+  Madagascar and its surroundings, not a world map with a tiny cluster
+  of points on it. Controlled by the new `zoom` argument (default
+  `TRUE`); set `zoom = FALSE` to always show the whole world, as before.
+  This uses a simple min/max longitude/latitude box, so it isn’t
+  meaningful for a selection of societies that straddles the
+  antimeridian (longitude +/-180) – pass `zoom = FALSE` and crop
+  manually in that case.

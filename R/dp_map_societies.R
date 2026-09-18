@@ -20,6 +20,16 @@
 #'   (only if `data` has one). Default `FALSE`.
 #' @param point_size Point size, passed to `ggplot2::geom_point()`. Default
 #'   `2`.
+#' @param zoom Logical; if `TRUE` (the default), the map is cropped to a
+#'   padded bounding box around the plotted points, rather than always
+#'   showing the whole world -- e.g. a handful of societies all in
+#'   Madagascar will produce a map of Madagascar and its surroundings, not
+#'   a world map with a tiny cluster of points on it. Set to `FALSE` to
+#'   always show the whole world. Note this uses a simple min/max
+#'   longitude/latitude box, which is not meaningful for a selection of
+#'   points that straddles the antimeridian (longitude +/-180); pass
+#'   `zoom = FALSE` and crop manually (e.g. via
+#'   `+ ggplot2::coord_quickmap(xlim = ..., ylim = ...)`) in that case.
 #'
 #' @return A `ggplot` object; print it to display, or add further
 #'   `ggplot2` layers/theming to customize it.
@@ -28,10 +38,11 @@
 #' \dontrun{
 #' dp_map_societies(c("B72", "B73", "B79"))
 #' dp_map_societies(dp_societies(region = "Southern Africa"), color = "region")
+#' dp_map_societies(c("B72", "B73", "B79"), zoom = FALSE) # whole world
 #' }
 #'
 #' @export
-dp_map_societies <- function(data, color = NULL, label = FALSE, point_size = 2) {
+dp_map_societies <- function(data, color = NULL, label = FALSE, point_size = 2, zoom = TRUE) {
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop(
       "dp_map_societies() requires the 'ggplot2' package (and 'maps', for ",
@@ -79,13 +90,20 @@ dp_map_societies <- function(data, color = NULL, label = FALSE, point_size = 2) 
 
   world <- ggplot2::map_data("world")
 
+  if (isTRUE(zoom)) {
+    bbox <- .dp_map_bbox(data$longitude, data$latitude)
+    quickmap <- ggplot2::coord_quickmap(xlim = bbox$xlim, ylim = bbox$ylim)
+  } else {
+    quickmap <- ggplot2::coord_quickmap()
+  }
+
   p <- ggplot2::ggplot() +
     ggplot2::geom_polygon(
       data = world,
       mapping = ggplot2::aes(x = long, y = lat, group = group),
       fill = "grey92", colour = "white", linewidth = 0.15
     ) +
-    ggplot2::coord_quickmap() +
+    quickmap +
     ggplot2::theme_minimal() +
     ggplot2::labs(x = NULL, y = NULL)
 
@@ -118,4 +136,34 @@ dp_map_societies <- function(data, color = NULL, label = FALSE, point_size = 2) 
   }
 
   p
+}
+
+#' Compute a padded lon/lat bounding box for a set of points (internal)
+#'
+#' Used by [dp_map_societies()] (and, through it, [plot_variable_map()])
+#' to default to a map cropped around the plotted points rather than the
+#' whole world. Pads each dimension by 15% of its span, with a floor so a
+#' tight cluster (or a single point, with zero span) still gets a sensible
+#' amount of surrounding context, then clips to valid longitude/latitude
+#' bounds. Does not attempt to handle a selection that straddles the
+#' antimeridian (longitude +/-180) -- a plain min/max box is meaningless
+#' there.
+#'
+#' @param longitude,latitude Numeric vectors, already free of `NA`.
+#' @return A list with `xlim` and `ylim`, each a length-2 numeric vector.
+#' @noRd
+.dp_map_bbox <- function(longitude, latitude) {
+  lon_range <- range(longitude)
+  lat_range <- range(latitude)
+
+  lon_pad <- max(diff(lon_range) * 0.15, 3)
+  lat_pad <- max(diff(lat_range) * 0.15, 3)
+
+  xlim <- c(lon_range[1] - lon_pad, lon_range[2] + lon_pad)
+  ylim <- c(lat_range[1] - lat_pad, lat_range[2] + lat_pad)
+
+  xlim <- c(max(xlim[1], -180), min(xlim[2], 180))
+  ylim <- c(max(ylim[1], -90), min(ylim[2], 90))
+
+  list(xlim = xlim, ylim = ylim)
 }

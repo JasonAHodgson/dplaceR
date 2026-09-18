@@ -4,7 +4,13 @@
 \alias{dp_map_societies}
 \title{Plot societies on a world map}
 \usage{
-dp_map_societies(data, color = NULL, label = FALSE, point_size = 2)
+dp_map_societies(
+  data,
+  color = NULL,
+  label = FALSE,
+  point_size = 2,
+  zoom = TRUE
+)
 }
 \arguments{
 \item{data}{Either a character vector of D-PLACE society IDs, or a data
@@ -22,6 +28,17 @@ colour) if omitted.}
 
 \item{point_size}{Point size, passed to `ggplot2::geom_point()`. Default
 `2`.}
+
+\item{zoom}{Logical; if `TRUE` (the default), the map is cropped to a
+padded bounding box around the plotted points, rather than always
+showing the whole world -- e.g. a handful of societies all in
+Madagascar will produce a map of Madagascar and its surroundings, not
+a world map with a tiny cluster of points on it. Set to `FALSE` to
+always show the whole world. Note this uses a simple min/max
+longitude/latitude box, which is not meaningful for a selection of
+points that straddles the antimeridian (longitude +/-180); pass
+`zoom = FALSE` and crop manually (e.g. via
+`+ ggplot2::coord_quickmap(xlim = ..., ylim = ...)`) in that case.}
 }
 \value{
 A `ggplot` object; print it to display, or add further
@@ -40,6 +57,7 @@ column from [get_cult_distance()], or an `n_match` column from either
 \dontrun{
 dp_map_societies(c("B72", "B73", "B79"))
 dp_map_societies(dp_societies(region = "Southern Africa"), color = "region")
+dp_map_societies(c("B72", "B73", "B79"), zoom = FALSE) # whole world
 }
 
 }

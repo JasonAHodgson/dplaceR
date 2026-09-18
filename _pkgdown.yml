@@ -15,6 +15,7 @@ reference:
   - get_society_country
   - get_society_meta
   - dp_map_societies
+  - plot_variable_map
   - dp_lang_family_list
   - dp_lang_family_table
   - get_lang_clade

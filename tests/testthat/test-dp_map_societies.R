@@ -68,3 +68,54 @@ test_that("label = TRUE adds a text layer using soc_id", {
   expect_length(p$layers, 3)
   expect_s3_class(p$layers[[3]]$geom, "GeomText")
 })
+
+test_that("zoom = TRUE (the default) crops the map to a padded box around the points", {
+  skip_if_not_installed("ggplot2")
+  skip_if_not_installed("maps")
+  p <- dp_map_societies(c("B72", "B73", "B79"))
+  d <- p$layers[[2]]$data
+  xlim <- p$coordinates$limits$x
+  ylim <- p$coordinates$limits$y
+  expect_false(is.null(xlim))
+  expect_false(is.null(ylim))
+  # the box must contain every point...
+  expect_true(all(d$longitude >= xlim[1] & d$longitude <= xlim[2]))
+  expect_true(all(d$latitude >= ylim[1] & d$latitude <= ylim[2]))
+  # ...but not be the whole world
+  expect_lt(diff(xlim), 360)
+  expect_lt(diff(ylim), 180)
+})
+
+test_that("zoom = FALSE preserves the old whole-world behaviour", {
+  skip_if_not_installed("ggplot2")
+  skip_if_not_installed("maps")
+  p <- dp_map_societies(c("B72", "B73", "B79"), zoom = FALSE)
+  expect_null(p$coordinates$limits$x)
+  expect_null(p$coordinates$limits$y)
+})
+
+test_that("zoom still produces a sensible (non-degenerate) box for a single point", {
+  skip_if_not_installed("ggplot2")
+  skip_if_not_installed("maps")
+  d <- tibble::tibble(latitude = -20, longitude = 21.2)
+  p <- dp_map_societies(d)
+  xlim <- p$coordinates$limits$x
+  ylim <- p$coordinates$limits$y
+  expect_gt(diff(xlim), 0)
+  expect_gt(diff(ylim), 0)
+  expect_true(21.2 > xlim[1] && 21.2 < xlim[2])
+  expect_true(-20 > ylim[1] && -20 < ylim[2])
+})
+
+test_that("zoom clips a box near the poles/edges to valid lon/lat bounds", {
+  skip_if_not_installed("ggplot2")
+  skip_if_not_installed("maps")
+  d <- tibble::tibble(latitude = c(-89, 89), longitude = c(-179, 179))
+  p <- dp_map_societies(d)
+  xlim <- p$coordinates$limits$x
+  ylim <- p$coordinates$limits$y
+  expect_gte(xlim[1], -180)
+  expect_lte(xlim[2], 180)
+  expect_gte(ylim[1], -90)
+  expect_lte(ylim[2], 90)
+})

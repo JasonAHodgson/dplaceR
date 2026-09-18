@@ -370,3 +370,31 @@
   `min_pct` filters to variables at or above a given coverage threshold.
   As in `get_cult_distance()` and friends, D-PLACE's dedicated "no data"
   sentinel code (e.g. `"B017-NA"`) is not counted as a real observation.
+* `plot_variable_map()` plots a single D-PLACE variable on a world map,
+  one point per society, coloured by each society's coded value (e.g.
+  community marriage organization, `"B035"`, across a chosen set of
+  societies) -- the variable-aware companion to `dp_map_societies()`
+  (which colours by any column you already have). Handles the details
+  specific to D-PLACE's coded data: a society's more than one recorded
+  observation is collapsed to one (as in `get_society_data()`'s
+  `format = "wide"`), D-PLACE's missing-data sentinel code doesn't count
+  as a real observation (as in `get_cult_distance()` and friends -- this
+  excludes it from an `"Ordinal"` variable's colour-scale *levels* too,
+  not just from the plotted data, so it can never appear as a
+  (nonsensical) highest-ranked category), and an `"Ordinal"` variable's
+  colour scale is ordered by the codes' rank (`ord`) rather than
+  alphabetically. `drop_na` (default `TRUE`) controls whether societies
+  with no usable value for the variable are dropped or kept and shown as
+  `NA`; either way, how many and why is reported via a warning. Returns
+  a `ggplot` object, exactly like `dp_map_societies()`.
+* `dp_map_societies()` (and, through it, `plot_variable_map()`) now
+  defaults to cropping the map to a padded bounding box around the
+  plotted societies, rather than always showing the whole world -- a
+  handful of societies all in, say, Madagascar now produces a map of
+  Madagascar and its surroundings, not a world map with a tiny cluster
+  of points on it. Controlled by the new `zoom` argument (default
+  `TRUE`); set `zoom = FALSE` to always show the whole world, as before.
+  This uses a simple min/max longitude/latitude box, so it isn't
+  meaningful for a selection of societies that straddles the
+  antimeridian (longitude +/-180) -- pass `zoom = FALSE` and crop
+  manually in that case.

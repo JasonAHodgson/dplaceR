@@ -398,3 +398,17 @@
   meaningful for a selection of societies that straddles the
   antimeridian (longitude +/-180) -- pass `zoom = FALSE` and crop
   manually in that case.
+* `plot_society_time()` plots societies through time, one point per
+  society at its D-PLACE `main_focal_year` (the ethnographic year its
+  coded data mainly reflects), with points jittered vertically by
+  default (`jitter`/`jitter_seed`, reproducibly) so societies sharing a
+  focal year don't overplot -- the time-axis counterpart to
+  `dp_map_societies()`, colouring by any column you already have via
+  `color`. `plot_variable_time()` is its variable-aware companion, the
+  time-axis counterpart to `plot_variable_map()`: given a subset of
+  societies and a single D-PLACE variable, plots each at its focal year
+  coloured by its coded value for that variable, handling the same
+  D-PLACE-specific details (collapsing duplicate observations, excluding
+  the missing-data sentinel, ordering an `"Ordinal"` variable's colour
+  scale by rank rather than alphabetically). Both return a `ggplot`
+  object, exactly like `dp_map_societies()`/`plot_variable_map()`.
